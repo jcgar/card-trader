@@ -1,27 +1,46 @@
 
 import { Card } from "./ui/card";
-import { Award, Crown, Trophy } from "lucide-react";
+import { Award, Crown, Trophy, Users, Star, ThumbsUp, Activity, ListOrdered } from "lucide-react";
+import { Button } from "./ui/button";
 
 const topCollectors = [
   {
     rank: 1,
     name: "Alex Thompson",
-    points: "12,456",
-    trades: "534",
+    avatar: "https://i.pravatar.cc/150?u=alex",
+    stats: {
+      collections: 156,
+      exchanges: 534,
+      likes: 2890,
+      achievements: 42,
+    },
+    recentActivity: "Completed Rare Sports Collection",
     icon: Crown,
   },
   {
     rank: 2,
     name: "Sarah Chen",
-    points: "11,892",
-    trades: "487",
+    avatar: "https://i.pravatar.cc/150?u=sarah",
+    stats: {
+      collections: 134,
+      exchanges: 487,
+      likes: 2456,
+      achievements: 38,
+    },
+    recentActivity: "Traded Limited Edition Card",
     icon: Trophy,
   },
   {
     rank: 3,
     name: "Michael Park",
-    points: "10,234",
-    trades: "423",
+    avatar: "https://i.pravatar.cc/150?u=michael",
+    stats: {
+      collections: 128,
+      exchanges: 423,
+      likes: 2123,
+      achievements: 35,
+    },
+    recentActivity: "Won Monthly Challenge",
     icon: Award,
   },
 ];
@@ -34,9 +53,19 @@ export const UserRanking = () => {
           <h2 className="text-3xl md:text-4xl font-playfair font-bold mb-4">
             Top Collectors
           </h2>
-          <p className="text-gray-600 max-w-2xl mx-auto">
+          <p className="text-gray-600 max-w-2xl mx-auto mb-8">
             Meet our most accomplished community members
           </p>
+          <div className="flex justify-center gap-4 mb-12">
+            <Button className="bg-green-600 hover:bg-green-700">
+              <ListOrdered className="w-4 h-4 mr-2" />
+              Global Rankings
+            </Button>
+            <Button variant="outline" className="border-green-200 text-green-600 hover:bg-green-50">
+              <Activity className="w-4 h-4 mr-2" />
+              Monthly Leaders
+            </Button>
+          </div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
           {topCollectors.map((collector) => (
@@ -45,12 +74,38 @@ export const UserRanking = () => {
               className="p-6 text-center hover:shadow-lg transition-shadow duration-300"
             >
               <collector.icon className="w-12 h-12 mx-auto mb-4 text-yellow-500" />
+              <img
+                src={collector.avatar}
+                alt={collector.name}
+                className="w-20 h-20 mx-auto rounded-full border-4 border-white shadow-lg mb-4"
+              />
               <span className="inline-block px-4 py-1 bg-gray-100 rounded-full text-sm font-medium mb-4">
                 Rank #{collector.rank}
               </span>
-              <h3 className="text-xl font-bold mb-2">{collector.name}</h3>
-              <p className="text-gray-600 mb-4">{collector.points} points</p>
-              <p className="text-sm text-gray-500">{collector.trades} successful trades</p>
+              <h3 className="text-xl font-bold mb-4">{collector.name}</h3>
+              
+              <div className="grid grid-cols-2 gap-3 mb-4 text-sm">
+                <div className="flex items-center justify-center gap-1 text-gray-600">
+                  <Users className="w-4 h-4" />
+                  <span>{collector.stats.collections} cols</span>
+                </div>
+                <div className="flex items-center justify-center gap-1 text-gray-600">
+                  <Activity className="w-4 h-4" />
+                  <span>{collector.stats.exchanges} trades</span>
+                </div>
+                <div className="flex items-center justify-center gap-1 text-gray-600">
+                  <ThumbsUp className="w-4 h-4" />
+                  <span>{collector.stats.likes} likes</span>
+                </div>
+                <div className="flex items-center justify-center gap-1 text-gray-600">
+                  <Star className="w-4 h-4" />
+                  <span>{collector.stats.achievements} badges</span>
+                </div>
+              </div>
+              
+              <p className="text-sm text-green-600 bg-green-50 p-2 rounded">
+                {collector.recentActivity}
+              </p>
             </Card>
           ))}
         </div>
@@ -58,3 +113,4 @@ export const UserRanking = () => {
     </section>
   );
 };
+

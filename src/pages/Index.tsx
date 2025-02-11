@@ -3,6 +3,7 @@ import { HeroSection } from "@/components/HeroSection";
 import { PopularCollections } from "@/components/PopularCollections";
 import { UserRanking } from "@/components/UserRanking";
 import { LiveExchange } from "@/components/LiveExchange";
+import { FeaturedCategories } from "@/components/FeaturedCategories";
 import { FeaturedBlog } from "@/components/FeaturedBlog";
 import { FinalCTA } from "@/components/FinalCTA";
 import { NavigationBar } from "@/components/NavigationBar";
@@ -15,6 +16,7 @@ const Index = () => {
       <PopularCollections />
       <UserRanking />
       <LiveExchange />
+      <FeaturedCategories />
       <FeaturedBlog />
       <FinalCTA />
     </div>
@@ -22,3 +24,4 @@ const Index = () => {
 };
 
 export default Index;
+
