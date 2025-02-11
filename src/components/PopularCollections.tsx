@@ -28,10 +28,10 @@ const collections = [
 
 export const PopularCollections = () => {
   return (
-    <section className="py-20 bg-white">
+    <section className="py-20 bg-gradient-to-b from-gray-50 to-white">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-playfair font-bold mb-4">
+          <h2 className="text-3xl md:text-4xl font-playfair font-bold mb-4 bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
             Popular Collections
           </h2>
           <p className="text-gray-600 max-w-2xl mx-auto">
@@ -40,19 +40,19 @@ export const PopularCollections = () => {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {collections.map((collection) => (
-            <Card key={collection.id} className="group overflow-hidden transition-all duration-300 hover:shadow-lg">
+            <Card key={collection.id} className="group overflow-hidden transition-all duration-300 hover:shadow-lg border-purple-100">
               <div className="relative aspect-[4/3] overflow-hidden">
                 <img
                   src={collection.image}
                   alt={collection.title}
                   className="object-cover w-full h-full transform transition-transform duration-300 group-hover:scale-105"
                 />
-                <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                <div className="absolute inset-0 bg-gradient-to-t from-purple-900/40 to-transparent flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                   <Star className="w-12 h-12 text-white" />
                 </div>
               </div>
               <div className="p-6">
-                <span className="inline-block px-3 py-1 text-sm font-medium bg-gray-100 rounded-full mb-3">
+                <span className="inline-block px-3 py-1 text-sm font-medium bg-purple-100 text-purple-600 rounded-full mb-3">
                   {collection.category}
                 </span>
                 <h3 className="text-xl font-bold mb-2">{collection.title}</h3>
