@@ -3,7 +3,7 @@ import { Card } from "../ui/card";
 import { Activity, Users, Award, RefreshCcw } from "lucide-react";
 import { useEffect, useState } from "react";
 
-const activities = [
+const initialActivities = [
   {
     id: 1,
     type: "achievement",
