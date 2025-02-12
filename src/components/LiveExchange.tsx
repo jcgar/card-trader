@@ -23,6 +23,7 @@ const steps = [
 
 export const LiveExchange = () => {
   const [currentStep, setCurrentStep] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -34,7 +35,7 @@ export const LiveExchange = () => {
   return (
     <section className="py-20 bg-gradient-to-b from-green-50 to-white">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-12">
+        <div className="text-center mb-12 animate-fade-in">
           <h2 className="text-3xl md:text-4xl font-playfair font-bold mb-4 text-green-800">
             Simulación de Intercambio
           </h2>
@@ -42,9 +43,13 @@ export const LiveExchange = () => {
             Descubre lo fácil que es intercambiar cromos en nuestra plataforma
           </p>
         </div>
-        <div className="relative overflow-hidden rounded-xl shadow-xl bg-white">
+        <div 
+          className="relative overflow-hidden rounded-xl shadow-xl bg-white transform transition-all duration-500 hover:scale-[1.02]"
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+        >
           <div 
-            className="flex transition-transform duration-500 ease-in-out"
+            className="flex transition-transform duration-700 ease-in-out"
             style={{ transform: `translateX(-${currentStep * 100}%)` }}
           >
             {steps.map((step, index) => (
@@ -57,10 +62,10 @@ export const LiveExchange = () => {
                   <img
                     src={step.image}
                     alt={step.title}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-green-900/80 to-transparent flex items-end justify-center p-8">
-                    <h3 className="text-white text-xl md:text-2xl font-bold text-center">
+                    <h3 className="text-white text-xl md:text-2xl font-bold text-center transform transition-all duration-500 hover:scale-105">
                       {step.title}
                     </h3>
                   </div>
@@ -72,9 +77,13 @@ export const LiveExchange = () => {
             {steps.map((_, index) => (
               <button
                 key={index}
-                className={`w-2 h-2 rounded-full transition-colors ${
-                  currentStep === index ? 'bg-green-500' : 'bg-white/50'
-                }`}
+                className={`
+                  w-2 h-2 rounded-full transition-all duration-300
+                  ${currentStep === index 
+                    ? 'bg-green-500 w-4' 
+                    : 'bg-white/50 hover:bg-white/75'}
+                  ${isHovered ? 'scale-110' : ''}
+                `}
                 onClick={() => setCurrentStep(index)}
               />
             ))}
