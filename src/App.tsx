@@ -9,6 +9,8 @@ import NotFound from "./pages/NotFound";
 import Community from "./pages/Community";
 import Dashboard from "./pages/Dashboard";
 import Collections from "./pages/Collections";
+import CollectionDetail from "./pages/CollectionDetail";
+import CollectionDetail2 from "./pages/CollectionDetail2";
 
 const queryClient = new QueryClient();
 
@@ -23,6 +25,8 @@ const App = () => (
           <Route path="/comunidad" element={<Community />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/dashboard/colecciones" element={<Collections />} />
+          <Route path="/dashboard/colecciones/:id" element={<CollectionDetail />} />
+          <Route path="/dashboard/colecciones2/:id" element={<CollectionDetail2 />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
