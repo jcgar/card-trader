@@ -1,3 +1,4 @@
+
 import { NavigationBar } from "@/components/NavigationBar";
 import { CollectionOverview } from "@/components/collections/CollectionOverview";
 import { StickerGrid } from "@/components/collections/StickerGrid";
@@ -27,17 +28,17 @@ const CollectionDetail2 = () => {
           Volver a colecciones
         </Button>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <div className="lg:col-span-2 space-y-8">
-            <CollectionOverview />
-            <CollectionFilters />
-            <StickerGrid />
-          </div>
-          
-          <div className="space-y-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+          <div className="lg:col-span-3 space-y-8">
             <CollectionStats />
             <CollectionActions />
             <CollectionSocial />
+          </div>
+          
+          <div className="lg:col-span-9 space-y-8">
+            <CollectionOverview />
+            <CollectionFilters />
+            <StickerGrid />
           </div>
         </div>
       </main>

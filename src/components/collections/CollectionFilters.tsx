@@ -6,6 +6,13 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Filter, Search, Plus, Minus, RefreshCw } from "lucide-react";
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
@@ -16,6 +23,7 @@ export const CollectionFilters = () => {
   const [filterType, setFilterType] = useState("all");
   const [numberInput, setNumberInput] = useState("");
   const [selectedNumbers, setSelectedNumbers] = useState<number[]>([]);
+  const [stickerType, setStickerType] = useState("all");
 
   const handleNumberInput = (value: string) => {
     setNumberInput(value);
@@ -24,6 +32,16 @@ export const CollectionFilters = () => {
       .map(n => parseInt(n.trim()))
       .filter(n => !isNaN(n));
     setSelectedNumbers(numbers);
+  };
+
+  const handleAddSelection = () => {
+    // Here we would update all selected stickers as owned
+    console.log("Adding stickers:", selectedNumbers);
+  };
+
+  const handleRemoveSelection = () => {
+    // Here we would update all selected stickers as not owned
+    console.log("Removing stickers:", selectedNumbers);
   };
 
   return (
@@ -43,47 +61,38 @@ export const CollectionFilters = () => {
           </div>
         </div>
 
-        <div className="flex gap-2">
-          <Button
-            variant="outline"
-            className={filterType === "all" ? "bg-green-50" : ""}
-            onClick={() => setFilterType("all")}
-          >
-            Todas
-          </Button>
-          <Button
-            variant="outline"
-            className={filterType === "missing" ? "bg-red-50" : ""}
-            onClick={() => setFilterType("missing")}
-          >
-            Faltan
-          </Button>
-          <Button
-            variant="outline"
-            className={filterType === "repeated" ? "bg-blue-50" : ""}
-            onClick={() => setFilterType("repeated")}
-          >
-            Repetidas
-          </Button>
+        <div className="w-[200px]">
+          <Label>Tipo de cromo</Label>
+          <Select value={stickerType} onValueChange={setStickerType}>
+            <SelectTrigger>
+              <SelectValue placeholder="Selecciona tipo" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">Todos</SelectItem>
+              <SelectItem value="regular">Regulares</SelectItem>
+              <SelectItem value="special">Especiales</SelectItem>
+              <SelectItem value="album">Álbumes</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline">
-              <Filter className="mr-2 h-4 w-4" />
-              Filtros
+            <Button variant="outline" className="group">
+              <Filter className="mr-2 h-4 w-4 group-hover:rotate-180 transition-transform" />
+              Acciones
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent>
-            <DropdownMenuItem>
-              <Plus className="mr-2 h-4 w-4" />
+            <DropdownMenuItem onClick={handleAddSelection}>
+              <Plus className="mr-2 h-4 w-4 text-green-500" />
               Añadir selección
             </DropdownMenuItem>
-            <DropdownMenuItem>
-              <Minus className="mr-2 h-4 w-4" />
+            <DropdownMenuItem onClick={handleRemoveSelection}>
+              <Minus className="mr-2 h-4 w-4 text-red-500" />
               Quitar selección
             </DropdownMenuItem>
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={() => setSelectedNumbers([])}>
               <RefreshCw className="mr-2 h-4 w-4" />
               Reiniciar filtros
             </DropdownMenuItem>
@@ -92,7 +101,7 @@ export const CollectionFilters = () => {
       </div>
 
       {selectedNumbers.length > 0 && (
-        <div className="mt-4 p-3 bg-green-50 rounded-lg">
+        <div className="mt-4 p-3 bg-green-50 rounded-lg animate-fade-in">
           <p className="text-sm text-green-700">
             Números seleccionados: {selectedNumbers.join(", ")}
           </p>
