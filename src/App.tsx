@@ -11,6 +11,8 @@ import Dashboard from "./pages/Dashboard";
 import Collections from "./pages/Collections";
 import CollectionDetail from "./pages/CollectionDetail";
 import CollectionDetail2 from "./pages/CollectionDetail2";
+import NewCollection from "./pages/NewCollection";
+import PublicCollections from "./pages/PublicCollections";
 
 const queryClient = new QueryClient();
 
@@ -27,6 +29,8 @@ const App = () => (
           <Route path="/dashboard/colecciones" element={<Collections />} />
           <Route path="/dashboard/colecciones/:id" element={<CollectionDetail />} />
           <Route path="/dashboard/colecciones2/:id" element={<CollectionDetail2 />} />
+          <Route path="/dashboard/colecciones/nueva" element={<NewCollection />} />
+          <Route path="/colecciones" element={<PublicCollections />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
