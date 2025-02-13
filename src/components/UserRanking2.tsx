@@ -73,8 +73,8 @@ export const UserRanking2 = () => {
                     </div>
                   </div>
                   <div className="flex gap-4">
-                    <Badge variant="secondary">{user.totalAchievements} achievements</Badge>
-                    <Badge variant="outline">{user.rareAchievements} rare finds</Badge>
+                    <Badge variant="secondary">{user.stats.achievements} achievements</Badge>
+                    <Badge variant="outline">{user.stats.exchanges} exchanges</Badge>
                   </div>
                 </div>
                 <Button variant="outline" className="ml-4">

@@ -14,7 +14,7 @@ const SearchPage = () => {
     "Liga Santander", "NBA", "World Cup"
   ]);
 
-  const mockResults = {
+  const mockResults: any = {
     users: [
       { id: 1, name: "Juan García", collections: 23, followers: 156 },
       { id: 2, name: "María López", collections: 15, followers: 89 },
@@ -32,7 +32,7 @@ const SearchPage = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-green-50 via-white to-white pt-16">
       <NavigationBar />
-      
+
       <main className="container mx-auto px-4 py-8">
         <div className="max-w-3xl mx-auto space-y-8">
           <div className="relative">
@@ -85,9 +85,9 @@ const SearchPage = () => {
                   <Card key={result.id} className="p-4">
                     <h3 className="font-semibold">{result.name || result.title}</h3>
                     <p className="text-sm text-gray-600 mt-1">
-                      {result.collections ? `${result.collections} colecciones` : 
-                       result.users ? `${result.users} usuarios` :
-                       `${result.views} visualizaciones`}
+                      {result.collections ? `${result.collections} colecciones` :
+                        result.users ? `${result.users} usuarios` :
+                          `${result.views} visualizaciones`}
                     </p>
                   </Card>
                 ))}
