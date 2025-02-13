@@ -2,50 +2,25 @@
 import { Card } from "./ui/card";
 import { Award, Crown, Trophy, Users, Star, ThumbsUp, Activity, ListOrdered } from "lucide-react";
 import { Button } from "./ui/button";
+import { api } from "@/use/api";
+import { topCollectors } from "@/use/api/topCollectors";
+import { Collector } from "@/use/types";
+import { useState, useEffect } from "react";
 
-const topCollectors = [
-  {
-    rank: 1,
-    name: "Alex Thompson",
-    avatar: "https://i.pravatar.cc/150?u=alex",
-    stats: {
-      collections: 156,
-      exchanges: 534,
-      likes: 2890,
-      achievements: 42,
-    },
-    recentActivity: "Completed Rare Sports Collection",
-    icon: Crown,
-  },
-  {
-    rank: 2,
-    name: "Sarah Chen",
-    avatar: "https://i.pravatar.cc/150?u=sarah",
-    stats: {
-      collections: 134,
-      exchanges: 487,
-      likes: 2456,
-      achievements: 38,
-    },
-    recentActivity: "Traded Limited Edition Card",
-    icon: Trophy,
-  },
-  {
-    rank: 3,
-    name: "Michael Park",
-    avatar: "https://i.pravatar.cc/150?u=michael",
-    stats: {
-      collections: 128,
-      exchanges: 423,
-      likes: 2123,
-      achievements: 35,
-    },
-    recentActivity: "Won Monthly Challenge",
-    icon: Award,
-  },
-];
+
 
 export const UserRanking = () => {
+
+  const [topUsers, setTopUsers] = useState<Collector[]>([])
+
+  useEffect(() => {
+    const fetchTopUsers = async () => {
+      const data = await api("topCollectors")
+      setTopUsers(data.slice(0, 3))
+    }
+    fetchTopUsers()
+  }, [])
+
   return (
     <section className="py-20 bg-gray-50">
       <div className="container mx-auto px-4">
@@ -68,7 +43,7 @@ export const UserRanking = () => {
           </div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-          {topCollectors.map((collector) => (
+          {topUsers.map((collector) => (
             <Card
               key={collector.rank}
               className="p-6 text-center hover:shadow-lg transition-shadow duration-300"
@@ -83,7 +58,7 @@ export const UserRanking = () => {
                 Rank #{collector.rank}
               </span>
               <h3 className="text-xl font-bold mb-4">{collector.name}</h3>
-              
+
               <div className="grid grid-cols-2 gap-3 mb-4 text-sm">
                 <div className="flex items-center justify-center gap-1 text-gray-600">
                   <Users className="w-4 h-4" />
@@ -102,7 +77,7 @@ export const UserRanking = () => {
                   <span>{collector.stats.achievements} badges</span>
                 </div>
               </div>
-              
+
               <p className="text-sm text-green-600 bg-green-50 p-2 rounded">
                 {collector.recentActivity}
               </p>

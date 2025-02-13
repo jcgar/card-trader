@@ -2,6 +2,7 @@
 import { HeroSection } from "@/components/HeroSection";
 import { PopularCollections } from "@/components/PopularCollections";
 import { UserRanking } from "@/components/UserRanking";
+import { UserRanking2 } from "@/components/UserRanking2";
 import { LiveExchange } from "@/components/LiveExchange";
 import { FeaturedCategories } from "@/components/FeaturedCategories";
 import { FeaturedBlog } from "@/components/FeaturedBlog";
@@ -15,6 +16,7 @@ const Index = () => {
       <HeroSection />
       <PopularCollections />
       <UserRanking />
+      <UserRanking2 />
       <LiveExchange />
       <FeaturedCategories />
       <FeaturedBlog />

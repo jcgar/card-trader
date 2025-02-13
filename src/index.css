@@ -49,6 +49,20 @@
     --sidebar-border: 220 13% 91%;
 
     --sidebar-ring: 217.2 91.2% 59.8%;
+
+    --font-body: var(--font-body);
+    --font-heading: var(--font-heading);
+    --font-size-small: var(--font-size-small);
+    --font-size-medium: var(--font-size-medium);
+    --font-size-large: var(--font-size-large);
+    --font-size-xlarge: var(--font-size-xlarge);
+    --shadow-small: var(--shadow-small);
+    --shadow-medium: var(--shadow-medium);
+    --shadow-large: var(--shadow-large);
+    --border-radius-small: var(--border-radius-small);
+    --border-radius-medium: var(--border-radius-medium);
+    --border-radius-large: var(--border-radius-large);
+
   }
 
   .dark {
@@ -98,4 +112,97 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-primary text-primary-foreground hover: bg-primary/90;
+  }
+
+  .btn-secondary {
+    @apply bg-secondary text-secondary-foreground hover: bg-secondary/90;
+  }
+
+  .card {
+    @apply bg-card text-card-foreground shadow-sm;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+@media (max-width: 640px) {
+  .card {
+    @apply p-2;
+  }
+
+  button,
+  .btn {
+    @apply text-sm py-1 px-2;
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-1rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slideInFromRight {
+  from {
+    opacity: 0;
+    transform: translateX(1rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-slide-down {
+  animation: slideDown 0.3s ease-out;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out;
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.3s ease-out;
+}
+
+.animate-slide-in-right {
+  animation: slideInFromRight 0.3s ease-out;
 }
