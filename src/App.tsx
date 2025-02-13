@@ -13,6 +13,8 @@ import CollectionDetail from "./pages/CollectionDetail";
 import CollectionDetail2 from "./pages/CollectionDetail2";
 import NewCollection from "./pages/NewCollection";
 import PublicCollections from "./pages/PublicCollections";
+import Search from "./pages/Search";
+import { routes } from "./use/routes";
 
 const queryClient = new QueryClient();
 
@@ -23,14 +25,15 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/comunidad" element={<Community />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/dashboard/colecciones" element={<Collections />} />
+          <Route path={routes.home} element={<Index />} />
+          <Route path={routes.community} element={<Community />} />
+          <Route path={routes.dashboard} element={<Dashboard />} />
+          <Route path={routes.myCollections} element={<Collections />} />
           <Route path="/dashboard/colecciones/:id" element={<CollectionDetail />} />
           <Route path="/dashboard/colecciones2/:id" element={<CollectionDetail2 />} />
-          <Route path="/dashboard/colecciones/nueva" element={<NewCollection />} />
-          <Route path="/colecciones" element={<PublicCollections />} />
+          <Route path={routes.newCollection} element={<NewCollection />} />
+          <Route path={routes.collections} element={<PublicCollections />} />
+          <Route path={routes.search} element={<Search />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
