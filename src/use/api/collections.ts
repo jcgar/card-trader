@@ -1,10 +1,57 @@
 import { Collection } from "@/app/types";
 
-export const collections: Collection[] = [
+const categories = ["videogames", "sports", "movies", "anime", "music", "art"]
+
+const publishers = [
+  "Nintendo",
+  "Panini",
+  "Topps",
+  "Upper Deck",
+  "Wizards of the Coast",
+  "Konami",
+  "Fuji TV",
+  "Marvel",
+  "DC Comics",
+  "Universal Music",
+]
+
+const generateRandomActivity = () => {
+  const activities = [
+    "New card added",
+    "Rare card found",
+    "Trade completed",
+    "Community event planned",
+    "Limited edition released",
+    "Auction started",
+    "Collection milestone reached",
+  ]
+  return activities[Math.floor(Math.random() * activities.length)]
+}
+
+export const collections: Collection[] = Array.from({ length: 100 }, (_, i) => ({
+  id: (i + 1).toString(),
+  name: `Collection ${i + 1}`,
+  // image: `https://source.unsplash.com/random/800x600?${categories[Math.floor(Math.random() * categories.length)]}`,
+  image: `https://picsum.photos/800/600?random=${Math.floor(Math.random() * categories.length)}`,
+  year: 2020 + Math.floor(Math.random() * 4),
+  publisher: publishers[Math.floor(Math.random() * publishers.length)],
+  totalCards: 100 + Math.floor(Math.random() * 200),
+  activeUsers: 500 + Math.floor(Math.random() * 1500),
+  category: categories[Math.floor(Math.random() * categories.length)],
+  popularity: 70 + Math.floor(Math.random() * 30),
+  recentActivity: Array.from({ length: 3 }, generateRandomActivity),
+  lastUpdated: Math.floor(Math.random() * 7) + 1,
+  likes: Math.floor(Math.random() * 2000),
+  featured: Math.random() < 0.2,
+}))
+
+
+
+export const collections2: Collection[] = [
   {
     id: "1",
     name: "Pokémon 2023",
-    image: "https://images.unsplash.com/photo-1621296443295-fc2b363d5ee5",
+    image: "https://images.unsplash.com/photo-1613771404721-1f92d799e49f",
     year: 2023,
     publisher: "Nintendo",
     totalCards: 150,
@@ -23,7 +70,7 @@ export const collections: Collection[] = [
   {
     id: "2",
     name: "FIFA World Cup 2022",
-    image: "https://images.unsplash.com/photo-1601758003122-c1f6e3e1d91d",
+    image: "https://images.unsplash.com/photo-1553778263-73a83bab9b0c",
     year: 2022,
     publisher: "Panini",
     totalCards: 300,

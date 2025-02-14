@@ -7,7 +7,6 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import Community from "./pages/Community";
 import Dashboard from "./pages/Dashboard";
-import Collections from "./pages/Collections";
 import CollectionDetail from "./pages/CollectionDetail";
 import CollectionDetail2 from "./pages/CollectionDetail2";
 import NewCollection from "./pages/NewCollection";
@@ -15,6 +14,7 @@ import PublicCollections from "./pages/PublicCollections";
 import Search from "./pages/Search";
 import { routes } from "./use/routes";
 import CollectorProfile from "./pages/CollectorProfile";
+import { MyCollections } from "./components/dashboard/MyCollections";
 
 const queryClient = new QueryClient();
 
@@ -28,7 +28,7 @@ const App = () => (
           <Route path={routes.home} element={<Index />} />
           <Route path={routes.community} element={<Community />} />
           <Route path={routes.dashboard} element={<Dashboard />} />
-          <Route path={routes.myCollections} element={<Collections />} />
+          <Route path={routes.myCollections} element={<MyCollections />} />
           <Route path="/dashboard/colecciones/:id" element={<CollectionDetail />} />
           <Route path="/dashboard/colecciones2/:id" element={<CollectionDetail2 />} />
           <Route path={routes.newCollection} element={<NewCollection />} />

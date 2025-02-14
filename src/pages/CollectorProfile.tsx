@@ -4,13 +4,13 @@ import { useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { NavigationBar } from "@/components/NavigationBar";
 import { CollectorHeader } from "@/components/collector/CollectorHeader";
-import { CollectorStats } from "@/components/collector/CollectorStats";
-import { CollectorAchievements } from "@/components/collector/CollectorAchievements";
-import { CollectorCollections } from "@/components/collector/CollectorCollections";
-import { CollectorActivity } from "@/components/collector/CollectorActivity";
-import { CollectorSocial } from "@/components/collector/CollectorSocial";
-import { CollectorTestimonials } from "@/components/collector/CollectorTestimonials";
-import { CollectorTrades } from "@/components/collector/CollectorTrades";
+// import { CollectorStats } from "@/components/collector/CollectorStats";
+// import { CollectorAchievements } from "@/components/collector/CollectorAchievements";
+// import { CollectorCollections } from "@/components/collector/CollectorCollections";
+// import { CollectorActivity } from "@/components/collector/CollectorActivity";
+// import { CollectorSocial } from "@/components/collector/CollectorSocial";
+// import { CollectorTestimonials } from "@/components/collector/CollectorTestimonials";
+// import { CollectorTrades } from "@/components/collector/CollectorTrades";
 import type { CollectorProfile } from "@/app/types";
 
 const CollectorProfile = () => {
@@ -79,14 +79,14 @@ const CollectorProfile = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-green-50 via-white to-white">
       <NavigationBar />
-      
+
       <main className="pt-16">
         <CollectorHeader profile={profile} />
-        
+
         <div className="container mx-auto px-4 py-8">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="lg:col-span-2 space-y-8">
-              <CollectorStats profile={profile} />
+              {/* <CollectorStats profile={profile} />
               <CollectorCollections profile={profile} />
               <CollectorActivity profile={profile} />
               <CollectorTrades profile={profile} />
@@ -95,7 +95,7 @@ const CollectorProfile = () => {
             <div className="space-y-8">
               <CollectorAchievements profile={profile} />
               <CollectorSocial profile={profile} />
-              <CollectorTestimonials profile={profile} />
+              <CollectorTestimonials profile={profile} /> */}
             </div>
           </div>
         </div>

@@ -54,7 +54,7 @@ export const TradeMarket = () => {
             </Button>
           </div>
         </div>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
           {trades.map((trade) => (
             <Card
               key={trade.id}
@@ -70,29 +70,31 @@ export const TradeMarket = () => {
                   <span className="bg-white/90 px-3 py-1 rounded-full text-sm font-medium text-green-700">
                     {trade.condition}
                   </span>
+                  <span className="bg-white/90 px-3 py-1 rounded-full text-sm font-medium text-green-700">
+                    {trade.price}
+                  </span>
                 </div>
               </div>
-              <div className="p-4">
-                <h3 className="font-bold mb-2">{trade.card}</h3>
-                <p className="text-sm text-gray-600 mb-4">
-                  Posted by {trade.user}
-                </p>
-                <div className="flex items-center justify-between">
-                  <span className="text-green-600 font-medium">{trade.price}</span>
-                  <div className="flex gap-2">
-                    <Button variant="ghost" size="sm">
-                      <MessageSquare className="w-4 h-4 mr-1" />
-                      Chat
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className="border-green-200 text-green-600"
-                    >
-                      <Search className="w-4 h-4 mr-1" />
-                      Details
-                    </Button>
-                  </div>
+              <div className="p-4 flex flex-col justify-end">
+                <div className="flex flex-col">
+                  <h3 className="font-bold mb-2">{trade.card}</h3>
+                  <p className="text-sm text-gray-600 mb-4">
+                    Posted by {trade.user}
+                  </p>
+                </div>
+                <div className="flex gap-2">
+                  <Button variant="ghost" size="sm">
+                    <MessageSquare className="w-4 h-4 mr-1" />
+                    Chat
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="border-green-200 text-green-600"
+                  >
+                    <Search className="w-4 h-4 mr-1" />
+                    Details
+                  </Button>
                 </div>
               </div>
             </Card>
