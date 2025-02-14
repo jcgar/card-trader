@@ -68,7 +68,7 @@ export const UserSpotlight = () => {
   return (
     <section>
       {spotlightUsers.map((user) => (
-        <Link to={generateCollectorPath(user.id)} key={user.id}>
+        <Link to={generateCollectorPath(user.id.toString())} key={user.id}>
           <Card
             key={user.id}
             className={`group perspective hover:z-10 transition-transform duration-300 ${
@@ -86,7 +86,7 @@ export const UserSpotlight = () => {
                     alt={user.name}
                     className="rounded-full border-4 border-green-200 transition-transform duration-300 group-hover:scale-110"
                   />
-                  <div className="absolute -bottom-2 -right-2 bg-green-500 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold animate-pulse">
+                  <div className="absolute -bottom-2 -right-2 bg-green-500 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold">
                     {user.stats.rating}
                   </div>
                 </div>
