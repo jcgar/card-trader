@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -15,6 +14,7 @@ import NewCollection from "./pages/NewCollection";
 import PublicCollections from "./pages/PublicCollections";
 import Search from "./pages/Search";
 import { routes } from "./use/routes";
+import CollectorProfile from "./pages/CollectorProfile";
 
 const queryClient = new QueryClient();
 
@@ -34,6 +34,7 @@ const App = () => (
           <Route path={routes.newCollection} element={<NewCollection />} />
           <Route path={routes.collections} element={<PublicCollections />} />
           <Route path={routes.search} element={<Search />} />
+          <Route path={routes.collector} element={<CollectorProfile />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

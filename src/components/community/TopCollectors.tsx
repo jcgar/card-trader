@@ -1,7 +1,8 @@
-
 import { Card } from "../ui/card";
 import { Award, Medal, Trophy, Star } from "lucide-react";
 import { Progress } from "../ui/progress";
+import { Link } from "react-router-dom";
+import { generateCollectorPath } from "@/use/routes";
 
 const collectors = [
   {
@@ -42,41 +43,46 @@ export const TopCollectors = () => {
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
           {collectors.map((collector) => (
-            <Card key={collector.id} className="relative overflow-hidden group">
-              <div className="absolute top-4 right-4">
-                {collector.rank === 1 && <Trophy className="w-8 h-8 text-yellow-500 animate-bounce" />}
-                {collector.rank === 2 && <Medal className="w-8 h-8 text-gray-400" />}
-                {collector.rank === 3 && <Award className="w-8 h-8 text-orange-500" />}
-              </div>
-              <div className="p-6 text-center">
-                <div className="relative w-24 h-24 mx-auto mb-4">
-                  <img
-                    src={collector.avatar}
-                    alt={collector.name}
-                    className="rounded-full border-4 border-green-200 group-hover:border-green-400 transition-colors"
-                  />
-                  <div className="absolute -bottom-2 -right-2 bg-green-500 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold">
-                    {collector.level}
+            <Link 
+              to={generateCollectorPath(collector.id.toString())} 
+              key={collector.id}
+            >
+              <Card className="relative overflow-hidden group hover:shadow-xl transition-shadow duration-200">
+                <div className="absolute top-4 right-4">
+                  {collector.rank === 1 && <Trophy className="w-8 h-8 text-yellow-500 animate-bounce" />}
+                  {collector.rank === 2 && <Medal className="w-8 h-8 text-gray-400" />}
+                  {collector.rank === 3 && <Award className="w-8 h-8 text-orange-500" />}
+                </div>
+                <div className="p-6 text-center">
+                  <div className="relative w-24 h-24 mx-auto mb-4">
+                    <img
+                      src={collector.avatar}
+                      alt={collector.name}
+                      className="rounded-full border-4 border-green-200 group-hover:border-green-400 transition-colors"
+                    />
+                    <div className="absolute -bottom-2 -right-2 bg-green-500 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold">
+                      {collector.level}
+                    </div>
+                  </div>
+                  <h3 className="text-xl font-bold mb-2">{collector.name}</h3>
+                  <div className="mb-4">
+                    <Progress value={collector.points / 150} className="h-2" />
+                    <p className="text-sm text-gray-600 mt-1">{collector.points} points</p>
+                  </div>
+                  <div className="flex flex-wrap gap-2 justify-center">
+                    {collector.badges.map((badge, index) => (
+                      <span
+                        key={index}
+                        className="inline-flex items-center px-2 py-1 bg-green-100 text-green-700 text-xs rounded-full"
+                      >
+                        <Star className="w-3 h-3 mr-1" />
+                        {badge}
+                      </span>
+                    ))}
                   </div>
                 </div>
-                <h3 className="text-xl font-bold mb-2">{collector.name}</h3>
-                <div className="mb-4">
-                  <Progress value={collector.points / 150} className="h-2" />
-                  <p className="text-sm text-gray-600 mt-1">{collector.points} points</p>
-                </div>
-                <div className="flex flex-wrap gap-2 justify-center">
-                  {collector.badges.map((badge, index) => (
-                    <span
-                      key={index}
-                      className="inline-flex items-center px-2 py-1 bg-green-100 text-green-700 text-xs rounded-full"
-                    >
-                      <Star className="w-3 h-3 mr-1" />
-                      {badge}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </Card>
+              </Card>
+            </Link>
           ))}
         </div>
       </div>

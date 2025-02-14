@@ -1,7 +1,8 @@
-
 import { Card } from "../ui/card";
 import { Trophy, RefreshCw, Star, User, MessageSquare } from "lucide-react";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { generateCollectorPath } from "@/use/routes";
 
 interface Activity {
   id: number;
@@ -84,41 +85,36 @@ export const ActivityFeed = () => {
 
         <div className="max-w-3xl mx-auto space-y-4">
           {activities.map((activity) => (
-            <Card
-              key={activity.id}
-              className={`
-                transform transition-all duration-500
-                hover:scale-102 hover:shadow-md
-                ${highlightedActivity === activity.id ? 'animate-pulse ring-2 ring-green-400' : ''}
-              `}
-            >
-              <div className="p-4 flex items-center gap-4">
-                <div className="relative">
-                  <img
-                    src={activity.avatar}
-                    alt={activity.user}
-                    className="w-12 h-12 rounded-full"
-                  />
-                  <div className={`
-                    absolute -bottom-1 -right-1 p-1 rounded-full bg-white
-                    ${highlightedActivity === activity.id ? 'animate-bounce' : ''}
-                  `}>
-                    <activity.icon className={`w-4 h-4 ${activity.color}`} />
+            <Card key={activity.id}>
+              <Link to={generateCollectorPath(activity.user)}>
+                <div className="p-4 flex items-center gap-4">
+                  <div className="relative">
+                    <img
+                      src={activity.avatar}
+                      alt={activity.user}
+                      className="w-12 h-12 rounded-full"
+                    />
+                    <div className={`
+                      absolute -bottom-1 -right-1 p-1 rounded-full bg-white
+                      ${highlightedActivity === activity.id ? 'animate-bounce' : ''}
+                    `}>
+                      <activity.icon className={`w-4 h-4 ${activity.color}`} />
+                    </div>
                   </div>
-                </div>
 
-                <div className="flex-1">
-                  <p className="text-gray-800">
-                    <span className="font-medium">{activity.user}</span>{' '}
-                    {activity.action}
-                  </p>
-                  <p className="text-sm text-gray-500">{activity.timestamp}</p>
-                </div>
+                  <div className="flex-1">
+                    <p className="text-gray-800">
+                      <span className="font-medium">{activity.user}</span>{' '}
+                      {activity.action}
+                    </p>
+                    <p className="text-sm text-gray-500">{activity.timestamp}</p>
+                  </div>
 
-                <button className="text-gray-400 hover:text-gray-600 transition-colors">
-                  <MessageSquare className="w-5 h-5" />
-                </button>
-              </div>
+                  <button className="text-gray-400 hover:text-gray-600 transition-colors">
+                    <MessageSquare className="w-5 h-5" />
+                  </button>
+                </div>
+              </Link>
             </Card>
           ))}
         </div>
