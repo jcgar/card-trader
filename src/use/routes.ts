@@ -8,6 +8,12 @@ export const routes = {
   myCollections: '/dashboard/colecciones',
   community: '/comunidad',
   collector: '/coleccionista/:id',
+  admin: {
+    users: '/admin/usuarios',
+    collections: '/admin/colecciones',
+    stats: '/admin/estadisticas',
+    settings: '/admin/app',
+  },
 } as const;
 
 export const generateCollectorPath = (id: string) => {
