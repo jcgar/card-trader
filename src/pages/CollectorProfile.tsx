@@ -12,11 +12,28 @@ import { CollectorHeader } from "@/components/collector/CollectorHeader";
 // import { CollectorTestimonials } from "@/components/collector/CollectorTestimonials";
 // import { CollectorTrades } from "@/components/collector/CollectorTrades";
 import type { CollectorProfile } from "@/app/types";
+import { CollectorAchievements } from "@/components/collector/CollectorAchievements";
+import { CollectorActivity } from "@/components/collector/CollectorActivity";
+import { CollectorCollections } from "@/components/collector/CollectorCollections";
+import { CollectorSocial } from "@/components/collector/CollectorSocial";
+import { CollectorStats } from "@/components/collector/CollectorStats";
+import { CollectorTestimonials } from "@/components/collector/CollectorTestimonials";
+import { CollectorTrades } from "@/components/collector/CollectorTrades";
+import { api } from "@/use/api";
 
 const CollectorProfile = () => {
   const { id } = useParams();
   const [profile, setProfile] = useState<CollectorProfile | null>(null);
   const [loading, setLoading] = useState(true);
+
+  const [collections, setCollections] = useState([])
+  useEffect(() => {
+    const fetchCollections = async () => {
+      const data = await api("collections")
+      setCollections(data.slice(0, 4)) // Mostrar solo las 4 primeras colecciones
+    }
+    fetchCollections()
+  }, [])
 
   useEffect(() => {
     // Simulated API call
@@ -86,16 +103,16 @@ const CollectorProfile = () => {
         <div className="container mx-auto px-4 py-8">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="lg:col-span-2 space-y-8">
-              {/* <CollectorStats profile={profile} />
-              <CollectorCollections profile={profile} />
+              <CollectorStats profile={profile} />
+              <CollectorCollections collections={collections} />
               <CollectorActivity profile={profile} />
               <CollectorTrades profile={profile} />
             </div>
-            
+
             <div className="space-y-8">
               <CollectorAchievements profile={profile} />
               <CollectorSocial profile={profile} />
-              <CollectorTestimonials profile={profile} /> */}
+              <CollectorTestimonials profile={profile} />
             </div>
           </div>
         </div>

@@ -4,7 +4,7 @@ import { Progress } from "@/components/ui/progress"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Plus, ChevronRight, Search } from "lucide-react"
-import Link from "next/link"
+import { Link } from "react-router-dom";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
 import { t } from "../../use/i18n"
 
@@ -47,7 +47,7 @@ export default function CollectionsList({ collections }) {
                 <p>
                   {collection.completedCards} / {collection.totalCards} cromos
                 </p>
-                <Link href={`/dashboard/colecciones/${collection.id}`}>
+                <Link to={`/dashboard/colecciones/${collection.id}`}>
                   <Button variant="link" className="mt-2 p-0 h-auto text-blue-300">
                     {t("collections.editCollection")} <ChevronRight className="ml-1 h-4 w-4" />
                   </Button>
