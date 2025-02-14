@@ -7,6 +7,17 @@ import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
+type SearchResult = {
+  id: number;
+  name?: string;
+  title?: string;
+  collections?: number;
+  followers?: number;
+  users?: number;
+  completed?: string;
+  views?: number;
+};
+
 const SearchPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [suggestions] = useState([
@@ -14,7 +25,7 @@ const SearchPage = () => {
     "Liga Santander", "NBA", "World Cup"
   ]);
 
-  const mockResults: any = {
+  const mockResults: Record<string, SearchResult[]> = {
     users: [
       { id: 1, name: "Juan García", collections: 23, followers: 156 },
       { id: 2, name: "María López", collections: 15, followers: 89 },
@@ -29,10 +40,16 @@ const SearchPage = () => {
     ]
   };
 
+  const allResults: SearchResult[] = [
+    ...mockResults.users,
+    ...mockResults.collections,
+    ...mockResults.help
+  ];
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-green-50 via-white to-white pt-16">
       <NavigationBar />
-
+      
       <main className="container mx-auto px-4 py-8">
         <div className="max-w-3xl mx-auto space-y-8">
           <div className="relative">
@@ -81,13 +98,15 @@ const SearchPage = () => {
 
             <TabsContent value="all" className="space-y-6 mt-6">
               <div className="grid gap-6">
-                {mockResults.users.concat(mockResults.collections, mockResults.help).map((result: any) => (
+                {allResults.map((result) => (
                   <Card key={result.id} className="p-4">
                     <h3 className="font-semibold">{result.name || result.title}</h3>
                     <p className="text-sm text-gray-600 mt-1">
-                      {result.collections ? `${result.collections} colecciones` :
-                        result.users ? `${result.users} usuarios` :
-                          `${result.views} visualizaciones`}
+                      {result.collections
+                        ? `${result.collections} colecciones`
+                        : result.users
+                        ? `${result.users} usuarios`
+                        : `${result.views} visualizaciones`}
                     </p>
                   </Card>
                 ))}
