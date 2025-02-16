@@ -125,7 +125,7 @@ export const NavigationBar = () => {
                         Mis colecciones
                       </DropdownMenuItem>
                       {isAdmin && (
-                        <DropdownMenuItem className="text-red-600">
+                        <DropdownMenuItem onClick={() => navigate(routes.admin.users)} className="text-red-600">
                           Admin Panel
                         </DropdownMenuItem>
                       )}
@@ -173,7 +173,7 @@ export const NavigationBar = () => {
                     <Link to={routes.dashboard} className="text-green-700 py-2">Dashboard</Link>
                     <Link to={routes.myCollections} className="text-green-700 py-2">Mis colecciones</Link>
                     {isAdmin && (
-                      <Button variant="destructive">Admin Panel</Button>
+                      <Button variant="destructive" onClick={() => navigate(routes.admin.users)}>Admin Panel</Button>
                     )}
                     <Button variant="outline" onClick={handleLogout}>
                       Cerrar sesión

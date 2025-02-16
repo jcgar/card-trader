@@ -4,21 +4,14 @@ import { useParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { NavigationBar } from "@/components/NavigationBar";
 import { CollectorHeader } from "@/components/collector/CollectorHeader";
-// import { CollectorStats } from "@/components/collector/CollectorStats";
-// import { CollectorAchievements } from "@/components/collector/CollectorAchievements";
-// import { CollectorCollections } from "@/components/collector/CollectorCollections";
-// import { CollectorActivity } from "@/components/collector/CollectorActivity";
-// import { CollectorSocial } from "@/components/collector/CollectorSocial";
-// import { CollectorTestimonials } from "@/components/collector/CollectorTestimonials";
-// import { CollectorTrades } from "@/components/collector/CollectorTrades";
-import type { CollectorProfile } from "@/app/types";
-import { CollectorAchievements } from "@/components/collector/CollectorAchievements";
-import { CollectorActivity } from "@/components/collector/CollectorActivity";
-import { CollectorCollections } from "@/components/collector/CollectorCollections";
-import { CollectorSocial } from "@/components/collector/CollectorSocial";
 import { CollectorStats } from "@/components/collector/CollectorStats";
+import { CollectorAchievements } from "@/components/collector/CollectorAchievements";
+import { CollectorCollections } from "@/components/collector/CollectorCollections";
+import { CollectorActivity } from "@/components/collector/CollectorActivity";
+import { CollectorSocial } from "@/components/collector/CollectorSocial";
 import { CollectorTestimonials } from "@/components/collector/CollectorTestimonials";
 import { CollectorTrades } from "@/components/collector/CollectorTrades";
+import type { CollectorProfile } from "@/app/types";
 import { api } from "@/use/api";
 
 const CollectorProfile = () => {
