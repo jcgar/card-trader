@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -15,6 +16,9 @@ import NewCollection from "./pages/NewCollection";
 import PublicCollections from "./pages/PublicCollections";
 import Search from "./pages/Search";
 import CollectorProfile from "./pages/CollectorProfile";
+import CollectorProProfile from "./pages/CollectorProProfile";
+import Blog from "./pages/Blog";
+import Help from "./pages/Help";
 import { MyCollections } from "./components/dashboard/MyCollections";
 
 // Admin pages
@@ -22,8 +26,6 @@ import AdminUsers from "./pages/admin/Users";
 import AdminCollections from "./pages/admin/Collections";
 import AdminStats from "./pages/admin/Stats";
 import AdminSettings from "./pages/admin/Settings";
-
-import CollectorProProfile from "./pages/CollectorProProfile";
 
 const queryClient = new QueryClient();
 
@@ -45,6 +47,8 @@ const App = () => (
           <Route path={routes.search} element={<Search />} />
           <Route path={routes.collector} element={<CollectorProfile />} />
           <Route path={routes.collectorPro} element={<CollectorProProfile />} />
+          <Route path={routes.blog} element={<Blog />} />
+          <Route path={routes.help} element={<Help />} />
           
           {/* Admin routes */}
           <Route path={routes.admin.users} element={<AdminUsers />} />

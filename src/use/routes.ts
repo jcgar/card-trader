@@ -9,6 +9,8 @@ export const routes = {
   community: '/comunidad',
   collector: '/coleccionista/:id',
   collectorPro: '/coleccionista/:id/pro',
+  blog: '/blog',
+  help: '/ayuda',
   admin: {
     users: '/admin/usuarios',
     collections: '/admin/colecciones',

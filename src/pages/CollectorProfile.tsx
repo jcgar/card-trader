@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -8,7 +9,7 @@ import { CollectorAchievements } from "@/components/collector/CollectorAchieveme
 import { CollectorCollections } from "@/components/collector/CollectorCollections";
 import { CollectorActivity } from "@/components/collector/CollectorActivity";
 import { CollectorSocial } from "@/components/collector/CollectorSocial";
-import { CollectorTestimonials } from "@/components/collector/CollectorTrades";
+import { CollectorTrades } from "@/components/collector/CollectorTrades";
 import type { CollectorProfile } from "@/app/types";
 import { api } from "@/use/api";
 import { Button } from "@/components/ui/button";
@@ -118,7 +119,7 @@ const CollectorProfile = () => {
             <div className="space-y-8">
               <CollectorAchievements profile={profile} />
               <CollectorSocial profile={profile} />
-              <CollectorTestimonials profile={profile} />
+              <CollectorTrades profile={profile} />
             </div>
           </div>
         </div>
