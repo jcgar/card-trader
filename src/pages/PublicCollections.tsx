@@ -1,4 +1,3 @@
-
 import { NavigationBar } from "@/components/NavigationBar";
 import { FilterSidebar } from "@/components/collections/FilterSidebar";
 import { FeaturedCategories } from "@/components/FeaturedCategories";
@@ -13,13 +12,12 @@ import { useEffect, useState } from "react";
 import { Collection } from "@/use/types";
 
 const PublicCollections = () => {
-  // Group collections by category
   const [collections, setCollections] = useState([])
 
   useEffect(() => {
     const fetchCollections = async () => {
       const data = await api("collections")
-      setCollections(data.slice(0, 4)) // Mostrar solo las 4 primeras colecciones
+      setCollections(data.slice(0, 4))
     }
     fetchCollections()
   }, [])
@@ -47,11 +45,11 @@ const PublicCollections = () => {
           <FeaturedCategories />
 
           <div className="space-y-4">
-            {Object.entries(collectionsByCategory).map(([category, categoryCollections]) => (
+            {Object.entries(collectionsByCategory).map(([category, collections]) => (
               <CategorySlider
                 key={category}
                 title={category}
-                collections={categoryCollections}
+                collections={collections}
               />
             ))}
           </div>

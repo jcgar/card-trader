@@ -3,6 +3,7 @@ export const routes = {
   home: '/',
   search: '/buscar',
   collections: '/colecciones',
+  collection: '/coleccion/:id',
   dashboard: '/dashboard',
   newCollection: '/dashboard/colecciones/nueva',
   myCollections: '/dashboard/colecciones',
@@ -25,4 +26,8 @@ export const generateCollectorPath = (id: string) => {
 
 export const generateCollectorProPath = (id: string) => {
   return `/coleccionista/${id}/pro`;
+};
+
+export const generateCollectionPath = (id: string) => {
+  return `/coleccion/${id}`;
 };
