@@ -51,7 +51,7 @@ const PublicCollections = () => {
               <CategorySlider
                 key={category}
                 title={category}
-                collections={categoryCollections[category]}
+                collections={categoryCollections}
               />
             ))}
           </div>

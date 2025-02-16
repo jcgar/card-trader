@@ -153,6 +153,48 @@ const CollectorProProfile = () => {
               </div>
             </motion.div>
 
+            <div className="mt-12 grid md:grid-cols-2 gap-8">
+              <motion.div
+                initial={{ x: -50, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                className="bg-yellow-900/30 p-6 rounded-lg"
+              >
+                <h3 className="text-xl font-bold mb-4 text-yellow-300">Logros Destacados</h3>
+                <div className="space-y-4">
+                  {profile.achievements.map((achievement, index) => (
+                    <div key={index} className="flex items-center gap-3 text-yellow-100">
+                      <div className="p-2 bg-yellow-600/20 rounded-full">
+                        <Trophy className="w-4 h-4 text-yellow-400" />
+                      </div>
+                      <span>{achievement.name}</span>
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
+
+              <motion.div
+                initial={{ x: 50, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                className="bg-yellow-900/30 p-6 rounded-lg"
+              >
+                <h3 className="text-xl font-bold mb-4 text-yellow-300">Estadísticas</h3>
+                <div className="space-y-4">
+                  <div className="flex justify-between">
+                    <span className="text-yellow-100">Cromos totales</span>
+                    <span className="text-yellow-300">{profile.stats.totalCards}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-yellow-100">Cromos completados</span>
+                    <span className="text-yellow-300">{profile.stats.completedCards}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-yellow-100">Tasa de éxito</span>
+                    <span className="text-yellow-300">{profile.stats.successRate}%</span>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+
             <div className="mt-12 text-center">
               <Button 
                 size="lg"

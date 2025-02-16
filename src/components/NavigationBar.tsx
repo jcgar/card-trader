@@ -1,4 +1,3 @@
-
 import { Button } from "./ui/button";
 import {
   NavigationMenu,
@@ -66,6 +65,16 @@ export const NavigationBar = () => {
                   <NavigationMenuItem>
                     <Link to={routes.community} className="px-4 py-2 text-green-700">
                       Comunidad
+                    </Link>
+                  </NavigationMenuItem>
+                  <NavigationMenuItem>
+                    <Link to={routes.blog} className="px-4 py-2 text-green-700">
+                      Blog
+                    </Link>
+                  </NavigationMenuItem>
+                  <NavigationMenuItem>
+                    <Link to={routes.help} className="px-4 py-2 text-green-700">
+                      Ayuda
                     </Link>
                   </NavigationMenuItem>
                   <NavigationMenuItem>
@@ -157,6 +166,8 @@ export const NavigationBar = () => {
             <nav className="flex flex-col gap-4">
               <Link to={routes.collections} className="text-green-700 py-2">Colecciones</Link>
               <Link to={routes.community} className="text-green-700 py-2">Comunidad</Link>
+              <Link to={routes.blog} className="text-green-700 py-2">Blog</Link>
+              <Link to={routes.help} className="text-green-700 py-2">Ayuda</Link>
               <Link to={routes.search} className="text-green-700 py-2">Buscar</Link>
               <div className="flex flex-col gap-2 pt-4 border-t">
                 {!isLoggedIn ? (
