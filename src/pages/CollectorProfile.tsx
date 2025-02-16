@@ -1,6 +1,5 @@
-
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { NavigationBar } from "@/components/NavigationBar";
 import { CollectorHeader } from "@/components/collector/CollectorHeader";
@@ -9,10 +8,12 @@ import { CollectorAchievements } from "@/components/collector/CollectorAchieveme
 import { CollectorCollections } from "@/components/collector/CollectorCollections";
 import { CollectorActivity } from "@/components/collector/CollectorActivity";
 import { CollectorSocial } from "@/components/collector/CollectorSocial";
-import { CollectorTestimonials } from "@/components/collector/CollectorTestimonials";
-import { CollectorTrades } from "@/components/collector/CollectorTrades";
+import { CollectorTestimonials } from "@/components/collector/CollectorTrades";
 import type { CollectorProfile } from "@/app/types";
 import { api } from "@/use/api";
+import { Button } from "@/components/ui/button";
+import { Crown } from "lucide-react";
+import { generateCollectorProPath } from "@/use/routes";
 
 const CollectorProfile = () => {
   const { id } = useParams();
@@ -94,6 +95,18 @@ const CollectorProfile = () => {
         <CollectorHeader profile={profile} />
 
         <div className="container mx-auto px-4 py-8">
+          <div className="text-center mb-8">
+            <Link to={generateCollectorProPath(profile.id)}>
+              <Button 
+                variant="outline" 
+                className="bg-yellow-50 border-yellow-200 text-yellow-700 hover:bg-yellow-100 hover:text-yellow-800"
+              >
+                <Crown className="w-5 h-5 mr-2 text-yellow-500" />
+                Ver en el Hall of Fame
+              </Button>
+            </Link>
+          </div>
+
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="lg:col-span-2 space-y-8">
               <CollectorStats profile={profile} />

@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -24,6 +23,8 @@ import AdminCollections from "./pages/admin/Collections";
 import AdminStats from "./pages/admin/Stats";
 import AdminSettings from "./pages/admin/Settings";
 
+import CollectorProProfile from "./pages/CollectorProProfile";
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -43,6 +44,7 @@ const App = () => (
           <Route path={routes.collections} element={<PublicCollections />} />
           <Route path={routes.search} element={<Search />} />
           <Route path={routes.collector} element={<CollectorProfile />} />
+          <Route path={routes.collectorPro} element={<CollectorProProfile />} />
           
           {/* Admin routes */}
           <Route path={routes.admin.users} element={<AdminUsers />} />
