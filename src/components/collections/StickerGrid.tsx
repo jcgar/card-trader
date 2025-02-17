@@ -187,7 +187,11 @@ export const StickerGrid = () => {
 
   const getCurrentPageStickers = () => {
     const allStickers = stickerGroups.flatMap(g => g.stickers);
-    return allStickers.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+    const pageStickers = allStickers.slice(
+      (currentPage - 1) * itemsPerPage,
+      currentPage * itemsPerPage
+    );
+    return pageStickers;
   };
 
   const StickerCard = ({ sticker }: { sticker: any }) => {
@@ -335,11 +339,11 @@ export const StickerGrid = () => {
         <AnimatePresence mode="wait">
           {layout === "album" && (
             <motion.div
-              key={currentPage}
+              key={`album-${currentPage}`}
               initial={{ opacity: 0, x: 200 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -200 }}
-              className="grid grid-cols-3 gap-4 bg-green-50 p-6 rounded-lg shadow-inner"
+              className="grid grid-cols-3 md:grid-cols-4 gap-4 bg-green-50 p-6 rounded-lg shadow-inner"
             >
               {getCurrentPageStickers().map((sticker) => (
                 <StickerCard key={sticker.id} sticker={sticker} />
@@ -349,6 +353,7 @@ export const StickerGrid = () => {
 
           {layout === "grid" && (
             <motion.div
+              key={`grid-${currentPage}`}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -361,15 +366,13 @@ export const StickerGrid = () => {
           )}
 
           {layout === "scroll" && (
-            <ScrollArea className="w-full whitespace-nowrap">
-              <div className="flex space-x-4">
+            <ScrollArea className="relative w-full h-[500px] rounded-lg border">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 p-4">
                 {getCurrentPageStickers().map((sticker) => (
-                  <div key={sticker.id} className="w-[150px] flex-shrink-0">
-                    <StickerCard sticker={sticker} />
-                  </div>
+                  <StickerCard key={sticker.id} sticker={sticker} />
                 ))}
               </div>
-              <ScrollBar orientation="horizontal" />
+              <ScrollBar orientation="vertical" />
             </ScrollArea>
           )}
         </AnimatePresence>

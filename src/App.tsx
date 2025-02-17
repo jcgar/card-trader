@@ -4,7 +4,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { TooltipProvider } from "@/components/ui/tooltip"
 import { Toaster } from "@/components/ui/toaster"
-import { Toaster as Sonner } from '@/components/ui/sonner';
+import { toast } from "sonner"
 
 import Index from './pages/Index';
 import Community from './pages/Community';
@@ -20,6 +20,7 @@ import CollectorProProfile from './pages/CollectorProProfile';
 import Blog from './pages/Blog';
 import Help from './pages/Help';
 import CollectionPublicView from "./pages/CollectionPublicView";
+import AdminDashboard from './pages/admin/AdminDashboard';
 import NotFound from './pages/NotFound';
 import { routes } from './use/routes';
 
@@ -29,7 +30,6 @@ const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <Toaster />
-      <Sonner />
       <BrowserRouter>
         <Routes>
           <Route path={routes.home} element={<Index />} />
@@ -46,6 +46,7 @@ const App = () => (
           <Route path={routes.collectorPro} element={<CollectorProProfile />} />
           <Route path={routes.blog} element={<Blog />} />
           <Route path={routes.help} element={<Help />} />
+          <Route path={routes.admin.dashboard} element={<AdminDashboard />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
