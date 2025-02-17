@@ -1,7 +1,7 @@
 
 import { Card } from "@/components/ui/card";
 import { Users, ThumbsUp } from "lucide-react";
-import type { CollectorProfile } from "@/app/types";
+import type { Collector } from "@/app/types";
 import { Progress } from "@/components/ui/progress";
 
 interface CollectorSocialProps {
@@ -40,8 +40,8 @@ export const CollectorSocial = ({ profile }: CollectorSocialProps) => {
             </span>
             <span className="font-medium">{profile.socialStats.reputation}/5.0</span>
           </div>
-          <Progress 
-            value={profile.socialStats.reputation * 20} 
+          <Progress
+            value={profile.socialStats.reputation * 20}
             className="h-2"
           />
         </div>

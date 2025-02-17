@@ -6,16 +6,16 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { 
-  Users, 
-  Image as ImageIcon, 
-  Repeat, 
+import {
+  Users,
+  Image as ImageIcon,
+  Repeat,
   BookOpen,
   Shield,
   Trophy,
   Star
 } from "lucide-react";
-import { Collection } from "@/use/types";
+import { Collection } from "@/app/types";
 
 const CollectionPublicView = () => {
   const { id } = useParams();
@@ -73,7 +73,7 @@ const CollectionPublicView = () => {
 
             <div className="space-y-4">
               <h1 className="text-3xl font-bold text-green-800">{collection.name}</h1>
-              
+
               <div className="flex flex-wrap gap-2">
                 <Badge variant="secondary" className="bg-green-50">
                   <BookOpen className="w-4 h-4 mr-1" />
@@ -117,7 +117,7 @@ const CollectionPublicView = () => {
               <TabsTrigger value="editions">Ediciones</TabsTrigger>
               <TabsTrigger value="materials">Álbumes y sobres</TabsTrigger>
             </TabsList>
-            
+
             <TabsContent value="groups" className="mt-4">
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                 {groups.map((group, index) => (
@@ -128,7 +128,7 @@ const CollectionPublicView = () => {
                 ))}
               </div>
             </TabsContent>
-            
+
             <TabsContent value="editions" className="mt-4">
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                 {editions.map((edition, index) => (
@@ -139,7 +139,7 @@ const CollectionPublicView = () => {
                 ))}
               </div>
             </TabsContent>
-            
+
             <TabsContent value="materials" className="mt-4">
               <div className="p-4 bg-green-50 rounded-lg">
                 <h3 className="font-semibold mb-2">Materiales disponibles</h3>

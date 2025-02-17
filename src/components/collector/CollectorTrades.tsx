@@ -2,7 +2,7 @@
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { RefreshCw } from "lucide-react";
-import type { CollectorProfile } from "@/app/types";
+import type { Collector } from "@/app/types";
 
 interface CollectorTradesProps {
   profile: CollectorProfile;

@@ -2,7 +2,7 @@
 import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Trophy, Star, Repeat, Book } from "lucide-react";
-import type { CollectorProfile } from "@/app/types";
+import type { Collector } from "@/app/types";
 
 interface CollectorStatsProps {
   profile: CollectorProfile;

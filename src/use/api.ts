@@ -1,6 +1,6 @@
 "use client"
 
-import type { Collection } from "./types"
+import { Collection } from "@/app/types"
 import { useState, useEffect } from "react"
 
 const apiModules: { [key: string]: any } = {}
@@ -63,7 +63,7 @@ type ApiOptions = {
 }
 
 export function useApi<T>(route: string, options: ApiOptions = {}) {
-  const [data, setData] = useState<T | null>(null)
+  const [data, setData] = useState<T[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<Error | null>(null)
 

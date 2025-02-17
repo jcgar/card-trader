@@ -2,11 +2,11 @@
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Trophy, Star } from "lucide-react";
-import type { CollectorProfile } from "@/app/types";
+import type { Collector } from "@/app/types";
 import { motion } from "framer-motion";
 
 interface CollectorAchievementsProps {
-  profile: CollectorProfile;
+  profile: Collector;
 }
 
 export const CollectorAchievements = ({ profile }: CollectorAchievementsProps) => {

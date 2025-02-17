@@ -6,21 +6,11 @@ import { Pagination } from "@/components/ui/pagination";
 import { FeaturedCollections } from "@/components/collections/FeaturedCollections";
 import { CategorySlider } from "@/components/collections/CategorySlider";
 import { TradeMarket } from "@/components/dashboard/TradeMarket";
-import { api } from "@/use/api";
-import { collections } from "@/use/api/collections";
-import { useEffect, useState } from "react";
-import { Collection } from "@/use/types";
+import { useApi } from "@/use/api";
+import { Collection } from "@/app/types";
 
 const PublicCollections = () => {
-  const [collections, setCollections] = useState([])
-
-  useEffect(() => {
-    const fetchCollections = async () => {
-      const data = await api("collections")
-      setCollections(data.slice(0, 4))
-    }
-    fetchCollections()
-  }, [])
+  const { data: collections } = useApi<Collection>('collections', { page: 1, pageSize: 10, fullQuery: false })
 
   const collectionsByCategory = collections.reduce((acc, collection) => {
     if (!acc[collection.category]) {

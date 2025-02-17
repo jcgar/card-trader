@@ -78,8 +78,8 @@ export const NavigationBar = () => {
                     </Link>
                   </NavigationMenuItem>
                   <NavigationMenuItem>
-                    <Button 
-                      variant="ghost" 
+                    <Button
+                      variant="ghost"
                       className="px-4 py-2 text-green-700"
                       onClick={() => navigate(routes.search)}
                     >
@@ -130,11 +130,8 @@ export const NavigationBar = () => {
                       <DropdownMenuItem onClick={() => navigate(routes.dashboard)}>
                         Dashboard
                       </DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => navigate(routes.myCollections)}>
-                        Mis colecciones
-                      </DropdownMenuItem>
                       {isAdmin && (
-                        <DropdownMenuItem onClick={() => navigate(routes.admin.users)} className="text-red-600">
+                        <DropdownMenuItem onClick={() => navigate(routes.admin)} className="text-red-600">
                           Admin Panel
                         </DropdownMenuItem>
                       )}
@@ -158,7 +155,7 @@ export const NavigationBar = () => {
           </div>
         </div>
       </div>
-      
+
       {/* Mobile Menu */}
       {isMobile && isMenuOpen && (
         <div className="absolute top-16 left-0 right-0 bg-white border-b shadow-lg animate-fade-in">
@@ -184,7 +181,7 @@ export const NavigationBar = () => {
                     <Link to={routes.dashboard} className="text-green-700 py-2">Dashboard</Link>
                     <Link to={routes.myCollections} className="text-green-700 py-2">Mis colecciones</Link>
                     {isAdmin && (
-                      <Button variant="destructive" onClick={() => navigate(routes.admin.users)}>Admin Panel</Button>
+                      <Button variant="destructive" onClick={() => navigate(routes.admin)}>Admin Panel</Button>
                     )}
                     <Button variant="outline" onClick={handleLogout}>
                       Cerrar sesión

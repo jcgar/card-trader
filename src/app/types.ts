@@ -1,3 +1,27 @@
+export interface Achievement {
+  id: string;
+  name: string;
+  description: string;
+  icon: string;
+  unlockedAt: string;
+  rarity: 'common' | 'rare' | 'epic' | 'legendary';
+}
+export interface Activity {
+  id: string;
+  type: 'trade' | 'collection' | 'achievement' | 'social';
+  description: string;
+  timestamp: string;
+  metadata?: Record<string, any>;
+}
+
+export interface Badge {
+  id: string;
+  name: string;
+  icon: string;
+  category: string;
+}
+
+
 export interface Collection {
   id: string;
   name: string;
@@ -14,8 +38,9 @@ export interface Collection {
   featured: boolean;
 }
 
-export interface CollectorProfile {
+export interface Collector {
   id: string;
+  icon: any;
   username: string;
   name: string;
   avatar: string;
@@ -33,8 +58,10 @@ export interface CollectorProfile {
     completedCards: number;
     collections: number;
     completedCollections: number;
-    trades: number;
+    exchanges: number;
+    likes?: number;
     successRate: number;
+    achievements: number;
   };
   achievements: Achievement[];
   badges: Badge[];
@@ -48,28 +75,15 @@ export interface CollectorProfile {
   };
 }
 
-export interface Achievement {
+export interface Exchange {
   id: string;
-  name: string;
-  description: string;
-  icon: string;
-  unlockedAt: string;
-  rarity: 'common' | 'rare' | 'epic' | 'legendary';
-}
-
-export interface Badge {
-  id: string;
-  name: string;
-  icon: string;
-  category: string;
-}
-
-export interface Activity {
-  id: string;
-  type: 'trade' | 'collection' | 'achievement' | 'social';
-  description: string;
-  timestamp: string;
-  metadata?: Record<string, any>;
+  user: string;
+  status: string;
+  collection: string;
+  date: string;
+  lastMessage: string;
+  cardsOffered: number;
+  cardsRequested: number;
 }
 
 export interface Testimonial {

@@ -13,13 +13,7 @@ export const routes = {
   collectorPro: '/coleccionistas/:id/pro',
   blog: '/blog',
   help: '/ayuda',
-  admin: {
-    dashboard: '/admin',
-    users: '/admin/usuarios',
-    collections: '/admin/colecciones',
-    stats: '/admin/estadisticas',
-    settings: '/admin/app',
-  },
+  admin: '/admin',
 } as const;
 
 export const generateCollectorPath = (id: string) => {

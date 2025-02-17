@@ -1,7 +1,6 @@
 
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { motion } from "framer-motion";
 import { NavigationBar } from "@/components/NavigationBar";
 import { CollectorHeader } from "@/components/collector/CollectorHeader";
 import { CollectorStats } from "@/components/collector/CollectorStats";
@@ -10,25 +9,19 @@ import { CollectorCollections } from "@/components/collector/CollectorCollection
 import { CollectorActivity } from "@/components/collector/CollectorActivity";
 import { CollectorSocial } from "@/components/collector/CollectorSocial";
 import { CollectorTrades } from "@/components/collector/CollectorTrades";
-import type { CollectorProfile } from "@/app/types";
-import { api } from "@/use/api";
+import type { Collection, Collector } from "@/app/types";
+import { useApi } from "@/use/api";
 import { Button } from "@/components/ui/button";
 import { Crown } from "lucide-react";
 import { generateCollectorProPath } from "@/use/routes";
 
-const CollectorProfile = () => {
+const Collector = () => {
   const { id } = useParams();
-  const [profile, setProfile] = useState<CollectorProfile | null>(null);
+  const [profile, setProfile] = useState<Collector | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const [collections, setCollections] = useState([])
-  useEffect(() => {
-    const fetchCollections = async () => {
-      const data = await api("collections")
-      setCollections(data.slice(0, 4)) // Mostrar solo las 4 primeras colecciones
-    }
-    fetchCollections()
-  }, [])
+  const { data: collections } = useApi<Collection>('collections', { page: 1, pageSize: 10, fullQuery: false })
+
 
   useEffect(() => {
     // Simulated API call
@@ -36,7 +29,7 @@ const CollectorProfile = () => {
       setLoading(true);
       try {
         // Mock data - replace with actual API call
-        const mockProfile: CollectorProfile = {
+        const mockProfile: Collector = {
           id: "1",
           username: "cardmaster",
           name: "Alex Thompson",
@@ -55,8 +48,9 @@ const CollectorProfile = () => {
             completedCards: 325,
             collections: 12,
             completedCollections: 8,
-            trades: 150,
+            exchanges: 150,
             successRate: 98,
+            achievements: 0
           },
           achievements: [],
           badges: [],
@@ -68,6 +62,7 @@ const CollectorProfile = () => {
             completionRate: 85,
             reputation: 4.9,
           },
+          icon: undefined
         };
         setProfile(mockProfile);
       } catch (error) {
@@ -98,8 +93,8 @@ const CollectorProfile = () => {
         <div className="container mx-auto px-4 py-8">
           <div className="text-center mb-8">
             <Link to={generateCollectorProPath(profile.id)}>
-              <Button 
-                variant="outline" 
+              <Button
+                variant="outline"
                 className="bg-yellow-50 border-yellow-200 text-yellow-700 hover:bg-yellow-100 hover:text-yellow-800"
               >
                 <Crown className="w-5 h-5 mr-2 text-yellow-500" />
@@ -128,4 +123,4 @@ const CollectorProfile = () => {
   );
 };
 
-export default CollectorProfile;
+export default Collector;

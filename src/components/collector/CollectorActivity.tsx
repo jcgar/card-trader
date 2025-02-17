@@ -1,7 +1,7 @@
 
 import { Card } from "@/components/ui/card";
 import { Activity } from "lucide-react";
-import type { CollectorProfile } from "@/app/types";
+import type { Collector } from "@/app/types";
 import { formatDistanceToNow } from "date-fns";
 import { es } from "date-fns/locale";
 

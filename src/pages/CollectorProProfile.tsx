@@ -3,13 +3,13 @@ import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { NavigationBar } from "@/components/NavigationBar";
-import type { CollectorProfile } from "@/app/types";
+import type { Collector } from "@/app/types";
 import { Trophy, MessageSquare, Swords, Medal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const CollectorProProfile = () => {
   const { id } = useParams();
-  const [profile, setProfile] = useState<CollectorProfile | null>(null);
+  const [profile, setProfile] = useState<Collector | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -17,7 +17,7 @@ const CollectorProProfile = () => {
       setLoading(true);
       try {
         // Mock data - replace with actual API call
-        const mockProfile: CollectorProfile = {
+        const mockProfile: Collector = {
           id: "1",
           username: "cardmaster",
           name: "Alex Thompson",
@@ -36,8 +36,9 @@ const CollectorProProfile = () => {
             completedCards: 325,
             collections: 12,
             completedCollections: 8,
-            trades: 150,
+            exchanges: 150,
             successRate: 98,
+            achievements: 0
           },
           achievements: [],
           badges: [],
@@ -49,6 +50,7 @@ const CollectorProProfile = () => {
             completionRate: 85,
             reputation: 4.9,
           },
+          icon: undefined
         };
         setProfile(mockProfile);
       } catch (error) {
@@ -68,9 +70,9 @@ const CollectorProProfile = () => {
   return (
     <div className="min-h-screen bg-[#1a0f00] text-white">
       <NavigationBar />
-      
+
       <div className="container mx-auto px-4 pt-24 pb-12">
-        <div 
+        <div
           className="relative rounded-lg overflow-hidden"
           style={{
             backgroundImage: 'url(/lovable-uploads/8c89b96d-9e4c-4dda-b85b-5ee04e255703.png)',
@@ -79,7 +81,7 @@ const CollectorProProfile = () => {
           }}
         >
           <div className="absolute inset-0 bg-black/40" />
-          
+
           <div className="relative z-10 p-8 md:p-12">
             <motion.div
               initial={{ scale: 0.9, opacity: 0 }}
@@ -143,7 +145,7 @@ const CollectorProProfile = () => {
               </div>
               <div className="bg-yellow-900/30 p-6 rounded-lg text-center">
                 <Swords className="w-12 h-12 text-yellow-400 mx-auto mb-4" />
-                <h3 className="text-2xl font-bold mb-2">{profile.stats.trades}</h3>
+                <h3 className="text-2xl font-bold mb-2">{profile.stats.exchanges}</h3>
                 <p className="text-yellow-100">Intercambios Exitosos</p>
               </div>
               <div className="bg-yellow-900/30 p-6 rounded-lg text-center">
@@ -196,7 +198,7 @@ const CollectorProProfile = () => {
             </div>
 
             <div className="mt-12 text-center">
-              <Button 
+              <Button
                 size="lg"
                 className="bg-yellow-600 hover:bg-yellow-700 text-white font-playfair"
               >
