@@ -2,7 +2,7 @@
 import { Card } from "../ui/card";
 import { BookOpen, Search, Star } from "lucide-react";
 import { Button } from "../ui/button";
-import CollectionCard from "./cards/CollectionCard";
+import CollectionCard from "../cards/CollectionCard";
 import { Collection } from "@/app/types";
 
 // const collections = [

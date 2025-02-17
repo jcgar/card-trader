@@ -86,6 +86,14 @@ export interface Exchange {
   cardsRequested: number;
 }
 
+export interface Sticker {
+  id: number;
+  number: number;
+  name: string;
+  type: "regular" | "special";
+  owned: number;
+  repeated: number;
+}
 export interface Testimonial {
   id: string;
   author: {

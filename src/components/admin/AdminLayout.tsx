@@ -14,26 +14,26 @@ export const AdminLayout = ({ children }: AdminLayoutProps) => {
   const location = useLocation();
 
   const navItems = [
-    {
-      href: routes.admin.users,
-      label: "Usuarios",
-      icon: Users,
-    },
-    {
-      href: routes.admin.collections,
-      label: "Colecciones",
-      icon: BookOpen,
-    },
-    {
-      href: routes.admin.stats,
-      label: "Estadísticas",
-      icon: BarChart2,
-    },
-    {
-      href: routes.admin.settings,
-      label: "Ajustes",
-      icon: Settings,
-    },
+    // {
+    //   href: routes.admin.users,
+    //   label: "Usuarios",
+    //   icon: Users,
+    // },
+    // {
+    //   href: routes.admin.collections,
+    //   label: "Colecciones",
+    //   icon: BookOpen,
+    // },
+    // {
+    //   href: routes.admin.stats,
+    //   label: "Estadísticas",
+    //   icon: BarChart2,
+    // },
+    // {
+    //   href: routes.admin.settings,
+    //   label: "Ajustes",
+    //   icon: Settings,
+    // },
   ];
 
   return (

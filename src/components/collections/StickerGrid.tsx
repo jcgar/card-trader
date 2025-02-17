@@ -32,6 +32,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useIsMobile } from "@/hooks/use-mobile";
+import StickerCard from "../cards/StickerCard";
 
 const allTeams = [
   "Real Madrid",
@@ -69,6 +70,8 @@ const generateStickers = () => {
   }
   return allStickers;
 };
+
+
 
 const stickerGroups = generateStickers();
 
@@ -194,66 +197,29 @@ export const StickerGrid = () => {
     return pageStickers;
   };
 
-  const StickerCard = ({ sticker }: { sticker: any }) => {
-    const stickChange = changes[sticker.id];
-    const isOwned = stickChange ? stickChange.owned : sticker.owned;
-    const repeated = stickChange ? stickChange.repeated : sticker.repeated;
+  const StickerMotionCard = ({ sticker }) => {
+    const change = changes[sticker.id]
+    const isOwned = change ? change.owned : sticker.owned;
+    return (<motion.div
+      layout
+      initial={{ opacity: 0, scale: 0.9 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.9 }}
+      className={cn(
+        "relative rounded-lg border-2 transition-all duration-300 cursor-pointer group",
+        isOwned
+          ? "border-green-500 bg-green-50"
+          : "border-red-200 bg-red-50",
+        change && "ring-2 ring-blue-400"
+      )}
+      style={{
+        aspectRatio: layout === "album" ? "2/3" : "1",
+      }}>
+      <StickerCard sticker={sticker} onClick={() => handleStickerClick(sticker)} />
+    </motion.div>)
+  }
 
-    return (
-      <motion.div
-        layout
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        exit={{ opacity: 0, scale: 0.9 }}
-        className={cn(
-          "relative rounded-lg border-2 transition-all duration-300 cursor-pointer group",
-          isOwned
-            ? "border-green-500 bg-green-50"
-            : "border-red-200 bg-red-50",
-          stickChange && "ring-2 ring-blue-400"
-        )}
-        style={{
-          aspectRatio: layout === "album" ? "2/3" : "1",
-        }}
-        onClick={() => handleStickerClick(sticker)}
-      >
-        <div className="absolute inset-0 p-4 flex flex-col items-center justify-between">
-          <div className="text-center w-full">
-            <div className="text-xl md:text-2xl font-bold mb-1">#{sticker.number}</div>
-            <div className="text-xs md:text-sm font-medium">{sticker.name}</div>
-            {repeated > 0 && (
-              <div className="mt-2 text-xs md:text-sm text-blue-600 font-semibold">
-                {repeated} repetidos
-              </div>
-            )}
-          </div>
-
-          <div className={cn(
-            "flex gap-2 mt-2",
-            isMobile ? "opacity-100" : "opacity-0 group-hover:opacity-100 transition-opacity"
-          )}>
-            <Button
-              size="sm"
-              variant="outline"
-              className="bg-green-100 hover:bg-green-200 h-8 w-8 p-0"
-              onClick={(e) => {
-                e.stopPropagation();
-                handleStickerClick(sticker);
-              }}
-            >
-              <Plus className="h-4 w-4" />
-            </Button>
-          </div>
-        </div>
-
-        {sticker.type === "special" && (
-          <div className="absolute top-0 right-0 transform translate-x-1/4 -translate-y-1/4">
-            <Star className="w-4 h-4 text-yellow-500 animate-pulse" />
-          </div>
-        )}
-      </motion.div>
-    );
-  };
+  const stickers = getCurrentPageStickers()
 
   return (
     <div className="space-y-6" {...handlers}>
@@ -336,17 +302,18 @@ export const StickerGrid = () => {
       </div>
 
       <div ref={albumRef} className="relative">
-        <AnimatePresence mode="wait">
+        <p>{layout}</p>
+        <AnimatePresence mode="wait" initial={false}>
           {layout === "album" && (
             <motion.div
               key={`album-${currentPage}`}
-              initial={{ opacity: 0, x: 200 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -200 }}
+              initial={{ x: 300, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              exit={{ x: -300, opacity: 0 }}
               className="grid grid-cols-3 md:grid-cols-4 gap-4 bg-green-50 p-6 rounded-lg shadow-inner"
             >
-              {getCurrentPageStickers().map((sticker) => (
-                <StickerCard key={sticker.id} sticker={sticker} />
+              {stickers.map((sticker) => (
+                <StickerMotionCard key={sticker.id} sticker={sticker} />
               ))}
             </motion.div>
           )}
@@ -354,26 +321,34 @@ export const StickerGrid = () => {
           {layout === "grid" && (
             <motion.div
               key={`grid-${currentPage}`}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
+              initial={{ x: 300, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              exit={{ x: -300, opacity: 0 }}
               className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-4"
             >
-              {getCurrentPageStickers().map((sticker) => (
-                <StickerCard key={sticker.id} sticker={sticker} />
+              {stickers.map((sticker) => (
+                <StickerMotionCard key={sticker.id} sticker={sticker} />
               ))}
             </motion.div>
           )}
 
           {layout === "scroll" && (
-            <ScrollArea className="relative w-full h-[500px] rounded-lg border">
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 p-4">
-                {getCurrentPageStickers().map((sticker) => (
-                  <StickerCard key={sticker.id} sticker={sticker} />
-                ))}
-              </div>
-              <ScrollBar orientation="vertical" />
-            </ScrollArea>
+            <motion.div
+              key={`grid-${currentPage}`}
+              initial={{ x: 300, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              exit={{ x: -300, opacity: 0 }}
+              className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-4"
+            >
+              <ScrollArea className="relative w-full h-[500px] rounded-lg border">
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 p-4">
+                  {stickers.map((sticker) => (
+                    <StickerMotionCard key={sticker.id} sticker={sticker} />
+                  ))}
+                </div>
+                <ScrollBar orientation="vertical" />
+              </ScrollArea>
+            </motion.div>
           )}
         </AnimatePresence>
 
