@@ -4,12 +4,12 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { TooltipProvider } from "@/components/ui/tooltip"
 import { Toaster } from "@/components/ui/toaster"
-import { Sonner } from 'sonner';
+import { Toaster as Sonner } from '@/components/ui/sonner';
 
 import Index from './pages/Index';
 import Community from './pages/Community';
 import Dashboard from './pages/Dashboard';
-import MyCollections from './pages/MyCollections';
+import DashboardCollections from './pages/DashboardCollections';
 import CollectionDetail from './pages/CollectionDetail';
 import CollectionDetail2 from './pages/CollectionDetail2';
 import NewCollection from './pages/NewCollection';
@@ -35,7 +35,7 @@ const App = () => (
           <Route path={routes.home} element={<Index />} />
           <Route path={routes.community} element={<Community />} />
           <Route path={routes.dashboard} element={<Dashboard />} />
-          <Route path={routes.myCollections} element={<MyCollections />} />
+          <Route path={routes.myCollections} element={<DashboardCollections />} />
           <Route path="/dashboard/colecciones/:id" element={<CollectionDetail />} />
           <Route path="/dashboard/colecciones2/:id" element={<CollectionDetail2 />} />
           <Route path={routes.newCollection} element={<NewCollection />} />

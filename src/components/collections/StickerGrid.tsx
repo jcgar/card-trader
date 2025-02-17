@@ -49,7 +49,7 @@ const allTeams = [
 ];
 
 const generateStickers = () => {
-  let allStickers = [];
+  const allStickers = [];
   let currentNumber = 1;
 
   for (const team of allTeams) {
@@ -223,7 +223,7 @@ export const StickerGrid = () => {
               </div>
             )}
           </div>
-          
+
           <div className={cn(
             "flex gap-2 mt-2",
             isMobile ? "opacity-100" : "opacity-0 group-hover:opacity-100 transition-opacity"
@@ -241,7 +241,7 @@ export const StickerGrid = () => {
             </Button>
           </div>
         </div>
-        
+
         {sticker.type === "special" && (
           <div className="absolute top-0 right-0 transform translate-x-1/4 -translate-y-1/4">
             <Star className="w-4 h-4 text-yellow-500 animate-pulse" />
