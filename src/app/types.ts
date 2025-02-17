@@ -1,107 +1,56 @@
-export interface Achievement {
-  id: string;
-  name: string;
-  description: string;
-  icon: string;
-  unlockedAt: string;
-  rarity: 'common' | 'rare' | 'epic' | 'legendary';
-}
-export interface Activity {
-  id: string;
-  type: 'trade' | 'collection' | 'achievement' | 'social';
-  description: string;
-  timestamp: string;
-  metadata?: Record<string, any>;
-}
-
-export interface Badge {
-  id: string;
-  name: string;
-  icon: string;
-  category: string;
-}
-
-
-export interface Collection {
-  id: string;
-  name: string;
-  image: string;
-  year: number;
-  publisher: string;
-  totalCards: number;
-  activeUsers: number;
-  category: string;
-  popularity: number;
-  recentActivity: string[];
-  lastUpdated: number;
-  likes: number;
-  featured: boolean;
-}
-
-export interface Collector {
-  id: string;
-  icon: any;
-  username: string;
-  name: string;
-  avatar: string;
-  coverImage: string;
-  title: string;
-  level: number;
-  motto: string;
-  rank: {
-    global: number;
-    category: string;
-    categoryRank: number;
-  };
-  stats: {
-    totalCards: number;
-    completedCards: number;
-    collections: number;
-    completedCollections: number;
-    exchanges: number;
-    likes?: number;
-    successRate: number;
-    achievements: number;
-  };
-  achievements: Achievement[];
-  badges: Badge[];
-  recentActivity: Activity[];
-  testimonials: Testimonial[];
-  socialStats: {
-    followers: number;
-    following: number;
-    completionRate: number;
-    reputation: number;
-  };
-}
-
-export interface Exchange {
-  id: string;
-  user: string;
-  status: string;
-  collection: string;
-  date: string;
-  lastMessage: string;
-  cardsOffered: number;
-  cardsRequested: number;
-}
 
 export interface Sticker {
   id: number;
   number: number;
   name: string;
-  type: "regular" | "special";
-  owned: number;
+  type: 'normal' | 'special';
+  owned: boolean;
   repeated: number;
 }
-export interface Testimonial {
+
+export interface Collector {
   id: string;
-  author: {
+  name: string;
+  avatar: string;
+  level: number;
+  reputation: number;
+  trades: number;
+  successRate: number;
+  joinedDate: string;
+  verified: boolean;
+}
+
+export interface CollectorProfile extends Collector {
+  stats: {
+    trades: number;
+    successRate: number;
+    collections: number;
+    achievements: number;
+  };
+  badges: {
     id: string;
     name: string;
-    avatar: string;
-  };
+    icon: string;
+  }[];
+}
+
+export interface Trade {
+  id: string;
+  status: 'pending' | 'accepted' | 'completed' | 'rejected';
+  createdAt: string;
+  urgentUntil?: string;
+  sender: Collector;
+  receiver: Collector;
+  senderStickers: Sticker[];
+  receiverStickers: Sticker[];
+  messages: TradeMessage[];
+  lastActivity: string;
+}
+
+export interface TradeMessage {
+  id: string;
+  senderId: string;
   content: string;
-  rating: number;
-  date: string;
+  type: 'text' | 'sticker-added' | 'sticker-removed' | 'status-change';
+  timestamp: string;
 }
