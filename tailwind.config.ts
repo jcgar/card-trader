@@ -54,15 +54,6 @@ export default {
           foreground: "hsl(var(--card-foreground))",
         },
       },
-      borderRadius: {
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
-      },
-      fontFamily: {
-        playfair: ["Playfair Display", "serif"],
-        sans: ["Inter", "sans-serif"],
-      },
       keyframes: {
         "accordion-down": {
           from: { height: "0" },
@@ -90,12 +81,24 @@ export default {
             opacity: "1",
           },
         },
+        "shine": {
+          "0%": {
+            boxShadow: "0 0 5px rgba(0,255,0,0.2)",
+          },
+          "50%": {
+            boxShadow: "0 0 20px rgba(0,255,0,0.6)",
+          },
+          "100%": {
+            boxShadow: "0 0 5px rgba(0,255,0,0.2)",
+          },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         "fade-up": "fade-up 0.5s ease-out",
         "fade-in": "fade-in 0.3s ease-out",
+        "shine": "shine 1s ease-in-out",
       },
     },
   },

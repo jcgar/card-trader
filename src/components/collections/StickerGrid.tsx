@@ -1,25 +1,38 @@
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { useState, useEffect } from "react";
-import { Grid, Columns, LayoutGrid, Plus, Minus, BookOpen, ArrowLeft, ArrowRight, Save, AlertTriangle } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { useState, useEffect, useRef } from "react";
+import { toast } from "sonner";
+import { useSwipeable } from "react-swipeable";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  Grid,
+  Columns,
+  BookOpen,
+  Plus,
+  Minus,
+  ArrowLeft,
+  ArrowRight,
+  Camera,
+  Upload,
+  Save,
+  Search,
+  Star,
+  Filter,
+  RefreshCw,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { toast } from "@/components/ui/use-toast";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
-import {
-  Alert,
-  AlertDescription,
-} from "@/components/ui/alert";
 
-// Simulated data for all teams
 const allTeams = [
   "Real Madrid",
   "Barcelona",
@@ -35,7 +48,6 @@ const allTeams = [
   "Celta de Vigo",
 ];
 
-// Generate stickers for all teams
 const generateStickers = () => {
   let allStickers = [];
   let currentNumber = 1;
@@ -64,12 +76,33 @@ type LayoutType = "scroll" | "grid" | "album";
 
 export const StickerGrid = () => {
   const isMobile = useIsMobile();
-  const [layout, setLayout] = useState<LayoutType>(isMobile ? "grid" : "scroll");
+  const [layout, setLayout] = useState<LayoutType>(isMobile ? "grid" : "album");
   const [currentPage, setCurrentPage] = useState(1);
   const [filter, setFilter] = useState("all");
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
   const [changes, setChanges] = useState<Record<number, { owned: boolean, repeated: number }>>({});
-  const itemsPerPage = layout === "album" ? 12 : isMobile ? 12 : 24;
+  const [selectedSticker, setSelectedSticker] = useState<any>(null);
+  const [isEditing, setIsEditing] = useState(false);
+  const albumRef = useRef<HTMLDivElement>(null);
+
+  const handlers = useSwipeable({
+    onSwipedLeft: (eventData) => {
+      if (isMobile) {
+        setCurrentPage(p => Math.min(totalPages, p + 1));
+        if ("vibrate" in navigator) {
+          navigator.vibrate(50);
+        }
+      }
+    },
+    onSwipedRight: (eventData) => {
+      if (isMobile) {
+        setCurrentPage(p => Math.max(1, p - 1));
+        if ("vibrate" in navigator) {
+          navigator.vibrate(50);
+        }
+      }
+    },
+  });
 
   useEffect(() => {
     const handleBeforeUnload = (e: BeforeUnloadEvent) => {
@@ -83,7 +116,12 @@ export const StickerGrid = () => {
     return () => window.removeEventListener('beforeunload', handleBeforeUnload);
   }, [hasUnsavedChanges]);
 
-  const handleStickerClick = (stickerId: number, action: "add" | "remove") => {
+  const handleStickerClick = (sticker: any) => {
+    setSelectedSticker(sticker);
+    setIsEditing(true);
+  };
+
+  const handleQuickAction = (stickerId: number, action: "add" | "remove") => {
     setHasUnsavedChanges(true);
     setChanges(prev => {
       const current = prev[stickerId] || { owned: true, repeated: 0 };
@@ -96,76 +134,91 @@ export const StickerGrid = () => {
       };
     });
 
+    const audio = new Audio('/assets/click.mp3');
+    audio.play();
+
     toast({
       title: action === "add" ? "Cromo añadido" : "Cromo eliminado",
       description: `Se ha ${action === "add" ? "añadido" : "eliminado"} el cromo #${stickerId}`,
-      duration: 2000,
     });
+
+    const pageStickers = getCurrentPageStickers();
+    const isPageComplete = pageStickers.every(s => s.owned || changes[s.id]?.owned);
+    if (isPageComplete) {
+      toast({
+        title: "¡Página completada!",
+        description: "Has completado todos los cromos de esta página",
+      });
+      if (albumRef.current) {
+        albumRef.current.classList.add('animate-shine');
+        setTimeout(() => {
+          if (albumRef.current) {
+            albumRef.current.classList.remove('animate-shine');
+          }
+        }, 1000);
+      }
+    }
   };
 
   const handleSaveChanges = () => {
-    // Aquí iría la lógica para guardar los cambios
     toast({
       title: "Cambios guardados",
       description: "Todos los cambios han sido guardados correctamente",
-      duration: 3000,
     });
     setHasUnsavedChanges(false);
   };
 
-  const filteredStickers = stickerGroups.flatMap(group => 
-    group.stickers.filter(sticker => {
-      const stickChange = changes[sticker.id];
-      const isOwned = stickChange ? stickChange.owned : sticker.owned;
-      const repeated = stickChange ? stickChange.repeated : sticker.repeated;
+  const handleBulkEdit = (stickers: number[]) => {
+    setHasUnsavedChanges(true);
+    const newChanges = { ...changes };
+    stickers.forEach(id => {
+      newChanges[id] = { owned: true, repeated: 0 };
+    });
+    setChanges(newChanges);
 
-      if (filter === "missing") return !isOwned;
-      if (filter === "repeated") return repeated > 0;
-      return true;
-    })
-  );
-
-  const totalPages = Math.ceil(filteredStickers.length / itemsPerPage);
-  const currentStickers = filteredStickers.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
-
-  const getSuggestions = () => {
-    const missing = filteredStickers.filter(s => !s.owned).length;
-    const availableTrades = Math.floor(Math.random() * 10); // Simulado
-    
-    return [
-      missing <= 5 && missing > 0 ? `¡Estás cerca! Solo te faltan ${missing} cromos para completar la colección` : null,
-      availableTrades > 0 ? `${availableTrades} usuarios tienen cromos que necesitas` : null,
-      hasUnsavedChanges ? "No olvides guardar tus cambios" : null,
-    ].filter(Boolean);
+    toast({
+      title: "Cromos añadidos en masa",
+      description: `Se han añadido ${stickers.length} cromos a tu colección`,
+    });
   };
 
-  const StickerCard = ({ sticker }: { sticker: typeof currentStickers[0] }) => {
+  const itemsPerPage = layout === "album" ? 12 : 24;
+  const totalPages = Math.ceil(stickerGroups.length * 24 / itemsPerPage);
+
+  const getCurrentPageStickers = () => {
+    const allStickers = stickerGroups.flatMap(g => g.stickers);
+    return allStickers.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+  };
+
+  const StickerCard = ({ sticker }: { sticker: any }) => {
     const stickChange = changes[sticker.id];
     const isOwned = stickChange ? stickChange.owned : sticker.owned;
     const repeated = stickChange ? stickChange.repeated : sticker.repeated;
 
     return (
-      <div
+      <motion.div
+        layout
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.9 }}
         className={cn(
-          "relative rounded-lg border-2 transition-all duration-300",
+          "relative rounded-lg border-2 transition-all duration-300 cursor-pointer group",
           isOwned
-            ? "border-green-500 bg-green-50 hover:shadow-lg hover:scale-[1.02]"
-            : "border-red-200 bg-red-50 hover:shadow-lg hover:scale-[1.02]",
+            ? "border-green-500 bg-green-50"
+            : "border-red-200 bg-red-50",
           stickChange && "ring-2 ring-blue-400"
         )}
         style={{
           aspectRatio: layout === "album" ? "2/3" : "1",
         }}
+        onClick={() => handleStickerClick(sticker)}
       >
         <div className="absolute inset-0 p-4 flex flex-col items-center justify-between">
           <div className="text-center w-full">
             <div className="text-xl md:text-2xl font-bold mb-1">#{sticker.number}</div>
             <div className="text-xs md:text-sm font-medium">{sticker.name}</div>
             {repeated > 0 && (
-              <div className="mt-2 text-xs md:text-sm text-blue-600 font-semibold animate-pulse">
+              <div className="mt-2 text-xs md:text-sm text-blue-600 font-semibold">
                 {repeated} repetidos
               </div>
             )}
@@ -179,263 +232,168 @@ export const StickerGrid = () => {
               size="sm"
               variant="outline"
               className="bg-green-100 hover:bg-green-200 h-8 w-8 p-0"
-              onClick={() => handleStickerClick(sticker.id, "add")}
+              onClick={(e) => {
+                e.stopPropagation();
+                handleStickerClick(sticker);
+              }}
             >
               <Plus className="h-4 w-4" />
-            </Button>
-            <Button
-              size="sm"
-              variant="outline"
-              className="bg-red-100 hover:bg-red-200 h-8 w-8 p-0"
-              onClick={() => handleStickerClick(sticker.id, "remove")}
-            >
-              <Minus className="h-4 w-4" />
             </Button>
           </div>
         </div>
         
         {sticker.type === "special" && (
           <div className="absolute top-0 right-0 transform translate-x-1/4 -translate-y-1/4">
-            <span className="animate-spin-slow inline-block">✨</span>
+            <Star className="w-4 h-4 text-yellow-500 animate-pulse" />
           </div>
         )}
-      </div>
+      </motion.div>
     );
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6" {...handlers}>
       <div className="flex flex-wrap justify-between items-center gap-4">
         <div className="flex gap-2">
           <Button
             variant={layout === "scroll" ? "default" : "outline"}
             onClick={() => setLayout("scroll")}
-            className="group"
           >
-            <Columns className="h-4 w-4 group-hover:animate-pulse" />
+            <Columns className="h-4 w-4" />
           </Button>
           <Button
             variant={layout === "grid" ? "default" : "outline"}
             onClick={() => setLayout("grid")}
-            className="group"
           >
-            <Grid className="h-4 w-4 group-hover:animate-pulse" />
+            <Grid className="h-4 w-4" />
           </Button>
           <Button
             variant={layout === "album" ? "default" : "outline"}
             onClick={() => setLayout("album")}
-            className="group"
           >
-            <BookOpen className="h-4 w-4 group-hover:animate-pulse" />
+            <BookOpen className="h-4 w-4" />
           </Button>
         </div>
-        
+
+        <Dialog open={isEditing} onOpenChange={setIsEditing}>
+          <DialogContent className="sm:max-w-md">
+            <DialogHeader>
+              <DialogTitle>Editar Cromo #{selectedSticker?.number}</DialogTitle>
+              <DialogDescription>
+                Actualiza el estado y la cantidad de este cromo
+              </DialogDescription>
+            </DialogHeader>
+            <div className="space-y-4">
+              <div className="flex items-center gap-4">
+                <Button
+                  variant="outline"
+                  onClick={() => handleQuickAction(selectedSticker?.id, "remove")}
+                >
+                  <Minus className="h-4 w-4" />
+                </Button>
+                <span className="font-bold">
+                  {changes[selectedSticker?.id]?.repeated || 0}
+                </span>
+                <Button
+                  variant="outline"
+                  onClick={() => handleQuickAction(selectedSticker?.id, "add")}
+                >
+                  <Plus className="h-4 w-4" />
+                </Button>
+              </div>
+              {isMobile && (
+                <Button className="w-full" onClick={() => setIsEditing(false)}>
+                  <Camera className="h-4 w-4 mr-2" />
+                  Escanear con cámara
+                </Button>
+              )}
+            </div>
+          </DialogContent>
+        </Dialog>
+
         <div className="flex gap-2">
-          <Button
-            variant="outline"
-            className={filter === "all" ? "bg-green-50" : ""}
-            onClick={() => setFilter("all")}
-          >
+          <Button variant="outline" onClick={() => setFilter("all")}>
             Todas
           </Button>
-          <Button
-            variant="outline"
-            className={filter === "missing" ? "bg-red-50" : ""}
-            onClick={() => setFilter("missing")}
-          >
+          <Button variant="outline" onClick={() => setFilter("missing")}>
             Faltan
           </Button>
-          <Button
-            variant="outline"
-            className={filter === "repeated" ? "bg-blue-50" : ""}
-            onClick={() => setFilter("repeated")}
-          >
+          <Button variant="outline" onClick={() => setFilter("repeated")}>
             Repetidas
           </Button>
         </div>
 
         {hasUnsavedChanges && (
-          <Button 
-            onClick={handleSaveChanges}
-            className="bg-green-600 hover:bg-green-700"
-          >
+          <Button onClick={handleSaveChanges} className="bg-green-600 hover:bg-green-700">
             <Save className="w-4 h-4 mr-2" />
             Guardar cambios
           </Button>
         )}
       </div>
 
-      <div className="space-y-4">
-        {getSuggestions().map((suggestion, index) => (
-          <Alert key={index} className="bg-blue-50 text-blue-800 animate-fade-in">
-            <AlertDescription className="flex items-center gap-2">
-              {suggestion}
-            </AlertDescription>
-          </Alert>
-        ))}
-      </div>
+      <div ref={albumRef} className="relative">
+        <AnimatePresence mode="wait">
+          {layout === "album" && (
+            <motion.div
+              key={currentPage}
+              initial={{ opacity: 0, x: 200 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -200 }}
+              className="grid grid-cols-3 gap-4 bg-green-50 p-6 rounded-lg shadow-inner"
+            >
+              {getCurrentPageStickers().map((sticker) => (
+                <StickerCard key={sticker.id} sticker={sticker} />
+              ))}
+            </motion.div>
+          )}
 
-      {layout === "scroll" && (
-        <div className="space-y-8">
-          {stickerGroups.map((group, index) => (
-            <Card key={index} className="p-6 animate-fade-in relative group">
-              <h3 className="text-xl font-bold mb-4 text-green-800">{group.title}</h3>
-              <div className="relative">
-                <Button
-                  variant="outline"
-                  size="icon"
-                  className="absolute left-0 top-1/2 -translate-y-1/2 z-10 opacity-0 group-hover:opacity-100 transition-opacity"
-                  onClick={() => {
-                    const scrollArea = document.getElementById(`scroll-${index}`);
-                    if (scrollArea) scrollArea.scrollLeft -= 200;
-                  }}
-                >
-                  <ArrowLeft className="h-4 w-4" />
-                </Button>
-                <Button
-                  variant="outline"
-                  size="icon"
-                  className="absolute right-0 top-1/2 -translate-y-1/2 z-10 opacity-0 group-hover:opacity-100 transition-opacity"
-                  onClick={() => {
-                    const scrollArea = document.getElementById(`scroll-${index}`);
-                    if (scrollArea) scrollArea.scrollLeft += 200;
-                  }}
-                >
-                  <ArrowRight className="h-4 w-4" />
-                </Button>
-                <ScrollArea className="w-full whitespace-nowrap px-10" id={`scroll-${index}`}>
-                  <div className="flex space-x-4">
-                    {group.stickers.map((sticker) => (
-                      <div key={sticker.id} className="w-[130px] md:w-[150px] group">
-                        <StickerCard sticker={sticker} />
-                      </div>
-                    ))}
+          {layout === "grid" && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-4"
+            >
+              {getCurrentPageStickers().map((sticker) => (
+                <StickerCard key={sticker.id} sticker={sticker} />
+              ))}
+            </motion.div>
+          )}
+
+          {layout === "scroll" && (
+            <ScrollArea className="w-full whitespace-nowrap">
+              <div className="flex space-x-4">
+                {getCurrentPageStickers().map((sticker) => (
+                  <div key={sticker.id} className="w-[150px] flex-shrink-0">
+                    <StickerCard sticker={sticker} />
                   </div>
-                  <ScrollBar orientation="horizontal" />
-                </ScrollArea>
+                ))}
               </div>
-            </Card>
-          ))}
-        </div>
-      )}
+              <ScrollBar orientation="horizontal" />
+            </ScrollArea>
+          )}
+        </AnimatePresence>
 
-      {layout === "grid" && (
-        <div className="animate-fade-in">
-          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2 md:gap-4">
-            {currentStickers.map((sticker) => (
-              <div key={sticker.id} className="group">
-                <StickerCard sticker={sticker} />
-              </div>
-            ))}
-          </div>
-          <div className="mt-6 flex justify-center">
-            <Pagination>
-              <PaginationContent className="flex flex-wrap justify-center gap-2">
-                <PaginationItem>
-                  <PaginationPrevious 
-                    onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
-                    className={currentPage === 1 ? "pointer-events-none opacity-50" : ""}
-                  />
-                </PaginationItem>
-                {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-                  let pageNumber = i + 1;
-                  if (currentPage > 3 && totalPages > 5) {
-                    pageNumber = currentPage - 2 + i;
-                    if (pageNumber > totalPages) pageNumber = totalPages - (4 - i);
-                  }
-                  return (
-                    <PaginationItem key={pageNumber}>
-                      <PaginationLink
-                        onClick={() => setCurrentPage(pageNumber)}
-                        isActive={currentPage === pageNumber}
-                      >
-                        {pageNumber}
-                      </PaginationLink>
-                    </PaginationItem>
-                  );
-                })}
-                {totalPages > 5 && currentPage < totalPages - 2 && (
-                  <>
-                    <PaginationItem>
-                      <span className="px-2">...</span>
-                    </PaginationItem>
-                    <PaginationItem>
-                      <PaginationLink onClick={() => setCurrentPage(totalPages)}>
-                        {totalPages}
-                      </PaginationLink>
-                    </PaginationItem>
-                  </>
-                )}
-                <PaginationItem>
-                  <PaginationNext
-                    onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
-                    className={currentPage === totalPages ? "pointer-events-none opacity-50" : ""}
-                  />
-                </PaginationItem>
-              </PaginationContent>
-            </Pagination>
-          </div>
+        <div className="mt-6 flex justify-center gap-4">
+          <Button
+            variant="outline"
+            onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+            disabled={currentPage === 1}
+          >
+            <ArrowLeft className="h-4 w-4" />
+          </Button>
+          <span className="py-2">
+            Página {currentPage} de {totalPages}
+          </span>
+          <Button
+            variant="outline"
+            onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+            disabled={currentPage === totalPages}
+          >
+            <ArrowRight className="h-4 w-4" />
+          </Button>
         </div>
-      )}
-
-      {layout === "album" && (
-        <div className="animate-fade-in">
-          <div className="grid grid-cols-3 gap-4 aspect-[3/4] bg-green-50 p-6 rounded-lg shadow-inner">
-            {currentStickers.map((sticker) => (
-              <div key={sticker.id} className="group">
-                <StickerCard sticker={sticker} />
-              </div>
-            ))}
-          </div>
-          <div className="mt-6 flex justify-center">
-            <Pagination>
-              <PaginationContent className="flex flex-wrap justify-center gap-2">
-                <PaginationItem>
-                  <PaginationPrevious 
-                    onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
-                    className={currentPage === 1 ? "pointer-events-none opacity-50" : ""}
-                  />
-                </PaginationItem>
-                {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-                  let pageNumber = i + 1;
-                  if (currentPage > 3 && totalPages > 5) {
-                    pageNumber = currentPage - 2 + i;
-                    if (pageNumber > totalPages) pageNumber = totalPages - (4 - i);
-                  }
-                  return (
-                    <PaginationItem key={pageNumber}>
-                      <PaginationLink
-                        onClick={() => setCurrentPage(pageNumber)}
-                        isActive={currentPage === pageNumber}
-                      >
-                        {pageNumber}
-                      </PaginationLink>
-                    </PaginationItem>
-                  );
-                })}
-                {totalPages > 5 && currentPage < totalPages - 2 && (
-                  <>
-                    <PaginationItem>
-                      <span className="px-2">...</span>
-                    </PaginationItem>
-                    <PaginationItem>
-                      <PaginationLink onClick={() => setCurrentPage(totalPages)}>
-                        {totalPages}
-                      </PaginationLink>
-                    </PaginationItem>
-                  </>
-                )}
-                <PaginationItem>
-                  <PaginationNext
-                    onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
-                    className={currentPage === totalPages ? "pointer-events-none opacity-50" : ""}
-                  />
-                </PaginationItem>
-              </PaginationContent>
-            </Pagination>
-          </div>
-        </div>
-      )}
+      </div>
     </div>
   );
 };

@@ -1,9 +1,10 @@
+
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { QueryClient, QueryClientProvider } from 'react-query';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { TooltipProvider } from "@/components/ui/tooltip"
 import { Toaster } from "@/components/ui/toaster"
-import { Sonner } from './components/ui/sonner';
+import { Sonner } from 'sonner';
 
 import Index from './pages/Index';
 import Community from './pages/Community';
@@ -18,13 +19,9 @@ import CollectorProfile from './pages/CollectorProfile';
 import CollectorProProfile from './pages/CollectorProProfile';
 import Blog from './pages/Blog';
 import Help from './pages/Help';
-import AdminUsers from './pages/Admin/Users';
-import AdminCollections from './pages/Admin/Collections';
-import AdminStats from './pages/Admin/Stats';
-import AdminSettings from './pages/Admin/Settings';
+import CollectionPublicView from "./pages/CollectionPublicView";
 import NotFound from './pages/NotFound';
 import { routes } from './use/routes';
-import CollectionPublicView from "./pages/CollectionPublicView";
 
 const queryClient = new QueryClient();
 
@@ -49,13 +46,6 @@ const App = () => (
           <Route path={routes.collectorPro} element={<CollectorProProfile />} />
           <Route path={routes.blog} element={<Blog />} />
           <Route path={routes.help} element={<Help />} />
-          
-          {/* Admin routes */}
-          <Route path={routes.admin.users} element={<AdminUsers />} />
-          <Route path={routes.admin.collections} element={<AdminCollections />} />
-          <Route path={routes.admin.stats} element={<AdminStats />} />
-          <Route path={routes.admin.settings} element={<AdminSettings />} />
-          
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
