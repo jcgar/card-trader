@@ -4,6 +4,8 @@ import { BookOpen, Search, Star } from "lucide-react";
 import { Button } from "../ui/button";
 import CollectionCard from "../cards/CollectionCard";
 import { Collection } from "@/app/types";
+import { generatePath, Link, useSearchParams } from "react-router-dom";
+import { routes } from "@/use/routes";
 
 // const collections = [
 //   {
@@ -30,6 +32,8 @@ import { Collection } from "@/app/types";
 // ];
 
 export const MyCollections = ({ collections }: { collections: Collection[] }) => {
+  const [searchParams, setSearchParams] = useSearchParams();
+
   return (
     <section className="py-20 bg-green-50">
       <div className="container mx-auto px-4">
@@ -44,7 +48,11 @@ export const MyCollections = ({ collections }: { collections: Collection[] }) =>
         </div>
         <div className="grid md:grid-cols-3 gap-8">
           {collections.map((collection) => (
-            <CollectionCard key={collection.name} collection={collection} />
+            <Link key={collection.id} to={generatePath(routes.myCollectionDetail, { collectionId: collection.id })}
+              onClick={() => setSearchParams({ tab: "collections", collectionId: collection.id })}
+            >
+              <CollectionCard key={collection.name} collection={collection} />
+            </Link>
           ))}
         </div>
       </div>

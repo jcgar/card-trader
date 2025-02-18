@@ -7,7 +7,11 @@ export const routes = {
   dashboard: '/dashboard',
   newCollection: '/dashboard/colecciones/nueva',
   myCollections: '/dashboard/colecciones',
-  myCollectionDetail: '/dashboard/colecciones/:id',
+  myCollectionDetail: '/dashboard/colecciones/:collectionId',
+  myExchanges: '/dashboard/cambios',
+  myExchangesDetail: '/dashboard/cambios/:exchangeId',
+  myProfile: '/dashboard/perfil',
+
   community: '/comunidad',
   collector: '/coleccionistas/:id',
   collectorPro: '/coleccionistas/:id/pro',

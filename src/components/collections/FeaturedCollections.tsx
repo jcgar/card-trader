@@ -2,21 +2,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
 import { t } from "@/use/i18n"
-import { useState, useEffect } from "react"
-import { api } from "@/use/api"
 
 
-export const FeaturedCollections = () => {
-
-  const [collections, setCollections] = useState([])
-
-  useEffect(() => {
-    const fetchCollections = async () => {
-      const data = await api("collections")
-      setCollections(data.slice(0, 4)) // Mostrar solo las 4 primeras colecciones
-    }
-    fetchCollections()
-  }, [])
+export const FeaturedCollections = ({ collections }) => {
 
   return (
     <Card className="mb-8">

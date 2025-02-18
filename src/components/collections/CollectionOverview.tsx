@@ -33,7 +33,7 @@ export const CollectionOverview = () => {
       </div>
 
       <p className="text-gray-600 mb-4">
-        Colección oficial de cromos de LaLiga Santander temporada 2023/24. 
+        Colección oficial de cromos de LaLiga Santander temporada 2023/24.
         Incluye todos los equipos de primera división con jugadores, escudos,
         estadios y cromos especiales.
       </p>

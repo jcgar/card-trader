@@ -32,9 +32,15 @@ const App = () => (
         <Routes>
           <Route path={routes.home} element={<Index />} />
           <Route path={routes.community} element={<Community />} />
+
           <Route path={routes.dashboard} element={<Dashboard />} />
-          <Route path={routes.myCollectionDetail} element={<CollectionDetail />} />
-          <Route path={routes.newCollection} element={<NewCollection />} />
+          <Route path={routes.myCollectionDetail} element={<Dashboard />} />
+          <Route path={routes.myExchangesDetail} element={<Dashboard />} />
+          <Route path={routes.newCollection} element={<Dashboard />} />
+          <Route path={routes.myExchanges} element={<Dashboard />} />
+          <Route path={routes.myCollections} element={<Dashboard />} />
+          <Route path={routes.myProfile} element={<Dashboard />} />
+
           <Route path={routes.collections} element={<PublicCollections />} />
           <Route path={routes.collection} element={<CollectionPublicView />} />
           <Route path={routes.search} element={<Search />} />

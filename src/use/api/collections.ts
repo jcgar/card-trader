@@ -1,4 +1,5 @@
 import { Collection } from "@/app/types";
+import { activities } from "./activities";
 
 const categories = ["videogames", "sports", "movies", "anime", "music", "art"]
 
@@ -15,18 +16,18 @@ const publishers = [
   "Universal Music",
 ]
 
-const generateRandomActivity = () => {
-  const activities = [
-    "New card added",
-    "Rare card found",
-    "Trade completed",
-    "Community event planned",
-    "Limited edition released",
-    "Auction started",
-    "Collection milestone reached",
-  ]
-  return activities[Math.floor(Math.random() * activities.length)]
-}
+// const generateRandomActivity = () => {
+//   const activities = [
+//     "New card added",
+//     "Rare card found",
+//     "Trade completed",
+//     "Community event planned",
+//     "Limited edition released",
+//     "Auction started",
+//     "Collection milestone reached",
+//   ]
+//   return activities[Math.floor(Math.random() * activities.length)]
+// }
 
 export const collections: Collection[] = Array.from({ length: 100 }, (_, i) => ({
   id: (i + 1).toString(),
@@ -34,12 +35,14 @@ export const collections: Collection[] = Array.from({ length: 100 }, (_, i) => (
   // image: `https://source.unsplash.com/random/800x600?${categories[Math.floor(Math.random() * categories.length)]}`,
   image: `https://picsum.photos/800/600?random=${Math.floor(Math.random() * categories.length)}`,
   year: 2020 + Math.floor(Math.random() * 4),
+  description: 'LOrem ipsum',
+  completionRate: 18.5,
   publisher: publishers[Math.floor(Math.random() * publishers.length)],
   totalCards: 100 + Math.floor(Math.random() * 200),
   activeUsers: 500 + Math.floor(Math.random() * 1500),
   category: categories[Math.floor(Math.random() * categories.length)],
   popularity: 70 + Math.floor(Math.random() * 30),
-  recentActivity: Array.from({ length: 3 }, generateRandomActivity),
+  recentActivity: activities.map(a => a.content).slice(0, 2),
   lastUpdated: Math.floor(Math.random() * 7) + 1,
   likes: Math.floor(Math.random() * 2000),
   featured: Math.random() < 0.2,
@@ -63,9 +66,9 @@ export const collections2: Collection[] = [
       "Rare Pikachu card found",
       "New booster pack released",
     ],
-    lastUpdated: 2,
     likes: 1234,
-    featured: true,
+    description: "",
+    completionRate: 0
   },
   {
     id: "2",
@@ -82,9 +85,9 @@ export const collections2: Collection[] = [
       "Trade completed for Messi",
       "New stadium cards released",
     ],
-    lastUpdated: 5,
     likes: 987,
-    featured: false,
+    description: "",
+    completionRate: 0
   },
   {
     id: "3",
@@ -101,9 +104,9 @@ export const collections2: Collection[] = [
       "Iron Man rare card auctioned",
       "New Spider-Man collection released",
     ],
-    lastUpdated: 1,
     likes: 756,
-    featured: true,
+    description: "",
+    completionRate: 0
   },
   {
     id: "4",
@@ -120,9 +123,9 @@ export const collections2: Collection[] = [
       "Limited edition Goku card released",
       "Community event planned",
     ],
-    lastUpdated: 3,
     likes: 543,
-    featured: false,
+    description: "",
+    completionRate: 0
   },
   {
     id: "5",
@@ -139,8 +142,8 @@ export const collections2: Collection[] = [
       "Rare baseball card trade",
       "Historic auction planned",
     ],
-    lastUpdated: 6,
     likes: 432,
-    featured: true,
+    description: "",
+    completionRate: 0
   },
 ]

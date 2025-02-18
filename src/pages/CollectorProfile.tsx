@@ -17,65 +17,12 @@ import { generateCollectorProPath } from "@/use/routes";
 
 const Collector = () => {
   const { id } = useParams();
-  const [profile, setProfile] = useState<Collector | null>(null);
-  const [loading, setLoading] = useState(true);
 
   const { data: collections } = useApi<Collection>('collections', { page: 1, pageSize: 10, fullQuery: false })
+  const { data: collectors, loading } = useApi<Collector>('collectors', { page: 1, pageSize: 10, fullQuery: false })
+  const profile = collectors[0]
 
-
-  useEffect(() => {
-    // Simulated API call
-    const fetchProfile = async () => {
-      setLoading(true);
-      try {
-        // Mock data - replace with actual API call
-        const mockProfile: Collector = {
-          id: "1",
-          username: "cardmaster",
-          name: "Alex Thompson",
-          avatar: "https://i.pravatar.cc/300?u=alex",
-          coverImage: "https://images.unsplash.com/photo-1615715616181-6ba22b04bec9",
-          title: "Maestro del Intercambio",
-          level: 15,
-          motto: "Coleccionando momentos, un cromo a la vez",
-          rank: {
-            global: 5,
-            category: "Anime",
-            categoryRank: 2,
-          },
-          stats: {
-            totalCards: 500,
-            completedCards: 325,
-            collections: 12,
-            completedCollections: 8,
-            exchanges: 150,
-            successRate: 98,
-            achievements: 0
-          },
-          achievements: [],
-          badges: [],
-          recentActivity: [],
-          testimonials: [],
-          socialStats: {
-            followers: 234,
-            following: 156,
-            completionRate: 85,
-            reputation: 4.9,
-          },
-          icon: undefined
-        };
-        setProfile(mockProfile);
-      } catch (error) {
-        console.error("Error fetching profile:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProfile();
-  }, [id]);
-
-  if (loading) {
+  if (loading || !profile) {
     return <div>Loading...</div>;
   }
 

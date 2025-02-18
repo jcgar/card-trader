@@ -31,7 +31,7 @@ const PublicCollections = () => {
         </div>
 
         <div className="lg:col-span-3 space-y-12">
-          <FeaturedCollections />
+          <FeaturedCollections collections={collections} />
           <FeaturedCategories />
 
           <div className="space-y-4">

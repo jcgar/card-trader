@@ -1,3 +1,6 @@
+import { Exchange } from "@/app/types"
+import { collectors } from "./api/collectors"
+
 // Usuarios
 export const users = Array(50)
   .fill(null)
@@ -51,17 +54,24 @@ export const achievements = Array(30)
   }))
 
 // Intercambios
-export const exchanges = Array(100)
+export const exchanges: Exchange[] = Array(100)
   .fill(null)
   .map((_, i) => ({
-    id: `exchange-${i + 1}`,
+    id: i + 1,
     user: users[Math.floor(Math.random() * users.length)].name,
-    status: ["pending", "in_progress", "completed"][Math.floor(Math.random() * 3)],
+    status: ["pending", "in_progress", "completed"][Math.floor(Math.random() * 3)] as Exchange["status"],
     collection: collections[Math.floor(Math.random() * collections.length)].name,
     date: new Date(Date.now() - Math.floor(Math.random() * 10000000000)).toISOString(),
     lastMessage: `Último mensaje del intercambio ${i + 1}`,
     cardsOffered: Math.floor(Math.random() * 5) + 1,
     cardsRequested: Math.floor(Math.random() * 5) + 1,
+    createdAt: '', // add this property
+    sender: collectors[0], // add this property
+    receiver: collectors[1], // add this property
+    receiverStickers: [],
+    senderStickers: [], // add this property
+    messages: [],
+    lastActivity: ''
   }))
 
 // Contenido

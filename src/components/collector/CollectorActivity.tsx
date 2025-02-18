@@ -6,7 +6,7 @@ import { formatDistanceToNow } from "date-fns";
 import { es } from "date-fns/locale";
 
 interface CollectorActivityProps {
-  profile: CollectorProfile;
+  profile: Collector;
 }
 
 export const CollectorActivity = ({ profile }: CollectorActivityProps) => {
@@ -24,7 +24,7 @@ export const CollectorActivity = ({ profile }: CollectorActivityProps) => {
             className="flex items-start gap-4 p-4 bg-gray-50 rounded-lg"
           >
             <div className="flex-1">
-              <p className="text-gray-800">{activity.description}</p>
+              <p className="text-gray-800">{activity.content}</p>
               <p className="text-sm text-gray-500">
                 {formatDistanceToNow(new Date(activity.timestamp), {
                   addSuffix: true,

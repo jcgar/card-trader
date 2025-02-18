@@ -1,77 +1,35 @@
 import { Card } from "../ui/card";
-import { Trophy, RefreshCw, Star, User, MessageSquare } from "lucide-react";
-import { useEffect, useState } from "react";
+import { Trophy, Star, MessageSquare, Crown, IconNode } from "lucide-react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { generateCollectorPath } from "@/use/routes";
+import { Activity } from "@/app/types";
 
-interface Activity {
-  id: number;
-  type: 'achievement' | 'trade' | 'collection' | 'social';
-  user: string;
-  avatar: string;
-  action: string;
-  timestamp: string;
-  icon: typeof Trophy | typeof RefreshCw | typeof Star | typeof MessageSquare;
-  color: string;
+interface ActivityDisplay {
+  icon: IconNode,
+  color: string
 }
 
-const initialActivities: Activity[] = [
-  {
-    id: 1,
-    type: 'achievement',
-    user: 'María G.',
-    avatar: 'https://i.pravatar.cc/150?u=maria',
-    action: 'desbloqueó el logro "Coleccionista Experto"',
-    timestamp: 'Hace 5 minutos',
-    icon: Trophy,
-    color: 'text-yellow-500',
-  },
-  {
-    id: 2,
-    type: 'trade',
-    user: 'Carlos R.',
-    avatar: 'https://i.pravatar.cc/150?u=carlos',
-    action: 'completó un intercambio con Ana L.',
-    timestamp: 'Hace 10 minutos',
-    icon: RefreshCw,
-    color: 'text-blue-500',
-  },
-  {
-    id: 3,
-    type: 'collection',
-    user: 'Laura M.',
-    avatar: 'https://i.pravatar.cc/150?u=laura',
-    action: 'completó la colección "Mundial 2022"',
-    timestamp: 'Hace 15 minutos',
-    icon: Star,
-    color: 'text-purple-500',
-  },
-];
 
-export const ActivityFeed = () => {
-  const [activities, setActivities] = useState(initialActivities);
+const displays = {
+  achievement: {
+    icon: Trophy,
+    color: "from-yellow-500 to-amber-600",
+  },
+  exchange: {
+    icon: Star,
+    color: "from-blue-500 to-indigo-600",
+  },
+  social: {
+    icon: Crown,
+    color: "from-purple-500 to-pink-600",
+  }
+}
+
+
+export const ActivityFeed = ({ activities }: { activities: Activity[] }) => {
   const [highlightedActivity, setHighlightedActivity] = useState<number | null>(null);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const newActivity: Activity = {
-        id: Date.now(),
-        type: 'social',
-        user: 'Nuevo Usuario',
-        avatar: `https://i.pravatar.cc/150?u=${Date.now()}`,
-        action: 'se unió a la comunidad',
-        timestamp: 'Ahora mismo',
-        icon: User,
-        color: 'text-green-500',
-      };
-
-      setActivities(prev => [newActivity, ...prev.slice(0, -1)]);
-      setHighlightedActivity(newActivity.id);
-      setTimeout(() => setHighlightedActivity(null), 3000);
-    }, 15000);
-
-    return () => clearInterval(interval);
-  }, []);
 
   return (
     <section className="py-20">
@@ -84,39 +42,44 @@ export const ActivityFeed = () => {
         </div>
 
         <div className="max-w-3xl mx-auto space-y-4">
-          {activities.map((activity) => (
-            <Card key={activity.id}>
-              <Link to={generateCollectorPath(activity.user)}>
-                <div className="p-4 flex items-center gap-4">
-                  <div className="relative">
-                    <img
-                      src={activity.avatar}
-                      alt={activity.user}
-                      className="w-12 h-12 rounded-full"
-                    />
-                    <div className={`
+          {activities.map((activity) => {
+            const display: ActivityDisplay = displays[activity.type]
+
+            return (
+              <Card key={activity.id}>
+                <Link to={generateCollectorPath(activity.user)}>
+                  <div className="p-4 flex items-center gap-4">
+                    <div className="relative">
+                      <img
+                        src={activity.avatar}
+                        alt={activity.user}
+                        className="w-12 h-12 rounded-full"
+                      />
+                      <div className={`
                       absolute -bottom-1 -right-1 p-1 rounded-full bg-white
                       ${highlightedActivity === activity.id ? 'animate-bounce' : ''}
                     `}>
-                      <activity.icon className={`w-4 h-4 ${activity.color}`} />
+                        <div className={`w-4 h-4 ${display.color}`} />
+                        {display.icon}
+                      </div>
                     </div>
-                  </div>
 
-                  <div className="flex-1">
-                    <p className="text-gray-800">
-                      <span className="font-medium">{activity.user}</span>{' '}
-                      {activity.action}
-                    </p>
-                    <p className="text-sm text-gray-500">{activity.timestamp}</p>
-                  </div>
+                    <div className="flex-1">
+                      <p className="text-gray-800">
+                        <span className="font-medium">{activity.user}</span>{' '}
+                        {activity.content}
+                      </p>
+                      <p className="text-sm text-gray-500">{activity.timestamp}</p>
+                    </div>
 
-                  <button className="text-gray-400 hover:text-gray-600 transition-colors">
-                    <MessageSquare className="w-5 h-5" />
-                  </button>
-                </div>
-              </Link>
-            </Card>
-          ))}
+                    <button className="text-gray-400 hover:text-gray-600 transition-colors">
+                      <MessageSquare className="w-5 h-5" />
+                    </button>
+                  </div>
+                </Link>
+              </Card>
+            )
+          })}
         </div>
       </div>
     </section>

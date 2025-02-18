@@ -6,66 +6,17 @@ import { NavigationBar } from "@/components/NavigationBar";
 import type { Collector } from "@/app/types";
 import { Trophy, MessageSquare, Swords, Medal } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useApi } from "@/use/api";
 
 const CollectorProProfile = () => {
   const { id } = useParams();
-  const [profile, setProfile] = useState<Collector | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchProfile = async () => {
-      setLoading(true);
-      try {
-        // Mock data - replace with actual API call
-        const mockProfile: Collector = {
-          id: "1",
-          username: "cardmaster",
-          name: "Alex Thompson",
-          avatar: "https://i.pravatar.cc/300?u=alex",
-          coverImage: "https://images.unsplash.com/photo-1615715616181-6ba22b04bec9",
-          title: "Maestro del Intercambio",
-          level: 15,
-          motto: "Coleccionando momentos, un cromo a la vez",
-          rank: {
-            global: 5,
-            category: "Anime",
-            categoryRank: 2,
-          },
-          stats: {
-            totalCards: 500,
-            completedCards: 325,
-            collections: 12,
-            completedCollections: 8,
-            exchanges: 150,
-            successRate: 98,
-            achievements: 0
-          },
-          achievements: [],
-          badges: [],
-          recentActivity: [],
-          testimonials: [],
-          socialStats: {
-            followers: 234,
-            following: 156,
-            completionRate: 85,
-            reputation: 4.9,
-          },
-          icon: undefined
-        };
-        setProfile(mockProfile);
-      } catch (error) {
-        console.error("Error fetching profile:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProfile();
-  }, [id]);
+  const { data: collectors, loading } = useApi<Collector>('collectors', { page: 1, pageSize: 10, fullQuery: false })
+  const profile = collectors[0]
 
   if (loading || !profile) {
     return <div>Loading...</div>;
   }
+
 
   return (
     <div className="min-h-screen bg-[#1a0f00] text-white">
@@ -150,7 +101,7 @@ const CollectorProProfile = () => {
               </div>
               <div className="bg-yellow-900/30 p-6 rounded-lg text-center">
                 <MessageSquare className="w-12 h-12 text-yellow-400 mx-auto mb-4" />
-                <h3 className="text-2xl font-bold mb-2">{profile.socialStats.reputation}</h3>
+                <h3 className="text-2xl font-bold mb-2">{profile.stats.reputation}</h3>
                 <p className="text-yellow-100">Reputación</p>
               </div>
             </motion.div>
@@ -186,8 +137,8 @@ const CollectorProProfile = () => {
                     <span className="text-yellow-300">{profile.stats.totalCards}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-yellow-100">Cromos completados</span>
-                    <span className="text-yellow-300">{profile.stats.completedCards}</span>
+                    <span className="text-yellow-100">Colecciones completadas</span>
+                    <span className="text-yellow-300">{profile.stats.completedCollections}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-yellow-100">Tasa de éxito</span>

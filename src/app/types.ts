@@ -1,4 +1,24 @@
 
+export type ActivityType = 'achievement' | 'exchange' | 'collection' | 'social';
+export type AchievementRarity = 'common' | 'rare' | 'epic' | 'legendary';
+export interface Activity {
+  id: number;
+  type: ActivityType;
+  user: string;
+  avatar: string;
+  content: string;
+  timestamp: string;
+  likes: number;
+}
+
+export interface Achievement {
+  id: string;
+  name: string;
+  description: string;
+  icon: string;
+  unlockedAt: string;
+  rarity: AchievementRarity;
+}
 export interface Sticker {
   id: number;
   number: number;
@@ -12,14 +32,16 @@ export interface Collection {
   id: string;
   name: string;
   publisher: string;
-  totalStickers: number;
+  totalCards: number;
   category: string;
   year: number;
   description: string;
   image: string;
   completionRate: number;
+  popularity: number;
   activeUsers: number;
   likes: number;
+  recentActivity: string[];
 }
 
 export interface Collector {
@@ -29,9 +51,6 @@ export interface Collector {
   avatar: string;
   coverImage: string;
   level: number;
-  reputation: number;
-  trades: number;
-  successRate: number;
   joinedDate: string;
   verified: boolean;
   bio: string;
@@ -41,29 +60,8 @@ export interface Collector {
     instagram?: string;
     website?: string;
   };
-  privacySettings: {
-    profileVisibility: 'public' | 'friends' | 'private';
-    tradeRequests: 'all' | 'friends' | 'none';
-    showLocation: boolean;
-    showActivity: boolean;
-  };
-  stats: {
-    totalStickers: number;
-    completedCollections: number;
-    totalCollections: number;
-    trades: number;
-    successRate: number;
-    rank: number;
-    reputation: number;
-  };
-  achievements: {
-    id: string;
-    name: string;
-    description: string;
-    icon: string;
-    unlockedAt: string;
-    rarity: 'common' | 'rare' | 'epic' | 'legendary';
-  }[];
+  stats: CollectorStats;
+  achievements: Achievement[];
   badges: {
     id: string;
     name: string;
@@ -76,13 +74,12 @@ export interface Collector {
   };
   title: string;
   motto: string;
-  recentActivity: {
-    id: string;
-    type: string;
-    description: string;
-    timestamp: string;
-  }[];
+  recentActivity: Activity[];
   wishlist: Sticker[];
+
+}
+
+export interface CollectorSettings {
   blockedUsers: string[];
   preferences: {
     theme: 'light' | 'dark' | 'retro';
@@ -99,10 +96,31 @@ export interface Collector {
       };
     };
   };
+  privacySettings: {
+    profileVisibility: 'public' | 'friends' | 'private';
+    tradeRequests: 'all' | 'friends' | 'none';
+    showLocation: boolean;
+    showActivity: boolean;
+  };
 }
 
-export interface Trade {
-  id: string;
+export interface CollectorStats {
+  totalCards: number;
+  completedCollections: number;
+  totalCollections: number;
+  exchanges: number;
+  successRate: number;
+  rank: number;
+  likes: number;
+  followers: number;
+  following: number;
+  completionRate: number;
+  reputation: number;
+}
+
+
+export interface Exchange {
+  id: number;
   status: 'pending' | 'accepted' | 'completed' | 'rejected';
   createdAt: string;
   urgentUntil?: string;
@@ -122,4 +140,3 @@ export interface TradeMessage {
   timestamp: string;
 }
 
-export interface Exchange extends Trade {}

@@ -2,12 +2,14 @@
 import { Card } from "../ui/card";
 import { Button } from "../ui/button";
 import { Badge } from "../ui/badge";
-import { Link } from "react-router-dom";
+import { generatePath, Link, useSearchParams } from "react-router-dom";
 import { CheckCircle, Clock, XCircle, ArrowRight } from "lucide-react";
-import { Trade } from "@/app/types";
+import { Exchange } from "@/app/types";
+import { cn } from "@/lib/utils";
+import { routes } from "@/use/routes";
 
 interface MyExchangesProps {
-  exchanges: Trade[];
+  exchanges: Exchange[];
 }
 
 export const MyExchanges = ({ exchanges }: MyExchangesProps) => {
@@ -18,17 +20,17 @@ export const MyExchanges = ({ exchanges }: MyExchangesProps) => {
         {exchanges.map((exchange) => (
           <Link
             key={exchange.id}
-            to={`/dashboard/trades/${exchange.id}`}
+            to={generatePath(routes.myExchangesDetail, { exchangeId: `${exchange.id}` })}
             className="block transition-colors hover:bg-gray-50"
           >
             <div className="flex items-center gap-4 p-4 rounded-lg">
               <img
-                src={exchange.sender.avatar}
-                alt={exchange.sender.name}
+                src={exchange.sender?.avatar}
+                alt={exchange.sender?.name}
                 className="w-10 h-10 rounded-full"
               />
               <div className="flex-1">
-                <p className="font-medium">{exchange.sender.name}</p>
+                <p className="font-medium">{exchange.sender?.name}</p>
                 <div className="flex gap-2 text-sm">
                   <span className="text-gray-600">
                     Ofrece: {exchange.senderStickers.length} cromos

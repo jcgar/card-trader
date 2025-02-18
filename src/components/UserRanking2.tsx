@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge"
 import { Crown, Trophy, Medal, Users, Activity, Star, ThumbsUp } from "lucide-react"
 import { api } from "@/use/api"
 import { motion } from "framer-motion"
-import { Collector } from "@/use/types"
+import { Collector } from "@/app/types"
 
 export const UserRanking2 = () => {
   const [topUsers, setTopUsers] = useState<Collector[]>([])
@@ -56,7 +56,7 @@ export const UserRanking2 = () => {
                   <div className="grid grid-cols-2 gap-3 mb-4 text-sm">
                     <div className="flex items-center justify-center gap-1 text-gray-600">
                       <Users className="w-4 h-4" />
-                      <span>{user.stats.collections} cols</span>
+                      <span>{user.stats.completedCollections} cols</span>
                     </div>
                     <div className="flex items-center justify-center gap-1 text-gray-600">
                       <Activity className="w-4 h-4" />
@@ -68,11 +68,11 @@ export const UserRanking2 = () => {
                     </div>
                     <div className="flex items-center justify-center gap-1 text-gray-600">
                       <Star className="w-4 h-4" />
-                      <span>{user.stats.achievements} badges</span>
+                      <span>{user.stats.followers} followerrs</span>
                     </div>
                   </div>
                   <div className="flex gap-4">
-                    <Badge variant="secondary">{user.stats.achievements} achievements</Badge>
+                    <Badge variant="secondary">{user.achievements.length} achievements</Badge>
                     <Badge variant="outline">{user.stats.exchanges} exchanges</Badge>
                   </div>
                 </div>

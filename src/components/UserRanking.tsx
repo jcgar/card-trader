@@ -38,7 +38,6 @@ export const UserRanking = () => {
               key={collector.name}
               className="p-6 text-center hover:shadow-lg transition-shadow duration-300"
             >
-              <collector.icon className="w-12 h-12 mx-auto mb-4 text-yellow-500" />
               <img
                 src={collector.avatar}
                 alt={collector.name}
@@ -64,12 +63,12 @@ export const UserRanking = () => {
                 </div>
                 <div className="flex items-center justify-center gap-1 text-gray-600">
                   <Star className="w-4 h-4" />
-                  <span>{collector.stats.achievements} badges</span>
+                  <span>{collector.stats.rank} rank</span>
                 </div>
               </div>
 
               <p className="text-sm text-green-600 bg-green-50 p-2 rounded">
-                {collector.recentActivity[0].description}
+                {collector.recentActivity[0].content}
               </p>
             </Card>
           ))}

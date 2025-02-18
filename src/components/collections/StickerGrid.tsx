@@ -33,6 +33,7 @@ import {
   Sparkles,
   Heart,
   Share2,
+  BookDown,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -42,7 +43,7 @@ import { Sticker } from "@/app/types";
 type LayoutType = "scroll" | "grid" | "album";
 type FilterType = "all" | "missing" | "repeated" | "special" | "favorites";
 
-export const StickerGrid = () => {
+export const StickerGrid = ({ stickerGroups }) => {
   const isMobile = useIsMobile();
   const [layout, setLayout] = useState<LayoutType>(isMobile ? "grid" : "album");
   const [currentPage, setCurrentPage] = useState(1);
@@ -99,8 +100,8 @@ export const StickerGrid = () => {
   };
 
   const toggleBulkSelection = (stickerId: number) => {
-    setSelectedBulkStickers(prev => 
-      prev.includes(stickerId) 
+    setSelectedBulkStickers(prev =>
+      prev.includes(stickerId)
         ? prev.filter(id => id !== stickerId)
         : [...prev, stickerId]
     );
@@ -110,7 +111,7 @@ export const StickerGrid = () => {
     setHasUnsavedChanges(true);
     setChanges(prev => {
       const current = prev[stickerId] || { owned: true, repeated: 0 };
-      
+
       if (action === "favorite") {
         return {
           ...prev,
@@ -157,13 +158,13 @@ export const StickerGrid = () => {
   const checkPageCompletion = () => {
     const pageStickers = getCurrentPageStickers();
     const isPageComplete = pageStickers.every(s => s.owned || changes[s.id]?.owned);
-    
+
     if (isPageComplete) {
       toast({
         title: "¡Página completada! 🎉",
         description: "Has completado todos los cromos de esta página",
       });
-      
+
       if (albumRef.current) {
         albumRef.current.classList.add('animate-shine');
         setTimeout(() => {
@@ -204,12 +205,11 @@ export const StickerGrid = () => {
 
   const itemsPerPage = layout === "album" ? 12 : 24;
   const totalPages = Math.ceil(stickerGroups.length * 24 / itemsPerPage);
+  const stickers = stickerGroups.flatMap(g => g.stickers);
 
   const getCurrentPageStickers = () => {
-    let stickers = stickerGroups.flatMap(g => g.stickers);
-
     // Aplicar filtros
-    stickers = stickers.filter(sticker => {
+    let stickersPage = stickers.filter(sticker => {
       const change = changes[sticker.id];
       const isOwned = change ? change.owned : sticker.owned;
       const repeated = change ? change.repeated : sticker.repeated;
@@ -231,7 +231,7 @@ export const StickerGrid = () => {
 
     // Aplicar búsqueda
     if (searchTerm) {
-      stickers = stickers.filter(sticker => 
+      stickersPage = stickers.filter(sticker =>
         sticker.number.toString().includes(searchTerm) ||
         sticker.name.toLowerCase().includes(searchTerm.toLowerCase())
       );
@@ -250,7 +250,7 @@ export const StickerGrid = () => {
             className="tooltip"
             data-tip="Vista scroll"
           >
-            <Columns className="h-4 w-4" />
+            <BookDown className="h-4 w-4" />
           </Button>
           <Button
             variant={layout === "grid" ? "default" : "outline"}
@@ -266,7 +266,7 @@ export const StickerGrid = () => {
             className="tooltip"
             data-tip="Vista álbum"
           >
-            <BookOpen className="h-4 w-4" />
+            <Columns className="h-4 w-4" />
           </Button>
         </div>
 
@@ -370,7 +370,7 @@ export const StickerGrid = () => {
               Actualiza el estado y la cantidad de este cromo
             </DialogDescription>
           </DialogHeader>
-          
+
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <span className="font-medium">Cantidad:</span>
@@ -405,7 +405,7 @@ export const StickerGrid = () => {
                 )} />
                 Favorito
               </Button>
-              
+
               <Button variant="outline" className="flex-1">
                 <Share2 className="h-4 w-4 mr-2" />
                 Compartir
@@ -424,50 +424,11 @@ export const StickerGrid = () => {
 
       <div ref={albumRef} className="relative">
         <AnimatePresence mode="wait">
-          {layout === "album" && (
-            <motion.div
-              key={`album-${currentPage}`}
-              initial={{ opacity: 0, x: 200 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -200 }}
-              className="grid grid-cols-3 md:grid-cols-4 gap-4 bg-green-50 p-6 rounded-lg shadow-inner"
-            >
-              {getCurrentPageStickers().map((sticker) => (
-                <StickerCard
-                  key={sticker.id}
-                  sticker={sticker}
-                  onClick={handleStickerClick}
-                  isSelected={isBulkEditing && selectedBulkStickers.includes(sticker.id)}
-                  changes={changes[sticker.id]}
-                />
-              ))}
-            </motion.div>
-          )}
-
-          {layout === "grid" && (
-            <motion.div
-              key={`grid-${currentPage}`}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-4"
-            >
-              {getCurrentPageStickers().map((sticker) => (
-                <StickerCard
-                  key={sticker.id}
-                  sticker={sticker}
-                  onClick={handleStickerClick}
-                  isSelected={isBulkEditing && selectedBulkStickers.includes(sticker.id)}
-                  changes={changes[sticker.id]}
-                />
-              ))}
-            </motion.div>
-          )}
 
           {layout === "scroll" && (
             <ScrollArea className="w-full h-[500px] rounded-lg border">
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 p-4">
-                {getCurrentPageStickers().map((sticker) => (
+              <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-4">
+                {stickers.map((sticker) => (
                   <StickerCard
                     key={sticker.id}
                     sticker={sticker}
@@ -480,28 +441,69 @@ export const StickerGrid = () => {
               <ScrollBar orientation="vertical" />
             </ScrollArea>
           )}
+
+          {layout === "grid" && (
+            <motion.div
+              key={`grid-${currentPage}`}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-1"
+            >
+              {getCurrentPageStickers().map((sticker) => (
+                <StickerCard
+                  key={sticker.id}
+                  sticker={sticker}
+                  onClick={handleStickerClick}
+                  isSelected={isBulkEditing && selectedBulkStickers.includes(sticker.id)}
+                  changes={changes[sticker.id]}
+                />
+              ))}
+            </motion.div>
+          )}
+
+          {layout === "album" && (
+            <ScrollArea className="w-full h-[500px] rounded-lg border">
+              <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-4">
+                {getCurrentPageStickers().map((sticker) => (
+                  <StickerCard
+                    key={sticker.id}
+                    sticker={sticker}
+                    onClick={handleStickerClick}
+                    isSelected={isBulkEditing && selectedBulkStickers.includes(sticker.id)}
+                    changes={changes[sticker.id]}
+                  />
+                ))}
+              </div>
+              <ScrollBar orientation="vertical" />
+            </ScrollArea>
+
+          )}
         </AnimatePresence>
 
-        <div className="mt-6 flex justify-center gap-4">
-          <Button
-            variant="outline"
-            onClick={previousPage}
-            disabled={currentPage === 1}
-          >
-            <ArrowLeft className="h-4 w-4" />
-          </Button>
-          <span className="py-2">
-            Página {currentPage} de {totalPages}
-          </span>
-          <Button
-            variant="outline"
-            onClick={nextPage}
-            disabled={currentPage === totalPages}
-          >
-            <ArrowRight className="h-4 w-4" />
-          </Button>
-        </div>
+        {layout !== "scroll" && (
+          <div className="mt-6 flex justify-center gap-4">
+            <Button
+              variant="outline"
+              onClick={previousPage}
+              disabled={currentPage === 1}
+            >
+              <ArrowLeft className="h-4 w-4" />
+            </Button>
+            <span className="py-2">
+              Página {currentPage} de {totalPages}
+            </span>
+            <Button
+              variant="outline"
+              onClick={nextPage}
+              disabled={currentPage === totalPages}
+            >
+              <ArrowRight className="h-4 w-4" />
+            </Button>
+          </div>
+        )}
       </div>
+
     </div>
   );
 };

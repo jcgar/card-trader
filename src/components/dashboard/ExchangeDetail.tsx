@@ -19,15 +19,15 @@ import { Progress } from '@/components/ui/progress';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Input } from '@/components/ui/input';
 import { useIsMobile } from '@/hooks/use-mobile';
-import { Trade, Sticker } from '@/app/types';
-import StickerCard from '../cards/StickerCard';
+import { Exchange, Sticker } from '@/app/types';
+import { StickerCard } from '../cards/StickerCard';
 
-interface TradeDetailProps {
-  trade: Trade;
-  onStatusChange: (status: Trade['status']) => void;
+interface ExchangeDetailProps {
+  exchange: Exchange;
+  onStatusChange: (status: Exchange['status']) => void;
 }
 
-export const TradeDetail = ({ trade, onStatusChange }: TradeDetailProps) => {
+export const ExchangeDetail = ({ exchange, onStatusChange }: ExchangeDetailProps) => {
   const isMobile = useIsMobile();
   const [message, setMessage] = useState('');
   const [selectedSticker, setSelectedSticker] = useState<Sticker | null>(null);
@@ -82,7 +82,7 @@ export const TradeDetail = ({ trade, onStatusChange }: TradeDetailProps) => {
     }
   };
 
-  const completeTrade = () => {
+  const completeExchange = () => {
     onStatusChange('completed');
     toast({
       title: "¡Intercambio completado!",
@@ -103,15 +103,15 @@ export const TradeDetail = ({ trade, onStatusChange }: TradeDetailProps) => {
             className="flex items-center gap-4"
           >
             <img
-              src={trade.sender.avatar}
-              alt={trade.sender.name}
+              src={exchange.sender.avatar}
+              alt={exchange.sender.name}
               className="w-16 h-16 rounded-full border-4 border-blue-500"
             />
             <div>
-              <h3 className="font-bold">{trade.sender.name}</h3>
+              <h3 className="font-bold">{exchange.sender.name}</h3>
               <div className="flex items-center gap-2 text-sm">
                 <Star className="w-4 h-4 text-yellow-500" />
-                <span>{trade.sender.reputation} rep.</span>
+                <span>{exchange.sender.stats.reputation} rep.</span>
               </div>
             </div>
           </motion.div>
@@ -127,15 +127,15 @@ export const TradeDetail = ({ trade, onStatusChange }: TradeDetailProps) => {
             className="flex items-center gap-4"
           >
             <div className="text-right">
-              <h3 className="font-bold">{trade.receiver.name}</h3>
+              <h3 className="font-bold">{exchange.receiver.name}</h3>
               <div className="flex items-center gap-2 text-sm justify-end">
                 <Star className="w-4 h-4 text-yellow-500" />
-                <span>{trade.receiver.reputation} rep.</span>
+                <span>{exchange.receiver.stats.reputation} rep.</span>
               </div>
             </div>
             <img
-              src={trade.receiver.avatar}
-              alt={trade.receiver.name}
+              src={exchange.receiver.avatar}
+              alt={exchange.receiver.name}
               className="w-16 h-16 rounded-full border-4 border-green-500"
             />
           </motion.div>
@@ -144,16 +144,16 @@ export const TradeDetail = ({ trade, onStatusChange }: TradeDetailProps) => {
         <div className="mt-4">
           <div className="flex justify-between text-sm text-gray-600 mb-2">
             <span>Progreso del intercambio</span>
-            <span className="capitalize">{trade.status}</span>
+            <span className="capitalize">{exchange.status}</span>
           </div>
           <Progress value={
-            trade.status === 'completed' ? 100 :
-            trade.status === 'accepted' ? 66 :
-            trade.status === 'pending' ? 33 : 0
+            exchange.status === 'completed' ? 100 :
+              exchange.status === 'accepted' ? 66 :
+                exchange.status === 'pending' ? 33 : 0
           } />
         </div>
 
-        {trade.urgentUntil && (
+        {exchange.urgentUntil && (
           <div className="mt-4 flex items-center gap-2 text-orange-600">
             <Clock className="w-4 h-4" />
             <span className="text-sm">Urgente - Expira en 2 horas</span>
@@ -167,7 +167,7 @@ export const TradeDetail = ({ trade, onStatusChange }: TradeDetailProps) => {
           <h4 className="font-bold mb-4">Tus cromos ofrecidos</h4>
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
             <AnimatePresence>
-              {trade.senderStickers.map((sticker) => (
+              {exchange.senderStickers.map((sticker) => (
                 <motion.div
                   key={sticker.id}
                   initial={{ scale: 0.8, opacity: 0 }}
@@ -189,7 +189,7 @@ export const TradeDetail = ({ trade, onStatusChange }: TradeDetailProps) => {
           <h4 className="font-bold mb-4">Cromos que recibirías</h4>
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
             <AnimatePresence>
-              {trade.receiverStickers.map((sticker) => (
+              {exchange.receiverStickers.map((sticker) => (
                 <motion.div
                   key={sticker.id}
                   initial={{ scale: 0.8, opacity: 0 }}
@@ -213,19 +213,17 @@ export const TradeDetail = ({ trade, onStatusChange }: TradeDetailProps) => {
         <div className="flex flex-col h-[300px]">
           <ScrollArea className="flex-1 mb-4">
             <div className="space-y-4">
-              {trade.messages.map((msg) => (
+              {exchange.messages.map((msg) => (
                 <div
                   key={msg.id}
-                  className={`flex ${
-                    msg.senderId === trade.sender.id ? 'justify-end' : 'justify-start'
-                  }`}
+                  className={`flex ${msg.senderId === exchange.sender.id ? 'justify-end' : 'justify-start'
+                    }`}
                 >
                   <div
-                    className={`rounded-lg px-4 py-2 max-w-[80%] ${
-                      msg.senderId === trade.sender.id
-                        ? 'bg-blue-500 text-white'
-                        : 'bg-gray-100'
-                    }`}
+                    className={`rounded-lg px-4 py-2 max-w-[80%] ${msg.senderId === exchange.sender.id
+                      ? 'bg-blue-500 text-white'
+                      : 'bg-gray-100'
+                      }`}
                   >
                     <p className="text-sm">{msg.content}</p>
                     <span className="text-xs opacity-75">
@@ -265,7 +263,7 @@ export const TradeDetail = ({ trade, onStatusChange }: TradeDetailProps) => {
           <X className="w-4 h-4 mr-2" />
           Rechazar
         </Button>
-        
+
         <Button
           variant="outline"
           onClick={() => setShowComparisonView(!showComparisonView)}
@@ -273,10 +271,10 @@ export const TradeDetail = ({ trade, onStatusChange }: TradeDetailProps) => {
           <RefreshCw className="w-4 h-4 mr-2" />
           Cambiar vista
         </Button>
-        
+
         <Button
           className="bg-green-600 hover:bg-green-700"
-          onClick={completeTrade}
+          onClick={completeExchange}
         >
           <Check className="w-4 h-4 mr-2" />
           Completar intercambio

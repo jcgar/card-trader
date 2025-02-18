@@ -11,7 +11,7 @@ function getRandomFloat(min, max, decimals = 1) {
   return parseFloat((Math.random() * (max - min) + min).toFixed(decimals));
 }
 
-function generateMockProfile(id): Collector {
+export function generateMockProfile(id): Collector {
   const icons = [Crown, Trophy, Award];
   const usernames = ["cardmaster", "traderking", "collectorlord", "swapgenius", "packhunter"];
   const names = ["Alex Thompson", "Maria Gonzalez", "John Carter", "Sophia Lee", "David Martins"];
@@ -23,23 +23,27 @@ function generateMockProfile(id): Collector {
     "Siempre en busca de la carta perfecta"
   ];
   const categories = ["Anime", "Deportes", "Cine", "Videojuegos", "Historia"];
-  const stats = {
+  const stats: Collector["stats"] = {
     totalCards: getRandomInt(100, 1000),
-    completedCards: getRandomInt(50, 500),
-    collections: getRandomInt(5, 50),
+    totalCollections: getRandomInt(5, 50),
     completedCollections: getRandomInt(2, 30),
     exchanges: getRandomInt(10, 300),
     successRate: getRandomFloat(70, 100),
-    achievements: getRandomFloat(5, 100),
+    rank: getRandomFloat(5, 100),
+    reputation: getRandomFloat(3.5, 5, 2),
+    followers: getRandomInt(50, 500),
+    following: getRandomInt(20, 300),
+    completionRate: getRandomFloat(50, 100),
+    likes: getRandomFloat(3.5, 5, 2),
   }
+  const avatar = `https://i.pravatar.cc/300?u=user${id}`;
   const testimonials = userTestimonials
-  return {
+  const collector: Collector = {
     id: id.toString(),
-    icon: icons[id % icons.length],
     username: usernames[id % usernames.length],
     name: names[id % names.length],
-    avatar: `https://i.pravatar.cc/300?u=user${id}`,
-    coverImage: `https://source.unsplash.com/random/800x400?sig=${id}`,
+    avatar,
+    coverImage: 'https://images.unsplash.com/photo-1615715616181-6ba22b04bec9',
     title: `Maestro de ${categories[id % categories.length]}`,
     level: getRandomInt(5, 50),
     motto: mottos[id % mottos.length],
@@ -51,33 +55,43 @@ function generateMockProfile(id): Collector {
     stats,
     achievements: [],
     badges: [],
-    recentActivity: [generateRecentActivity(stats)],
-    testimonials: [],
-    socialStats: {
-      followers: getRandomInt(50, 500),
-      following: getRandomInt(20, 300),
-      completionRate: getRandomFloat(50, 100),
-      reputation: getRandomFloat(3.5, 5, 2),
+    recentActivity: [generateRecentActivity(stats, name, avatar)],
+    joinedDate: "",
+    verified: false,
+    bio: "",
+    location: "",
+    socialLinks: {
+      twitter: "",
+      instagram: "",
+      website: ""
     },
+    wishlist: []
   };
+
+  return collector;
 }
 
-function generateRecentActivity(stats: Collector["stats"]): Activity {
+function generateRecentActivity(stats: Collector["stats"], user, avatar): Activity {
   const activities = [
-    `Completed a collection with ${stats.collections} sets`,
+    `Completed a collection with ${stats.totalCollections} sets`,
     `Successfully traded ${stats.exchanges} cards`,
-    `Found ${stats.achievements} rare cards`,
+    `Found 3 rare cards`,
     `Achieved a new milestone in card trading`,
     `Unlocked a Legendary Card`,
   ];
   const types = ['trade', 'collection', 'achievement', 'social'] as Activity["type"][];
   const id = getRandomInt(1, 4)
-  return {
+  const activity: Activity = {
     id,
     type: types[id % types.length],
-    description: activities[Math.floor(Math.random() * activities.length)],
-    timestamp: formatDistanceToNow(new Date().getTime())
+    content: activities[Math.floor(Math.random() * activities.length)],
+    timestamp: formatDistanceToNow(new Date().getTime()),
+    user,
+    avatar,
+    likes: 0
   }
+  return activity;
 }
 
-export const collectors: Collector[] = Array.from({ length: 10 }, (_, i) => generateMockProfile(i))
+export const collectors: Collector[] = Array
+  .from({ length: 10 }, (_, i) => generateMockProfile(i))

@@ -2,6 +2,7 @@
 import { Card } from "../ui/card";
 import { Button } from "../ui/button";
 import { MessageSquare, RefreshCcw, Search } from "lucide-react";
+import ExchangeCard from "../cards/ExchangeCard";
 
 const exchanges = [
   {
@@ -51,41 +52,7 @@ export const ExchangeWall = () => {
         </div>
         <div className="grid gap-6 max-w-4xl mx-auto">
           {exchanges.map((exchange) => (
-            <Card key={exchange.id} className="p-6">
-              <div className="flex items-start gap-4">
-                <img
-                  src={exchange.avatar}
-                  alt={exchange.user}
-                  className="w-12 h-12 rounded-full"
-                />
-                <div className="flex-1">
-                  <div className="flex items-center justify-between mb-2">
-                    <h3 className="font-bold">{exchange.user}</h3>
-                    <span className="text-sm text-gray-500">{exchange.posted}</span>
-                  </div>
-                  <div className="grid md:grid-cols-2 gap-4 mb-4">
-                    <div className="bg-green-50 p-3 rounded-lg">
-                      <p className="text-sm text-gray-600 mb-1">Offering:</p>
-                      <p className="font-medium text-green-700">{exchange.offering}</p>
-                    </div>
-                    <div className="bg-purple-50 p-3 rounded-lg">
-                      <p className="text-sm text-gray-600 mb-1">Looking for:</p>
-                      <p className="font-medium text-purple-700">{exchange.looking}</p>
-                    </div>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <Button variant="ghost" className="text-gray-600">
-                      <MessageSquare className="w-4 h-4 mr-2" />
-                      {exchange.comments} comments
-                    </Button>
-                    <Button variant="outline" className="text-green-600 border-green-200">
-                      <Search className="w-4 h-4 mr-2" />
-                      View Details
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            </Card>
+            <ExchangeCard exchange={exchange} />
           ))}
         </div>
       </div>

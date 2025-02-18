@@ -7,7 +7,7 @@ import type { Collector } from "@/app/types";
 import { motion } from "framer-motion";
 
 interface CollectorHeaderProps {
-  profile: CollectorProfile;
+  profile: Collector;
 }
 
 export const CollectorHeader = ({ profile }: CollectorHeaderProps) => {
@@ -84,25 +84,25 @@ export const CollectorHeader = ({ profile }: CollectorHeaderProps) => {
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
                   <div className="text-center">
                     <div className="text-2xl font-bold text-green-600">
-                      {profile.socialStats.followers}
+                      {profile.stats.followers}
                     </div>
                     <div className="text-sm text-muted-foreground">Seguidores</div>
                   </div>
                   <div className="text-center">
                     <div className="text-2xl font-bold text-blue-600">
-                      {profile.stats.collections}
+                      {profile.stats.totalCollections}
                     </div>
                     <div className="text-sm text-muted-foreground">Colecciones</div>
                   </div>
                   <div className="text-center">
                     <div className="text-2xl font-bold text-purple-600">
-                      {profile.stats.trades}
+                      {profile.stats.exchanges}
                     </div>
                     <div className="text-sm text-muted-foreground">Intercambios</div>
                   </div>
                   <div className="text-center">
                     <div className="text-2xl font-bold text-yellow-600">
-                      {profile.socialStats.reputation}
+                      {profile.stats.reputation}
                     </div>
                     <div className="text-sm text-muted-foreground">Reputación</div>
                   </div>

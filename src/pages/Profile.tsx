@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useQuery } from "@tanstack/react-query";
 import { toast } from "sonner";
@@ -27,71 +27,41 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { Collector } from "@/app/types";
+import { Collector, CollectorSettings } from "@/app/types";
+import { useApi } from "@/use/api";
 
 export default function Profile() {
   const isMobile = useIsMobile();
   const [isEditing, setIsEditing] = useState(false);
   const [previewMode, setPreviewMode] = useState(false);
-  const [selectedTheme, setSelectedTheme] = useState<Collector['preferences']['theme']>('light');
+  const [selectedTheme, setSelectedTheme] = useState<CollectorSettings['preferences']['theme']>('light');
 
-  const { data: profile, isLoading } = useQuery({
-    queryKey: ['profile'],
-    queryFn: async () => {
-      // Simulamos la llamada a la API
-      return {
-        id: "1",
-        name: "John Doe",
-        username: "johndoe",
-        level: 42,
-        avatar: "/path/to/avatar.jpg",
-        coverImage: "/path/to/cover.jpg",
-        bio: "Coleccionista apasionado",
-        location: "Madrid, España",
-        stats: {
-          totalStickers: 1234,
-          completedCollections: 5,
-          totalCollections: 8,
-          trades: 150,
-          successRate: 98,
-          rank: 12,
-          reputation: 4.8
-        },
-        achievements: [
-          {
-            id: "1",
-            name: "Maestro del Intercambio",
-            description: "100 intercambios exitosos",
-            icon: "🏆",
-            unlockedAt: "2024-01-01",
-            rarity: "legendary"
-          }
-        ],
-        preferences: {
-          theme: 'light',
-          cardStyle: 'classic',
-          albumMode: true,
-          notificationSettings: {
-            email: true,
-            push: true,
-            inApp: true,
-            doNotDisturb: {
-              enabled: false,
-              startTime: "22:00",
-              endTime: "08:00"
-            }
-          }
-        }
-      } as Collector;
+  const { data: collectors, loading: isLoadingCollectors } = useApi<Collector>('collectors', { page: 1, pageSize: 10, fullQuery: false });
+  const { data: preferences, loading: isLoadingPreferences } = useApi<CollectorSettings>('preferences', { page: 1, pageSize: 10, fullQuery: false });
+
+  // Estado para manejar la carga de los dos datos
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // Cuando ambos datos se han cargado, se actualiza el estado de carga
+    if (!isLoadingCollectors && !isLoadingPreferences) {
+      setIsLoading(false);
     }
-  });
+  }, [isLoadingCollectors, isLoadingPreferences]);
 
-  if (isLoading || !profile) {
-    return <div>Cargando...</div>;
+  if (isLoading) {
+    return <div>Cargando...</div>; // Muestra un cargador mientras esperas ambos datos
   }
+
+  console.log({ collectors, preferences })
+  if (!collectors || !preferences) {
+    return <div>Error al cargar los datos</div>; // Si alguna de las respuestas está vacía, muestra un error
+  }
+
+  const profile = collectors[0]
+  const profilePreferences = preferences[0]
 
   const handleAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -245,7 +215,7 @@ export default function Profile() {
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <div className="text-center p-4 rounded-lg bg-blue-50">
                   <div className="text-2xl font-bold text-blue-600">
-                    {profile.stats.totalStickers}
+                    {profile.stats.totalCards}
                   </div>
                   <div className="text-sm text-blue-600">Cromos Totales</div>
                 </div>
@@ -257,7 +227,7 @@ export default function Profile() {
                 </div>
                 <div className="text-center p-4 rounded-lg bg-purple-50">
                   <div className="text-2xl font-bold text-purple-600">
-                    {profile.stats.trades}
+                    {profile.stats.exchanges}
                   </div>
                   <div className="text-sm text-purple-600">Intercambios</div>
                 </div>
@@ -331,7 +301,7 @@ export default function Profile() {
                     </div>
                     <select
                       value={selectedTheme}
-                      onChange={(e) => setSelectedTheme(e.target.value as Collector['preferences']['theme'])}
+                      onChange={(e) => setSelectedTheme(e.target.value as CollectorSettings['preferences']['theme'])}
                       className="rounded-md border p-2"
                     >
                       <option value="light">Claro</option>
@@ -348,8 +318,8 @@ export default function Profile() {
                       </p>
                     </div>
                     <Switch
-                      checked={profile.preferences.albumMode}
-                      onCheckedChange={() => {}}
+                      checked={profilePreferences.preferences.albumMode}
+                      onCheckedChange={() => { }}
                     />
                   </div>
                 </div>
@@ -366,8 +336,8 @@ export default function Profile() {
                       </p>
                     </div>
                     <Switch
-                      checked={profile.preferences.notificationSettings.email}
-                      onCheckedChange={() => {}}
+                      checked={profilePreferences.preferences.notificationSettings.email}
+                      onCheckedChange={() => { }}
                     />
                   </div>
 
@@ -379,8 +349,8 @@ export default function Profile() {
                       </p>
                     </div>
                     <Switch
-                      checked={profile.preferences.notificationSettings.doNotDisturb.enabled}
-                      onCheckedChange={() => {}}
+                      checked={profilePreferences.preferences.notificationSettings.doNotDisturb.enabled}
+                      onCheckedChange={() => { }}
                     />
                   </div>
                 </div>
@@ -396,7 +366,7 @@ export default function Profile() {
                         Permite que otros vean tu perfil
                       </p>
                     </div>
-                    <Switch checked={true} onCheckedChange={() => {}} />
+                    <Switch checked={true} onCheckedChange={() => { }} />
                   </div>
 
                   <div className="flex items-center justify-between">
@@ -406,7 +376,7 @@ export default function Profile() {
                         Muestra tu ubicación en el perfil
                       </p>
                     </div>
-                    <Switch checked={true} onCheckedChange={() => {}} />
+                    <Switch checked={true} onCheckedChange={() => { }} />
                   </div>
                 </div>
               </Card>

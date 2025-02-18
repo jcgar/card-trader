@@ -16,12 +16,12 @@ interface StickerCardProps {
   };
 }
 
-export default function StickerCard({ 
-  sticker, 
-  onClick, 
+export const StickerCard = ({
+  sticker,
+  onClick,
   isSelected,
-  changes 
-}: StickerCardProps) {
+  changes
+}: StickerCardProps) => {
   const isMobile = useIsMobile();
   const isOwned = changes ? changes.owned : sticker.owned;
   const repeated = changes ? changes.repeated : sticker.repeated;
