@@ -1,16 +1,19 @@
 import { Card } from "../ui/card";
-import { Trophy, Star, MessageSquare, Crown, IconNode } from "lucide-react";
+import { Trophy, Star, MessageSquare, Crown, LucideIcon, Sticker } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { generateCollectorPath } from "@/use/routes";
 import { Activity } from "@/app/types";
 
 interface ActivityDisplay {
-  icon: IconNode,
+  icon: LucideIcon,
   color: string
 }
 
-
+const defaultDisplay = {
+  icon: Sticker,
+  color: "gray-600",
+}
 const displays = {
   achievement: {
     icon: Trophy,
@@ -43,8 +46,7 @@ export const ActivityFeed = ({ activities }: { activities: Activity[] }) => {
 
         <div className="max-w-3xl mx-auto space-y-4">
           {activities.map((activity) => {
-            const display: ActivityDisplay = displays[activity.type]
-
+            const display: ActivityDisplay = displays[activity.type] || defaultDisplay
             return (
               <Card key={activity.id}>
                 <Link to={generateCollectorPath(activity.user)}>
@@ -60,7 +62,7 @@ export const ActivityFeed = ({ activities }: { activities: Activity[] }) => {
                       ${highlightedActivity === activity.id ? 'animate-bounce' : ''}
                     `}>
                         <div className={`w-4 h-4 ${display.color}`} />
-                        {display.icon}
+                        <display.icon />
                       </div>
                     </div>
 

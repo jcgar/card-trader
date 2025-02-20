@@ -3,38 +3,39 @@ import { Award, Medal, Trophy, Star } from "lucide-react";
 import { Progress } from "../ui/progress";
 import { Link } from "react-router-dom";
 import { generateCollectorPath } from "@/use/routes";
+import { Collector } from "@/app/types";
 
-const collectors = [
-  {
-    id: 1,
-    name: "Sarah Chen",
-    avatar: "https://i.pravatar.cc/150?u=sarah",
-    points: 12500,
-    level: 75,
-    badges: ["Legendary", "Master Trader", "Pioneer"],
-    rank: 1,
-  },
-  {
-    id: 2,
-    name: "Alex Thompson",
-    avatar: "https://i.pravatar.cc/150?u=alex",
-    points: 11200,
-    level: 68,
-    badges: ["Elite", "Collection Master"],
-    rank: 2,
-  },
-  {
-    id: 3,
-    name: "Maria Garcia",
-    avatar: "https://i.pravatar.cc/150?u=maria",
-    points: 10800,
-    level: 65,
-    badges: ["Expert", "Trading Pro"],
-    rank: 3,
-  },
-];
+// const collectors = [
+//   {
+//     id: 1,
+//     name: "Sarah Chen",
+//     avatar: "https://i.pravatar.cc/150?u=sarah",
+//     points: 12500,
+//     level: 75,
+//     badges: ["Legendary", "Master Trader", "Pioneer"],
+//     rank: 1,
+//   },
+//   {
+//     id: 2,
+//     name: "Alex Thompson",
+//     avatar: "https://i.pravatar.cc/150?u=alex",
+//     points: 11200,
+//     level: 68,
+//     badges: ["Elite", "Collection Master"],
+//     rank: 2,
+//   },
+//   {
+//     id: 3,
+//     name: "Maria Garcia",
+//     avatar: "https://i.pravatar.cc/150?u=maria",
+//     points: 10800,
+//     level: 65,
+//     badges: ["Expert", "Trading Pro"],
+//     rank: 3,
+//   },
+// ];
 
-export const TopCollectors = () => {
+export const TopCollectors = ({ collectors }: { collectors: Collector[] }) => {
   return (
     <section className="py-20">
       <div className="container mx-auto px-4">
@@ -43,15 +44,15 @@ export const TopCollectors = () => {
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
           {collectors.map((collector) => (
-            <Link 
-              to={generateCollectorPath(collector.id.toString())} 
+            <Link
+              to={generateCollectorPath(collector.id.toString())}
               key={collector.id}
             >
               <Card className="relative overflow-hidden group hover:shadow-xl transition-shadow duration-200">
                 <div className="absolute top-4 right-4">
-                  {collector.rank === 1 && <Trophy className="w-8 h-8 text-yellow-500 animate-bounce" />}
-                  {collector.rank === 2 && <Medal className="w-8 h-8 text-gray-400" />}
-                  {collector.rank === 3 && <Award className="w-8 h-8 text-orange-500" />}
+                  {collector.rank.global === 1 && <Trophy className="w-8 h-8 text-yellow-500 animate-bounce" />}
+                  {collector.rank.global === 2 && <Medal className="w-8 h-8 text-gray-400" />}
+                  {collector.rank.global === 3 && <Award className="w-8 h-8 text-orange-500" />}
                 </div>
                 <div className="p-6 text-center">
                   <div className="relative w-24 h-24 mx-auto mb-4">
@@ -66,8 +67,8 @@ export const TopCollectors = () => {
                   </div>
                   <h3 className="text-xl font-bold mb-2">{collector.name}</h3>
                   <div className="mb-4">
-                    <Progress value={collector.points / 150} className="h-2" />
-                    <p className="text-sm text-gray-600 mt-1">{collector.points} points</p>
+                    <Progress value={collector.rank.categoryRank / 150} className="h-2" />
+                    <p className="text-sm text-gray-600 mt-1">{collector.rank.global} points</p>
                   </div>
                   <div className="flex flex-wrap gap-2 justify-center">
                     {collector.badges.map((badge, index) => (

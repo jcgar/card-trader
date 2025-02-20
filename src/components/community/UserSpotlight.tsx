@@ -14,6 +14,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { api } from "@/use/api";
 import { routes } from "@/use/routes";
+import { Collector } from "@/app/types";
 
 interface UserSpotlight {
   id: string;
@@ -27,23 +28,23 @@ interface UserSpotlight {
   rarity: string;
 }
 
-export const UserSpotlight = () => {
-  const [spotlightUsers, setSpotlightUsers] = useState<UserSpotlight[]>([]);
+export const UserSpotlight = ({ collectors }: { collectors: Collector[] }) => {
+  // const [spotlightUsers, setSpotlightUsers] = useState<UserSpotlight[]>([]);
 
-  useEffect(() => {
-    const fetchSpotlightUsers = async () => {
-      const data = await api("topCollectors");
-      setSpotlightUsers(data.slice(0, 3));
-    };
-    fetchSpotlightUsers();
-  }, []);
+  // useEffect(() => {
+  //   const fetchSpotlightUsers = async () => {
+  //     const data = await api("topCollectors");
+  //     setSpotlightUsers(data.slice(0, 3));
+  //   };
+  //   fetchSpotlightUsers();
+  // }, []);
 
   return (
     <div className="container mx-auto px-4 py-12">
       <h2 className="text-3xl font-bold text-center mb-12">Coleccionistas Destacados</h2>
-      
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {spotlightUsers.map((user, index) => (
+        {collectors.map((user, index) => (
           <motion.div
             key={user.id}
             initial={{ opacity: 0, y: 20 }}
@@ -62,48 +63,52 @@ export const UserSpotlight = () => {
                     className="w-24 h-24 rounded-full mx-auto mb-4 border-4 border-green-500 group-hover:scale-105 transition-transform"
                   />
                 </div>
-                
+
                 <h3 className="text-xl font-bold text-center mb-4">{user.name}</h3>
-                
+
                 <div className="space-y-3">
                   <div className="flex items-center justify-between text-sm">
                     <span className="flex items-center gap-2">
                       <Trophy className="w-4 h-4 text-yellow-500" />
                       Logros
                     </span>
-                    <span className="font-bold">{user.achievements}</span>
+                    <span className="font-bold">{user.achievements.length}</span>
                   </div>
-                  
+
                   <div className="flex items-center justify-between text-sm">
                     <span className="flex items-center gap-2">
                       <Users className="w-4 h-4 text-blue-500" />
                       Seguidores
                     </span>
-                    <span className="font-bold">{user.followers}</span>
+                    <span className="font-bold">{user.stats.followers}</span>
                   </div>
-                  
+
                   <div className="flex items-center justify-between text-sm">
                     <span className="flex items-center gap-2">
                       <Star className="w-4 h-4 text-purple-500" />
                       Colecciones
                     </span>
-                    <span className="font-bold">{user.collections}</span>
+                    <span className="font-bold">{user.stats.totalCollections}</span>
                   </div>
                 </div>
-                
+
                 <div className="mt-6 pt-4 border-t">
                   <div className="flex items-center justify-between text-sm">
                     <span className="flex items-center gap-2">
-                      <Medal className="w-4 h-4 text-green-500" />
-                      {user.speciality}
+
+                      {user.badges.map(badge =>
+                        <div className="p-2 bg-yellow-100 rounded-full">
+                          {badge}
+                        </div>
+                      )}
                     </span>
                     <span className="flex items-center gap-1 text-orange-500">
                       <Flame className="w-4 h-4" />
-                      {user.rarity}
+                      {user.rank.global}
                     </span>
                   </div>
                 </div>
-                
+
                 <Button className="w-full mt-6">Ver Perfil</Button>
               </Card>
             </Link>

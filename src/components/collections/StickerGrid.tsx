@@ -12,7 +12,6 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { useState, useEffect, useRef } from "react";
-import { toast } from "sonner";
 import { useSwipeable } from "react-swipeable";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -39,6 +38,9 @@ import { cn } from "@/lib/utils";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { StickerCard } from "../cards/StickerCard";
 import { Sticker } from "@/app/types";
+import { showToast } from "@/use/ui";
+import { StickerList } from "./StickerList";
+import { StickerDialog } from "./StickerDialog";
 
 type LayoutType = "scroll" | "grid" | "album";
 type FilterType = "all" | "missing" | "repeated" | "special" | "favorites";
@@ -99,6 +101,7 @@ export const StickerGrid = ({ stickerGroups }) => {
     }
   };
 
+  const isSelected = (sticker) => isBulkEditing && selectedBulkStickers.includes(sticker.id)
   const toggleBulkSelection = (stickerId: number) => {
     setSelectedBulkStickers(prev =>
       prev.includes(stickerId)
@@ -133,7 +136,7 @@ export const StickerGrid = ({ stickerGroups }) => {
     });
 
     playSound();
-    showToast(action, stickerId);
+    showToastFromAction(action, stickerId);
     checkPageCompletion();
   };
 
@@ -142,14 +145,14 @@ export const StickerGrid = ({ stickerGroups }) => {
     audio.play();
   };
 
-  const showToast = (action: string, stickerId: number) => {
+  const showToastFromAction = (action: string, stickerId: number) => {
     const messages = {
       add: "Cromo añadido",
       remove: "Cromo eliminado",
       favorite: "Añadido a favoritos"
     };
 
-    toast({
+    showToast({
       title: messages[action],
       description: `Cromo #${stickerId} ${action === 'add' ? 'añadido a' : 'eliminado de'} tu colección`,
     });
@@ -160,7 +163,7 @@ export const StickerGrid = ({ stickerGroups }) => {
     const isPageComplete = pageStickers.every(s => s.owned || changes[s.id]?.owned);
 
     if (isPageComplete) {
-      toast({
+      showToast({
         title: "¡Página completada! 🎉",
         description: "Has completado todos los cromos de esta página",
       });
@@ -182,7 +185,7 @@ export const StickerGrid = ({ stickerGroups }) => {
     });
     setChanges(newChanges);
 
-    toast({
+    showToast({
       title: "Edición masiva completada",
       description: `Se han actualizado ${selectedBulkStickers.length} cromos`,
     });
@@ -193,7 +196,7 @@ export const StickerGrid = ({ stickerGroups }) => {
 
   const handleSaveChanges = () => {
     // Aquí iría la lógica para guardar en el backend
-    toast({
+    showToast({
       title: "Cambios guardados",
       description: "Todos los cambios han sido guardados correctamente",
     });
@@ -356,129 +359,17 @@ export const StickerGrid = ({ stickerGroups }) => {
         )}
       </div>
 
-      {/* Modal de edición */}
       <Dialog open={isEditing} onOpenChange={setIsEditing}>
-        <DialogContent className="sm:max-w-md">
-          <DialogHeader>
-            <DialogTitle>
-              Editar Cromo #{selectedSticker?.number}
-              {selectedSticker?.type === "special" && (
-                <Star className="inline-block ml-2 h-4 w-4 text-yellow-500" />
-              )}
-            </DialogTitle>
-            <DialogDescription>
-              Actualiza el estado y la cantidad de este cromo
-            </DialogDescription>
-          </DialogHeader>
-
-          <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <span className="font-medium">Cantidad:</span>
-              <div className="flex items-center gap-4">
-                <Button
-                  variant="outline"
-                  onClick={() => selectedSticker && handleQuickAction(selectedSticker.id, "remove")}
-                >
-                  <Minus className="h-4 w-4" />
-                </Button>
-                <span className="font-bold">
-                  {selectedSticker && (changes[selectedSticker.id]?.repeated || 0)}
-                </span>
-                <Button
-                  variant="outline"
-                  onClick={() => selectedSticker && handleQuickAction(selectedSticker.id, "add")}
-                >
-                  <Plus className="h-4 w-4" />
-                </Button>
-              </div>
-            </div>
-
-            <div className="flex gap-2">
-              <Button
-                variant="outline"
-                className="flex-1"
-                onClick={() => selectedSticker && handleQuickAction(selectedSticker.id, "favorite")}
-              >
-                <Heart className={cn(
-                  "h-4 w-4 mr-2",
-                  selectedSticker && changes[selectedSticker.id]?.favorite && "fill-red-500 text-red-500"
-                )} />
-                Favorito
-              </Button>
-
-              <Button variant="outline" className="flex-1">
-                <Share2 className="h-4 w-4 mr-2" />
-                Compartir
-              </Button>
-            </div>
-
-            {isMobile && (
-              <Button className="w-full" onClick={() => setIsEditing(false)}>
-                <Camera className="h-4 w-4 mr-2" />
-                Escanear con cámara
-              </Button>
-            )}
-          </div>
-        </DialogContent>
+        <StickerDialog selectedSticker={selectedSticker} handleQuickAction={handleQuickAction} changes={changes} />
       </Dialog>
 
       <div ref={albumRef} className="relative">
         <AnimatePresence mode="wait">
 
-          {layout === "scroll" && (
-            <ScrollArea className="w-full h-[500px] rounded-lg border">
-              <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-4">
-                {stickers.map((sticker) => (
-                  <StickerCard
-                    key={sticker.id}
-                    sticker={sticker}
-                    onClick={handleStickerClick}
-                    isSelected={isBulkEditing && selectedBulkStickers.includes(sticker.id)}
-                    changes={changes[sticker.id]}
-                  />
-                ))}
-              </div>
-              <ScrollBar orientation="vertical" />
-            </ScrollArea>
-          )}
-
-          {layout === "grid" && (
-            <motion.div
-              key={`grid-${currentPage}`}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-1"
-            >
-              {getCurrentPageStickers().map((sticker) => (
-                <StickerCard
-                  key={sticker.id}
-                  sticker={sticker}
-                  onClick={handleStickerClick}
-                  isSelected={isBulkEditing && selectedBulkStickers.includes(sticker.id)}
-                  changes={changes[sticker.id]}
-                />
-              ))}
-            </motion.div>
-          )}
-
-          {layout === "album" && (
-            <ScrollArea className="w-full h-[500px] rounded-lg border">
-              <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-4">
-                {getCurrentPageStickers().map((sticker) => (
-                  <StickerCard
-                    key={sticker.id}
-                    sticker={sticker}
-                    onClick={handleStickerClick}
-                    isSelected={isBulkEditing && selectedBulkStickers.includes(sticker.id)}
-                    changes={changes[sticker.id]}
-                  />
-                ))}
-              </div>
-              <ScrollBar orientation="vertical" />
-            </ScrollArea>
-
-          )}
+          <StickerList layout={layout}
+            stickers={layout === "scroll" ? stickers : getCurrentPageStickers()}
+            onClick={handleStickerClick}
+            isSelected={isSelected} />
         </AnimatePresence>
 
         {layout !== "scroll" && (

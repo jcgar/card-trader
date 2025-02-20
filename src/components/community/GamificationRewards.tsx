@@ -3,7 +3,7 @@ import { Card } from "../ui/card";
 import { Gift, Star, Trophy, Crown, Sparkles } from "lucide-react";
 import { useState } from "react";
 import { Button } from "../ui/button";
-import { useToast } from "@/hooks/use-toast";
+import { showToast } from "@/use/ui";
 
 const rewards = [
   {
@@ -40,7 +40,6 @@ const rewards = [
 
 export const GamificationRewards = () => {
   const [openChest, setOpenChest] = useState<number | null>(null);
-  const { toast } = useToast();
   const [playingSound, setPlayingSound] = useState(false);
 
   const playRewardSound = () => {
@@ -53,7 +52,7 @@ export const GamificationRewards = () => {
   const handleOpenChest = (rewardId: number) => {
     setOpenChest(rewardId);
     playRewardSound();
-    toast({
+    showToast({
       title: "¡Recompensa desbloqueada!",
       description: "Has obtenido un nuevo premio para tu colección.",
     });

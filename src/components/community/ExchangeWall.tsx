@@ -4,37 +4,37 @@ import { Button } from "../ui/button";
 import { MessageSquare, RefreshCcw, Search } from "lucide-react";
 import ExchangeCard from "../cards/ExchangeCard";
 
-const exchanges = [
-  {
-    id: 1,
-    user: "Alice Smith",
-    avatar: "https://i.pravatar.cc/150?u=alice",
-    offering: "Rare Premier League 2023",
-    looking: "Champions League Legends",
-    posted: "15 minutes ago",
-    comments: 3,
-  },
-  {
-    id: 2,
-    user: "Bob Johnson",
-    avatar: "https://i.pravatar.cc/150?u=bob",
-    offering: "Pokémon First Edition",
-    looking: "Vintage Baseball Cards",
-    posted: "1 hour ago",
-    comments: 5,
-  },
-  {
-    id: 3,
-    user: "Carol Williams",
-    avatar: "https://i.pravatar.cc/150?u=carol",
-    offering: "Movie Classics Collection",
-    looking: "Anime Limited Edition",
-    posted: "2 hours ago",
-    comments: 2,
-  },
-];
+// const exchanges = [
+//   {
+//     id: 1,
+//     user: "Alice Smith",
+//     avatar: "https://i.pravatar.cc/150?u=alice",
+//     offering: "Rare Premier League 2023",
+//     looking: "Champions League Legends",
+//     posted: "15 minutes ago",
+//     comments: 3,
+//   },
+//   {
+//     id: 2,
+//     user: "Bob Johnson",
+//     avatar: "https://i.pravatar.cc/150?u=bob",
+//     offering: "Pokémon First Edition",
+//     looking: "Vintage Baseball Cards",
+//     posted: "1 hour ago",
+//     comments: 5,
+//   },
+//   {
+//     id: 3,
+//     user: "Carol Williams",
+//     avatar: "https://i.pravatar.cc/150?u=carol",
+//     offering: "Movie Classics Collection",
+//     looking: "Anime Limited Edition",
+//     posted: "2 hours ago",
+//     comments: 2,
+//   },
+// ];
 
-export const ExchangeWall = () => {
+export const ExchangeWall = ({ exchanges }) => {
   return (
     <section className="py-20">
       <div className="container mx-auto px-4">

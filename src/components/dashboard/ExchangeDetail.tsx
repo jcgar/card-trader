@@ -2,7 +2,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useSwipeable } from 'react-swipeable';
-import { toast } from 'sonner';
 import {
   MessageSquare,
   Check,
@@ -21,6 +20,7 @@ import { Input } from '@/components/ui/input';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { Exchange, Sticker } from '@/app/types';
 import { StickerCard } from '../cards/StickerCard';
+import { showToast } from '@/use/ui';
 
 interface ExchangeDetailProps {
   exchange: Exchange;
@@ -50,7 +50,7 @@ export const ExchangeDetail = ({ exchange, onStatusChange }: ExchangeDetailProps
     // Lógica para aceptar cromo
     playSound('accept');
     vibrate();
-    toast({
+    showToast({
       title: "Cromo aceptado",
       description: `Has aceptado el cromo #${sticker.number}`,
     });
@@ -60,7 +60,7 @@ export const ExchangeDetail = ({ exchange, onStatusChange }: ExchangeDetailProps
     // Lógica para rechazar cromo
     playSound('reject');
     vibrate();
-    toast({
+    showToast({
       title: "Cromo rechazado",
       description: `Has rechazado el cromo #${sticker.number}`,
     });
@@ -84,7 +84,7 @@ export const ExchangeDetail = ({ exchange, onStatusChange }: ExchangeDetailProps
 
   const completeExchange = () => {
     onStatusChange('completed');
-    toast({
+    showToast({
       title: "¡Intercambio completado!",
       description: "El intercambio se ha completado exitosamente.",
     });

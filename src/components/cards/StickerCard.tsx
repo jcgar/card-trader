@@ -20,12 +20,10 @@ export const StickerCard = ({
   sticker,
   onClick,
   isSelected,
-  changes
 }: StickerCardProps) => {
   const isMobile = useIsMobile();
-  const isOwned = changes ? changes.owned : sticker.owned;
-  const repeated = changes ? changes.repeated : sticker.repeated;
-  const isFavorite = changes?.favorite;
+  const isOwned = sticker.owned;
+  const repeated = sticker.repeated;
 
   return (
     <div
@@ -76,11 +74,6 @@ export const StickerCard = ({
         </div>
       )}
 
-      {isFavorite && (
-        <div className="absolute top-0 left-0 transform -translate-x-1/4 -translate-y-1/4">
-          <Heart className="w-4 h-4 text-red-500 fill-red-500" />
-        </div>
-      )}
     </div>
   );
 }

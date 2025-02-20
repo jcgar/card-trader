@@ -1,28 +1,16 @@
 
 import { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { useQuery } from "@tanstack/react-query";
-import { toast } from "sonner";
+import { motion } from "framer-motion";
 import {
   Camera,
-  Settings,
   Edit,
   MapPin,
-  Link,
-  Lock,
   Trophy,
-  Star,
-  Bell,
-  Moon,
-  Palette,
-  LogOut,
   Eye,
-  Save,
-  Upload
+  Save
 } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Progress } from "@/components/ui/progress";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
@@ -31,6 +19,7 @@ import { cn } from "@/lib/utils";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Collector, CollectorSettings } from "@/app/types";
 import { useApi } from "@/use/api";
+import { showToast } from "@/use/ui";
 
 export default function Profile() {
   const isMobile = useIsMobile();
@@ -67,7 +56,7 @@ export default function Profile() {
     const file = e.target.files?.[0];
     if (file) {
       // Aquí iría la lógica para subir la imagen
-      toast({
+      showToast({
         title: "Foto actualizada",
         description: "Tu foto de perfil se ha actualizado correctamente"
       });
@@ -76,7 +65,7 @@ export default function Profile() {
 
   const handleSaveChanges = () => {
     setIsEditing(false);
-    toast({
+    showToast({
       title: "Cambios guardados",
       description: "Los cambios en tu perfil se han guardado correctamente"
     });

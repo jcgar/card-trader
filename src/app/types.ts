@@ -62,11 +62,7 @@ export interface Collector {
   };
   stats: CollectorStats;
   achievements: Achievement[];
-  badges: {
-    id: string;
-    name: string;
-    icon: string;
-  }[];
+  badges: string[];
   rank: {
     global: number;
     category: string;

@@ -21,13 +21,13 @@ export const routes = {
 } as const;
 
 export const generateCollectorPath = (id: string) => {
-  return `/coleccionista/${id}`;
+  return `/coleccionistas/${id}`;
 };
 
 export const generateCollectorProPath = (id: string) => {
-  return `/coleccionista/${id}/pro`;
+  return `/coleccionistas/${id}/pro`;
 };
 
 export const generateCollectionPath = (id: string) => {
-  return `/coleccion/${id}`;
+  return `/colecciones/${id}`;
 };

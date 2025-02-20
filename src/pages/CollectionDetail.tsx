@@ -9,6 +9,8 @@ import { CollectionFilters } from "@/components/collections/CollectionFilters";
 import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Sticker } from "@/app/types";
 
 
 const allTeams = [
@@ -27,6 +29,7 @@ const allTeams = [
 ];
 
 const generateStickers = () => {
+  console.log('generateStickers')
   const allStickers = [];
   let currentNumber = 1;
 
@@ -49,9 +52,13 @@ const generateStickers = () => {
 };
 
 const CollectionDetail = ({ collection }) => {
+  const [groups, setGroups] = useState<Sticker[]>([])
   const { id } = useParams();
   const navigate = useNavigate();
-  const stickerGroups = generateStickers();
+
+  useEffect(() => {
+    setGroups(generateStickers());
+  }, []);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-green-50 via-white to-white">
@@ -71,7 +78,7 @@ const CollectionDetail = ({ collection }) => {
           <div className="lg:col-span-2 space-y-8">
             <CollectionOverview />
             <CollectionFilters />
-            <StickerGrid stickerGroups={stickerGroups} />
+            <StickerGrid stickerGroups={groups} />
           </div>
 
           <div className="space-y-8">

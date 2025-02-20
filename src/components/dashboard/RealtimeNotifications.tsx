@@ -1,8 +1,8 @@
 
 import { useEffect, useState } from "react";
 import { Bell, MessageSquare, Star, Gift, X, ChevronUp, ChevronDown } from "lucide-react";
-import { useToast } from "../../hooks/use-toast";
 import { Button } from "../ui/button";
+import { showToast } from "@/use/ui";
 
 const initialNotifications = [
   {
@@ -29,7 +29,6 @@ const initialNotifications = [
 ];
 
 export const RealtimeNotifications = () => {
-  const { toast } = useToast();
   const [activeNotifications, setActiveNotifications] = useState(initialNotifications);
   const [isVisible, setIsVisible] = useState(true);
   const [isPanelOpen, setIsPanelOpen] = useState(true);
@@ -56,7 +55,7 @@ export const RealtimeNotifications = () => {
       };
 
       if (isVisible) {
-        toast({
+        showToast({
           title: newNotification.title,
           description: newNotification.message,
           duration: 3000,
@@ -67,7 +66,7 @@ export const RealtimeNotifications = () => {
     }, 10000);
 
     return () => clearInterval(interval);
-  }, [toast, isVisible]);
+  }, [isVisible]);
 
   if (!isVisible) return null;
 

@@ -3,35 +3,35 @@ import { Card } from "../ui/card";
 import { Activity, Users, Award, RefreshCcw } from "lucide-react";
 import { useEffect, useState } from "react";
 
-const initialActivities = [
-  {
-    id: 1,
-    type: "achievement",
-    user: "John Doe",
-    action: "earned the Master Collector badge",
-    time: "2 minutes ago",
-    icon: Award,
-  },
-  {
-    id: 2,
-    type: "trade",
-    user: "Emma Wilson",
-    action: "completed a trade with Sarah Chen",
-    time: "5 minutes ago",
-    icon: RefreshCcw,
-  },
-  {
-    id: 3,
-    type: "newUser",
-    user: "Michael Brown",
-    action: "joined the community",
-    time: "10 minutes ago",
-    icon: Users,
-  },
-];
+// const initialActivities = [
+//   {
+//     id: 1,
+//     type: "achievement",
+//     user: "John Doe",
+//     action: "earned the Master Collector badge",
+//     time: "2 minutes ago",
+//     icon: Award,
+//   },
+//   {
+//     id: 2,
+//     type: "trade",
+//     user: "Emma Wilson",
+//     action: "completed a trade with Sarah Chen",
+//     time: "5 minutes ago",
+//     icon: RefreshCcw,
+//   },
+//   {
+//     id: 3,
+//     type: "newUser",
+//     user: "Michael Brown",
+//     action: "joined the community",
+//     time: "10 minutes ago",
+//     icon: Users,
+//   },
+// ];
 
-export const LiveActivity = () => {
-  const [activities, setActivities] = useState(initialActivities);
+export const LiveActivity = ({ activities }) => {
+  const [liveActivities, setActivities] = useState(activities);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -58,7 +58,7 @@ export const LiveActivity = () => {
           <Activity className="w-6 h-6 text-green-600 animate-pulse" />
         </div>
         <div className="grid gap-4 max-w-3xl mx-auto">
-          {activities.map((activity) => (
+          {liveActivities.map((activity) => (
             <Card
               key={activity.id}
               className="p-4 flex items-center gap-4 animate-fade-in hover:shadow-md transition-shadow"

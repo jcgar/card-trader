@@ -3,7 +3,7 @@ import { Card } from "../ui/card";
 import { Trophy, Star, Crown, Award, Sparkles } from "lucide-react";
 import { Progress } from "../ui/progress";
 import { useState } from "react";
-import { useToast } from "@/hooks/use-toast";
+import { showToast } from "@/use/ui";
 
 const challenges = [
   {
@@ -57,7 +57,6 @@ const achievements = [
 
 export const ChallengesAndAchievements = () => {
   const [activeChallenge, setActiveChallenge] = useState<number | null>(null);
-  const { toast } = useToast();
   const [playingSound, setPlayingSound] = useState(false);
 
   const playAchievementSound = () => {
@@ -70,7 +69,7 @@ export const ChallengesAndAchievements = () => {
   const handleChallengeClick = (challengeId: number) => {
     setActiveChallenge(challengeId);
     playAchievementSound();
-    toast({
+    showToast({
       title: "¡Reto seleccionado!",
       description: "Continúa trabajando en este desafío para obtener recompensas.",
     });
@@ -114,9 +113,9 @@ export const ChallengesAndAchievements = () => {
                         <span>Progreso</span>
                         <span>{challenge.progress}%</span>
                       </div>
-                      <Progress 
-                        value={challenge.progress} 
-                        className="h-2 animate-pulse" 
+                      <Progress
+                        value={challenge.progress}
+                        className="h-2 animate-pulse"
                       />
                       <div className="flex justify-between items-center mt-2">
                         <span className="text-xs text-green-600">{challenge.deadline}</span>
