@@ -1,7 +1,8 @@
 import { motion } from "framer-motion"
 import { Card } from "@/components/ui/card"
-import { Search, Star } from "lucide-react"
+import { Heart, Search, Star, Users } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { Collection } from "@/app/types"
 
 const statusColors = {
   iniciado: "bg-yellow-500 text-black",
@@ -10,39 +11,41 @@ const statusColors = {
   completado: "bg-green-500 text-white",
 }
 
-export default function CollectionCard({ collection }) {
+export default function CollectionCard({ collection }: { collection: Collection }) {
   return (
     <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
       <Card
         key={collection.id}
-        className="group overflow-hidden hover:shadow-lg transition-all duration-300"
+        className="overflow-hidden hover:shadow-lg transition-all duration-300"
       >
-        <div className="relative aspect-[4/3]">
+        <div className="group relative aspect-[4/3]">
           <img
             src={collection.image}
-            alt={collection.title}
+            alt={collection.name}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-green-900/80 via-green-900/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
+          <div className="absolute inset-0 bg-gradient-to-t group-hover:scale-105 from-green-900/80 via-green-900/40 to-transparent opacity-0 hover:opacity-100 transition-opacity">
             <div className="absolute bottom-4 left-4 right-4">
               <Button className="w-full bg-white/90 hover:bg-white text-green-800">
                 <Search className="w-4 h-4 mr-2" />
-                View Album
+                View
               </Button>
             </div>
           </div>
         </div>
-        <div className="p-4">
-          <div className="flex items-center justify-between mb-2">
-            <h3 className="font-bold">{collection.title}</h3>
-            <span className="flex items-center text-yellow-500">
-              <Star className="w-4 h-4 mr-1" />
-              {collection.rarity}
-            </span>
-          </div>
-          <p className="text-sm text-gray-600">
-            Progress: {collection.progress}
-          </p>
+        <div className="flex p-4 gap-4">
+          <span className="flex items-center gap-1">
+            <Heart className="h-4 w-4" />
+            {collection.likes}
+          </span>
+          <span className="flex items-center gap-1">
+            <Users className="h-4 w-4" />
+            {collection.activeUsers}
+          </span>
+          <span className="flex items-center gap-1">
+            <Star className="h-4 w-4" />
+            {collection.popularity}
+          </span>
         </div>
       </Card>
     </motion.div>

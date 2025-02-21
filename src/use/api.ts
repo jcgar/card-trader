@@ -107,7 +107,8 @@ export async function api(route: string, options: ApiOptions = {}): Promise<any>
 
   // Handle full query option
   if (!options.fullQuery && Array.isArray(result)) {
-    result = result.slice(0, 10) // Default to first 10 items if not requesting full query
+    const pageSize = options.pageSize || 10
+    result = result.slice(0, pageSize) // Default to first 10 items if not requesting full query
   }
 
   // Handle specific params for certain routes

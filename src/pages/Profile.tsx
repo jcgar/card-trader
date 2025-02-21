@@ -44,7 +44,6 @@ export default function Profile() {
     return <div>Cargando...</div>; // Muestra un cargador mientras esperas ambos datos
   }
 
-  console.log({ collectors, preferences })
   if (!collectors || !preferences) {
     return <div>Error al cargar los datos</div>; // Si alguna de las respuestas está vacía, muestra un error
   }

@@ -10,7 +10,7 @@ import { useApi } from "@/use/api";
 import { Collection } from "@/app/types";
 
 const PublicCollections = () => {
-  const { data: collections } = useApi<Collection>('collections', { page: 1, pageSize: 10, fullQuery: false })
+  const { data: collections } = useApi<Collection>('collections', { page: 1, pageSize: 100, fullQuery: false })
 
   const collectionsByCategory = collections.reduce((acc, collection) => {
     if (!acc[collection.category]) {
@@ -38,6 +38,7 @@ const PublicCollections = () => {
             {Object.entries(collectionsByCategory).map(([category, collections]) => (
               <CategorySlider
                 key={category}
+                itemsPerPage={4}
                 title={category}
                 collections={collections}
               />
