@@ -1,94 +1,36 @@
+import es from "./i18n/es.json"
+import en from "./i18n/en.json"
+
 const translations = {
-  "dashboard.title": "Dashboard WOW",
-  "dashboard.activeCollections": "Colecciones Activas",
-  "dashboard.totalCards": "Total de Cromos",
-  "dashboard.completedCards": "Cromos Completados",
-  "dashboard.overallProgress": "Progreso General",
-  "dashboard.myCollections": "Mis Colecciones",
-  "dashboard.searchCollection": "Buscar colección...",
-  "dashboard.newCollection": "Nueva Colección",
-  "dashboard.recentExchanges": "Intercambios Recientes",
-  "collections.title": "Mis Colecciones",
-  "collections.editCollection": "Editar Colección",
-  "exchanges.title": "Mis Intercambios",
-  "exchange.status": "Estado del intercambio",
-  "exchange.cardsToExchange": "Cromos a intercambiar",
-  "exchange.conversation": "Conversación",
-  "exchange.actions": "Acciones",
-  "exchange.editExchange": "Editar Intercambio",
-  "exchange.editExchangeCards": "Editar Cromos del Intercambio",
-  "exchange.totalSelectedCards": "Total de cromos seleccionados: {{count}}",
-  "exchange.saveChanges": "Guardar Cambios",
-  "card.type.normal": "Normal",
-  "card.type.special": "Especial",
-  "card.type.album": "Álbum",
-  "home.featuredCategories": "Categorías Destacadas",
-  "blog.readMore": "Leer más",
-  "help.frequentlyAskedQuestions": "Preguntas Frecuentes",
-  "search.title": "Buscar Intercambios",
-  "search.formTitle": "Formulario de Búsqueda",
-  "search.selectCollection": "Seleccionar Colección",
-  "search.cardNumber": "Número de Cromo",
-  "search.cardName": "Nombre del Cromo",
-  "search.searchButton": "Buscar",
-  "search.loading": "Cargando resultados...",
-  "search.noResults": "No se encontraron resultados",
-  "search.resultsTitle": "Resultados de la Búsqueda",
-  "search.contact": "Contactar",
-  "profile.title": "Mi Perfil",
-  "profile.userInfo": "Información del Usuario",
-  "profile.stats": "Estadísticas",
-  "profile.achievements": "Logros",
-  "profile.achievementsProgress": "Progreso de Logros",
-  "profile.achievementsProgressText": "Has desbloqueado {{unlocked}} de {{total}} logros",
-  "profile.shareAchievements": "Compartir Logros",
-  "profile.shareAchievementsText": "¡He desbloqueado {{count}} logros en WOW Collectors!",
-  "profile.instagramShareInstructions": "Texto copiado al portapapeles. Pégalo en tu historia de Instagram.",
-  "profile.loading": "Cargando perfil...",
-  "profile.editProfile": "Editar Perfil",
-  "profile.memberSince": "Miembro desde {{date}}",
-  "challenges.title": "Retos y Recompensas",
-  "challenges.activeChallenges": "Retos Activos",
-  "challenges.inProgress": "En Progreso",
-  "challenges.claimReward": "Reclamar Recompensa",
-  "rewards.availableRewards": "Recompensas Disponibles",
-  "rewards.redeem": "Canjear",
-  "rewards.notAvailable": "No Disponible",
-  "community.achievementsRanking": "Ranking de Logros",
-  "community.achievements": "logros",
-  "community.rareAchievements": "logros raros",
-  "achievements.newUnlocked": "¡Nuevo logro desbloqueado!",
-  "achievements.title": "Mis Logros",
-  "achievements.unlocked": "Desbloqueado",
-  "achievements.locked": "Bloqueado",
-  "common.previous": "Anterior",
-  "common.next": "Siguiente",
-  "common.cancel": "Cancelar",
-  "common.delete": "Eliminar",
-  // Nuevas traducciones para la Home Pública
-  "home.hero.title":
-    "Completa tus colecciones. Intercambia más fácil. Únete a la comunidad de coleccionistas más grande.",
-  "home.hero.cta.register": "Registrarte Gratis",
-  "home.hero.cta.catalog": "Ver Catálogo de Colecciones",
-  "home.popularCollections.title": "Descubre las colecciones que otros coleccionistas están completando.",
-  "home.recommendations.title": "¿Tienes este cromo?",
-  "home.userRanking.title": "Top Coleccionistas",
-  "home.userRanking.viewMore": "Ver más coleccionistas",
-  "home.communityAchievements.title": "Logros de la Comunidad",
-  "home.exchangeDemo.title": "Así de fácil es intercambiar tus cromos con otros coleccionistas.",
-  "home.exchangeDemo.cta": "Empieza a intercambiar",
-  "home.testimonials.title": "Lo que dicen nuestros usuarios",
-  "home.events.title": "Eventos y Colecciones Especiales",
-  "home.blog.title": "Blog Destacado",
-  "home.finalCta.title": "Miles de coleccionistas ya están aquí. ¿Qué esperas para unirte?",
-  "home.finalCta.button": "Regístrate Gratis Ahora",
+  es,
+  en,
+}
+
+// You can add a function to set the current language if needed
+let currentLanguage = "es"
+
+export function setLanguage(lang: "es" | "en") {
+  currentLanguage = lang
 }
 
 export function t(key: string, params: Record<string, any> = {}): string {
-  let translation = translations[key] || key
-  Object.keys(params).forEach((param) => {
-    translation = translation.replace(`{{${param}}}`, params[param])
-  })
-  return translation
+  const keys = key.split(".")
+  let translation = translations[currentLanguage]
+
+  for (const k of keys) {
+    if (translation[k] === undefined) {
+      return key
+    }
+    translation = translation[k]
+  }
+
+  if (typeof translation === "string") {
+    Object.keys(params).forEach((param) => {
+      translation = translation.replace(`{{${param}}}`, params[param])
+    })
+    return translation
+  }
+
+  return key
 }
 

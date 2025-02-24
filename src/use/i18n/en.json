@@ -1,0 +1,64 @@
+{
+  "exchanges": {
+    "title": "My Exchanges",
+    "searchCollector": "Search collector...",
+    "sortBy": "Sort by",
+    "sortByCollector": "Collector",
+    "sortByStatus": "Status",
+    "sortByDate": "Date",
+    "sortByLastAccess": "Last access",
+    "advancedFilters": "Advanced filters",
+    "advancedFiltersDescription": "Apply advanced filters to your exchanges",
+    "status": "Status",
+    "statusInProgress": "In progress",
+    "statusCancelled": "Cancelled",
+    "statusCompleted": "Completed",
+    "collector": "Collector",
+    "selectCollector": "Select collector",
+    "applyFilters": "Apply filters",
+    "newExchange": "New exchange"
+  },
+  "exchange": {
+    "vs": "VS",
+    "progress": "Exchange Progress",
+    "status": {
+      "pending": "Pending",
+      "accepted": "Accepted",
+      "completed": "Completed",
+      "rejected": "Rejected"
+    },
+    "urgent": "Urgent - Expires in {{time}}",
+    "collections": "Collections",
+    "stickerCount": "{{count}} stickers",
+    "listView": "List View",
+    "gridView": "Grid View",
+    "messagePlaceholder": "Type your message...",
+    "reject": "Reject",
+    "complete": "Complete Exchange"
+  },
+  "collections": {
+    "title": "My Collections",
+    "searchCollection": "Search collection...",
+    "sortBy": "Sort by",
+    "sortByName": "Name",
+    "sortByYear": "Year",
+    "sortByCompletionRate": "Completion rate",
+    "advancedFilters": "Advanced filters",
+    "advancedFiltersDescription": "Apply advanced filters to your collections",
+    "category": "Category",
+    "categorySports": "Sports",
+    "categoryMovies": "Movies",
+    "categoryAnime": "Anime",
+    "categoryVideogames": "Video games",
+    "publisher": "Publisher",
+    "selectPublisher": "Select publisher",
+    "applyFilters": "Apply filters",
+    "newCollection": "New collection",
+    "completionRate": "Completed: {{rate}}",
+    "editCollection": "Edit collection"
+  },
+  "common": {
+    "ascending": "Ascending",
+    "descending": "Descending"
+  }
+}

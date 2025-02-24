@@ -1,7 +1,7 @@
 import { Collection } from "@/app/types";
 import { activities } from "./activities";
 
-const categories = ["videogames", "sports", "movies", "anime", "music", "art"]
+export const categories = ["videogames", "sports", "movies", "anime", "music", "art"]
 
 const publishers = [
   "Nintendo",

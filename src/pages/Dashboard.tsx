@@ -76,7 +76,7 @@ const Dashboard = () => {
             </TabsContent>
 
             <TabsContent value="exchanges">
-              {exchangeId ? (
+              {exchanges[exchangeId] ? (
                 <ExchangeDetail exchange={exchanges[exchangeId]}
                   onStatusChange={(status) => console.log({ status })} />
               ) : (

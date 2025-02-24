@@ -1,5 +1,6 @@
-import { Exchange } from "@/app/types"
+import { Exchange, TradeMessage } from "@/app/types"
 import { collectors } from "./api/collectors"
+import { categories } from "./api/collections"
 
 // Usuarios
 export const users = Array(50)
@@ -58,21 +59,43 @@ export const exchanges: Exchange[] = Array(100)
   .fill(null)
   .map((_, i) => ({
     id: i + 1,
-    user: users[Math.floor(Math.random() * users.length)].name,
-    status: ["pending", "in_progress", "completed"][Math.floor(Math.random() * 3)] as Exchange["status"],
-    collection: collections[Math.floor(Math.random() * collections.length)].name,
-    date: new Date(Date.now() - Math.floor(Math.random() * 10000000000)).toISOString(),
-    lastMessage: `Último mensaje del intercambio ${i + 1}`,
-    cardsOffered: Math.floor(Math.random() * 5) + 1,
-    cardsRequested: Math.floor(Math.random() * 5) + 1,
-    createdAt: '', // add this property
-    sender: collectors[0], // add this property
-    receiver: collectors[1], // add this property
-    receiverStickers: [],
-    senderStickers: [], // add this property
-    messages: [],
-    lastActivity: ''
-  }))
+    status: ["pending", "accepted", "completed", "rejected"][
+      Math.floor(Math.random() * 4)
+    ] as Exchange["status"],
+    createdAt: new Date(
+      Date.now() - Math.floor(Math.random() * 10000000000)
+    ).toISOString(),
+    urgentUntil: Math.random() > 0.7 ? new Date(Date.now() + 86400000).toISOString() : undefined,
+    user: collectors[Math.floor(Math.random() * collectors.length)], // Collector completo
+    tradeCollections: collections
+      .slice(0, Math.floor(Math.random() * 4))
+      .map((collection) => ({
+        id: collection.id,
+        name: collection.name,
+        image: `https://picsum.photos/800/600?random=${Math.floor(Math.random() * categories.length)}`,
+        stickers: Array(Math.floor(Math.random() * 5) + 1).fill(null).map(() => ({
+          id: Math.floor(Math.random() * 1000),
+          number: Math.floor(Math.random() * 500),
+          name: `Sticker ${Math.floor(Math.random() * 500)}`,
+          type: Math.random() > 0.8 ? "special" : "normal",
+          owned: Math.random() > 0.5,
+          repeated: Math.floor(Math.random() * 5)
+        }))
+      })),
+    messages: Array(Math.floor(Math.random() * 5)).fill(null).map(() => ({
+      id: crypto.randomUUID(),
+      senderId: collectors[Math.floor(Math.random() * collectors.length)].id,
+      content: "Mensaje de intercambio",
+      type: ["text", "sticker-added", "sticker-removed", "status-change"][
+        Math.floor(Math.random() * 4)
+      ] as TradeMessage["type"],
+      timestamp: new Date(
+        Date.now() - Math.floor(Math.random() * 10000000000)
+      ).toISOString()
+    })),
+    lastActivity: new Date(Date.now() - Math.floor(Math.random() * 10000000000)).toISOString()
+  }));
+
 
 // Contenido
 export const content = Array(20)

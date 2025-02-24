@@ -1,100 +1,152 @@
+"use client"
 
-import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { useSwipeable } from 'react-swipeable';
-import {
-  MessageSquare,
-  Check,
-  X,
-  RefreshCw,
-  Clock,
-  Star,
-  Award,
-  Send
-} from 'lucide-react';
-import { Card } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Progress } from '@/components/ui/progress';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Input } from '@/components/ui/input';
-import { useIsMobile } from '@/hooks/use-mobile';
-import { Exchange, Sticker } from '@/app/types';
-import { StickerCard } from '../cards/StickerCard';
-import { showToast } from '@/use/ui';
+import { useState, useRef, useEffect } from "react"
+import { motion } from "framer-motion"
+import { useSwipeable } from "react-swipeable"
+import { Check, X, Clock, Star, Award, Send, ChevronRight } from "lucide-react"
+import { Card } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import { Progress } from "@/components/ui/progress"
+import { ScrollArea } from "@/components/ui/scroll-area"
+import { Input } from "@/components/ui/input"
+import { useIsMobile } from "@/hooks/use-mobile"
+import type { Exchange, Sticker, TradeCollection } from "@/app/types"
+import { t } from "@/use/i18n"
 
 interface ExchangeDetailProps {
-  exchange: Exchange;
-  onStatusChange: (status: Exchange['status']) => void;
+  exchange: Exchange
+  onStatusChange: (status: Exchange["status"]) => void
 }
 
 export const ExchangeDetail = ({ exchange, onStatusChange }: ExchangeDetailProps) => {
-  const isMobile = useIsMobile();
-  const [message, setMessage] = useState('');
-  const [selectedSticker, setSelectedSticker] = useState<Sticker | null>(null);
-  const [showComparisonView, setShowComparisonView] = useState(false);
+  const isMobile = useIsMobile()
+  const [message, setMessage] = useState("")
+  const [selectedCollection, setSelectedCollection] = useState<TradeCollection | null>(null)
+  const [viewMode, setViewMode] = useState<"grid" | "list">("grid")
+  const chatRef = useRef<HTMLDivElement>(null)
+  const [localExchange, setLocalExchange] = useState(exchange)
+
+  const isReadOnly = localExchange?.status === "completed" || localExchange?.status === "rejected"
 
   const handlers = useSwipeable({
     onSwipedLeft: () => {
-      if (isMobile && selectedSticker) {
-        handleRejectSticker(selectedSticker);
+      if (isMobile && selectedCollection) {
+        const nextIndex = localExchange.tradeCollections.findIndex((c) => c.id === selectedCollection.id) + 1
+        if (nextIndex < localExchange.tradeCollections.length) {
+          setSelectedCollection(localExchange.tradeCollections[nextIndex])
+        }
       }
     },
     onSwipedRight: () => {
-      if (isMobile && selectedSticker) {
-        handleAcceptSticker(selectedSticker);
+      if (isMobile && selectedCollection) {
+        const prevIndex = localExchange.tradeCollections.findIndex((c) => c.id === selectedCollection.id) - 1
+        if (prevIndex >= 0) {
+          setSelectedCollection(localExchange.tradeCollections[prevIndex])
+        }
       }
     },
-  });
+  })
 
-  const handleAcceptSticker = (sticker: Sticker) => {
-    // Lógica para aceptar cromo
-    playSound('accept');
-    vibrate();
-    showToast({
-      title: "Cromo aceptado",
-      description: `Has aceptado el cromo #${sticker.number}`,
-    });
-  };
+  useEffect(() => {
+    if (chatRef.current) {
+      chatRef.current.scrollTop = chatRef.current.scrollHeight
+    }
+  }, [localExchange?.messages])
 
-  const handleRejectSticker = (sticker: Sticker) => {
-    // Lógica para rechazar cromo
-    playSound('reject');
-    vibrate();
-    showToast({
-      title: "Cromo rechazado",
-      description: `Has rechazado el cromo #${sticker.number}`,
-    });
-  };
+  const handleSendMessage = () => {
+    if (message.trim() && !isReadOnly) {
+      const newMessage = {
+        id: Date.now().toString(),
+        senderId: "currentUser", // Assuming the current user is sending the message
+        content: message,
+        type: "text",
+        timestamp: new Date().toISOString(),
+      }
+      setLocalExchange((prev) => ({
+        ...prev,
+        messages: [...prev.messages, {
+          id: newMessage.id,
+          senderId: newMessage.senderId,
+          content: newMessage.content,
+          type: "text" as "text" | "sticker-added" | "sticker-removed" | "status-change",
+          timestamp: newMessage.timestamp,
+        }],
+      }))
+      setMessage("")
+      playSound("message")
+    }
+  }
 
-  const playSound = (type: 'accept' | 'reject' | 'message') => {
+  const toggleStickerSelection = (collectionId: string, sticker: Sticker) => {
+    if (!isReadOnly) {
+      setLocalExchange((prev) => ({
+        ...prev,
+        tradeCollections: prev.tradeCollections.map((collection) =>
+          collection.id === collectionId
+            ? {
+              ...collection,
+              stickers: collection.stickers.map((s) => (s.id === sticker.id ? { ...s, selected: !s["selected"] } : s)),
+            }
+            : collection,
+        ),
+      }))
+      playSound(sticker["selected"] ? "remove" : "add")
+      vibrate()
+    }
+  }
+
+  const playSound = (type: "add" | "remove" | "message") => {
     const sounds = {
-      accept: '/assets/accept.mp3',
-      reject: '/assets/reject.mp3',
-      message: '/assets/message.mp3'
-    };
-    const audio = new Audio(sounds[type]);
-    audio.play();
-  };
+      add: "/assets/add.mp3",
+      remove: "/assets/remove.mp3",
+      message: "/assets/message.mp3",
+    }
+    const audio = new Audio(sounds[type])
+    audio.play()
+  }
 
   const vibrate = () => {
     if ("vibrate" in navigator) {
-      navigator.vibrate(50);
+      navigator.vibrate(50)
     }
-  };
+  }
 
-  const completeExchange = () => {
-    onStatusChange('completed');
-    showToast({
-      title: "¡Intercambio completado!",
-      description: "El intercambio se ha completado exitosamente.",
-    });
-    // Activar animación de confeti
-    // Código para la animación...
-  };
+  const renderStickers = (collection: TradeCollection) => {
+    return (
+      <div className={`grid ${viewMode === "grid" ? "grid-cols-8 gap-1" : "grid-cols-1 gap-2"}`}>
+        {collection.stickers.map((sticker) => (
+          <motion.div
+            key={sticker.id}
+            className={`
+              ${viewMode === "grid" ? "w-16 h-16" : "w-full h-24"}
+              ${sticker["selected"] ? "bg-green-200" : "bg-gray-100"}
+              rounded-lg flex items-center justify-center cursor-pointer
+              transition-colors duration-200 ease-in-out
+            `}
+            onClick={() => toggleStickerSelection(collection.id, sticker)}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            {viewMode === "grid" ? (
+              <span className="text-sm font-bold">{sticker.number}</span>
+            ) : (
+              <div className="flex items-center justify-between w-full p-2">
+                <span className="text-lg font-bold">#{sticker.number}</span>
+                <div className="text-right">
+                  <p className="font-medium">{sticker.name}</p>
+                  <p className="text-sm text-gray-500">{sticker.type}</p>
+                </div>
+              </div>
+            )}
+          </motion.div>
+        ))}
+      </div>
+    )
+  }
 
   return (
     <div className="flex flex-col space-y-6 p-4 md:p-6" {...handlers}>
-      {/* Cabecera del intercambio */}
+      {/* Exchange header */}
       <div className="relative">
         <div className="flex justify-between items-center">
           <motion.div
@@ -103,183 +155,147 @@ export const ExchangeDetail = ({ exchange, onStatusChange }: ExchangeDetailProps
             className="flex items-center gap-4"
           >
             <img
-              src={exchange.sender.avatar}
-              alt={exchange.sender.name}
+              src={localExchange.user.avatar || "/placeholder.svg"}
+              alt={localExchange.user.name}
               className="w-16 h-16 rounded-full border-4 border-blue-500"
             />
             <div>
-              <h3 className="font-bold">{exchange.sender.name}</h3>
+              <h3 className="font-bold">{localExchange.user.name}</h3>
               <div className="flex items-center gap-2 text-sm">
                 <Star className="w-4 h-4 text-yellow-500" />
-                <span>{exchange.sender.stats.reputation} rep.</span>
+                <span>{localExchange.user.stats.reputation} rep.</span>
               </div>
             </div>
           </motion.div>
 
           <div className="text-center">
             <Award className="w-8 h-8 text-purple-500 mx-auto" />
-            <span className="text-sm font-medium">VS</span>
+            <span className="text-sm font-medium">{t("exchange.vs")}</span>
           </div>
-
-          <motion.div
-            initial={{ x: 50, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            className="flex items-center gap-4"
-          >
-            <div className="text-right">
-              <h3 className="font-bold">{exchange.receiver.name}</h3>
-              <div className="flex items-center gap-2 text-sm justify-end">
-                <Star className="w-4 h-4 text-yellow-500" />
-                <span>{exchange.receiver.stats.reputation} rep.</span>
-              </div>
-            </div>
-            <img
-              src={exchange.receiver.avatar}
-              alt={exchange.receiver.name}
-              className="w-16 h-16 rounded-full border-4 border-green-500"
-            />
-          </motion.div>
         </div>
 
         <div className="mt-4">
           <div className="flex justify-between text-sm text-gray-600 mb-2">
-            <span>Progreso del intercambio</span>
-            <span className="capitalize">{exchange.status}</span>
+            <span>{t("exchange.progress")}</span>
+            <span className="capitalize">{t(`exchange.status.${localExchange.status}`)}</span>
           </div>
-          <Progress value={
-            exchange.status === 'completed' ? 100 :
-              exchange.status === 'accepted' ? 66 :
-                exchange.status === 'pending' ? 33 : 0
-          } />
+          <Progress
+            value={
+              localExchange.status === "completed"
+                ? 100
+                : localExchange.status === "accepted"
+                  ? 66
+                  : localExchange.status === "pending"
+                    ? 33
+                    : 0
+            }
+          />
         </div>
 
-        {exchange.urgentUntil && (
+        {localExchange.urgentUntil && (
           <div className="mt-4 flex items-center gap-2 text-orange-600">
             <Clock className="w-4 h-4" />
-            <span className="text-sm">Urgente - Expira en 2 horas</span>
+            <span className="text-sm">{t("exchange.urgent", { time: localExchange.urgentUntil })}</span>
           </div>
         )}
       </div>
 
-      {/* Sección de cromos */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <Card className="p-4">
-          <h4 className="font-bold mb-4">Tus cromos ofrecidos</h4>
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-            <AnimatePresence>
-              {exchange.senderStickers.map((sticker) => (
-                <motion.div
-                  key={sticker.id}
-                  initial={{ scale: 0.8, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  exit={{ scale: 0.8, opacity: 0 }}
-                  whileHover={{ scale: 1.05 }}
-                >
-                  <StickerCard
-                    sticker={sticker}
-                    onClick={() => setSelectedSticker(sticker)}
-                  />
-                </motion.div>
-              ))}
-            </AnimatePresence>
-          </div>
-        </Card>
-
-        <Card className="p-4">
-          <h4 className="font-bold mb-4">Cromos que recibirías</h4>
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-            <AnimatePresence>
-              {exchange.receiverStickers.map((sticker) => (
-                <motion.div
-                  key={sticker.id}
-                  initial={{ scale: 0.8, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  exit={{ scale: 0.8, opacity: 0 }}
-                  whileHover={{ scale: 1.05 }}
-                >
-                  <StickerCard
-                    sticker={sticker}
-                    onClick={() => setSelectedSticker(sticker)}
-                  />
-                </motion.div>
-              ))}
-            </AnimatePresence>
-          </div>
-        </Card>
-      </div>
-
-      {/* Chat y acciones */}
+      {/* Collections section */}
       <Card className="p-4">
-        <div className="flex flex-col h-[300px]">
-          <ScrollArea className="flex-1 mb-4">
-            <div className="space-y-4">
-              {exchange.messages.map((msg) => (
+        <h4 className="font-bold mb-4">{t("exchange.collections")}</h4>
+        <ScrollArea className="w-full whitespace-nowrap">
+          <div className="flex space-x-4">
+            {localExchange.tradeCollections.map((collection) => (
+              <Card
+                key={collection.id}
+                className={`p-4 cursor-pointer transition-all duration-200 ${selectedCollection?.id === collection.id ? "ring-2 ring-blue-500" : ""
+                  }`}
+                onClick={() => setSelectedCollection(collection)}
+              >
+                <h5 className="font-semibold mb-2">{collection.name}</h5>
+                <p className="text-sm text-gray-600">
+                  {t("exchange.stickerCount", { count: collection.stickers.length })}
+                </p>
+              </Card>
+            ))}
+          </div>
+          {/* <ScrollArea orientation={horizontal} /> */}
+        </ScrollArea>
+      </Card>
+
+      {/* Selected collection stickers */}
+      {selectedCollection && (
+        <Card className="p-4">
+          <div className="flex justify-between items-center mb-4">
+            <h4 className="font-bold">{selectedCollection.name}</h4>
+            <div className="flex gap-2">
+              <Button variant="outline" size="sm" onClick={() => setViewMode(viewMode === "grid" ? "list" : "grid")}>
+                {viewMode === "grid" ? t("exchange.listView") : t("exchange.gridView")}
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => {
+                  const currentIndex = localExchange.tradeCollections.findIndex((c) => c.id === selectedCollection.id)
+                  const nextIndex = (currentIndex + 1) % localExchange.tradeCollections.length
+                  setSelectedCollection(localExchange.tradeCollections[nextIndex])
+                }}
+              >
+                <ChevronRight className="w-4 h-4" />
+              </Button>
+            </div>
+          </div>
+          {renderStickers(selectedCollection)}
+        </Card>
+      )}
+
+      {/* Chat and actions */}
+      <Card className="p-4">
+        <ScrollArea className="h-[300px] mb-4" ref={chatRef}>
+          <div className="space-y-4">
+            {localExchange.messages.map((msg) => (
+              <div key={msg.id} className={`flex ${msg.senderId === "currentUser" ? "justify-end" : "justify-start"}`}>
                 <div
-                  key={msg.id}
-                  className={`flex ${msg.senderId === exchange.sender.id ? 'justify-end' : 'justify-start'
+                  className={`rounded-lg px-4 py-2 max-w-[80%] ${msg.senderId === "currentUser" ? "bg-blue-500 text-white" : "bg-gray-100"
                     }`}
                 >
-                  <div
-                    className={`rounded-lg px-4 py-2 max-w-[80%] ${msg.senderId === exchange.sender.id
-                      ? 'bg-blue-500 text-white'
-                      : 'bg-gray-100'
-                      }`}
-                  >
-                    <p className="text-sm">{msg.content}</p>
-                    <span className="text-xs opacity-75">
-                      {new Date(msg.timestamp).toLocaleTimeString()}
-                    </span>
-                  </div>
+                  <p className="text-sm">{msg.content}</p>
+                  <span className="text-xs opacity-75">{new Date(msg.timestamp).toLocaleTimeString()}</span>
                 </div>
-              ))}
-            </div>
-          </ScrollArea>
-
-          <div className="flex gap-2">
-            <Input
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              placeholder="Escribe un mensaje..."
-              className="flex-1"
-            />
-            <Button onClick={() => {
-              // Lógica para enviar mensaje
-              setMessage('');
-              playSound('message');
-            }}>
-              <Send className="w-4 h-4" />
-            </Button>
+              </div>
+            ))}
           </div>
+        </ScrollArea>
+
+        <div className="flex gap-2">
+          <Input
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            placeholder={t("exchange.messagePlaceholder")}
+            className="flex-1"
+            disabled={isReadOnly}
+          />
+          <Button onClick={handleSendMessage} disabled={isReadOnly}>
+            <Send className="w-4 h-4" />
+          </Button>
         </div>
       </Card>
 
-      {/* Botones de acción */}
-      <div className="flex gap-4 justify-end">
-        <Button
-          variant="outline"
-          className="text-red-600 border-red-200"
-          onClick={() => onStatusChange('rejected')}
-        >
-          <X className="w-4 h-4 mr-2" />
-          Rechazar
-        </Button>
+      {/* Action buttons */}
+      {!isReadOnly && (
+        <div className="flex gap-4 justify-end">
+          <Button variant="outline" className="text-red-600 border-red-200" onClick={() => onStatusChange("rejected")}>
+            <X className="w-4 h-4 mr-2" />
+            {t("exchange.reject")}
+          </Button>
 
-        <Button
-          variant="outline"
-          onClick={() => setShowComparisonView(!showComparisonView)}
-        >
-          <RefreshCw className="w-4 h-4 mr-2" />
-          Cambiar vista
-        </Button>
-
-        <Button
-          className="bg-green-600 hover:bg-green-700"
-          onClick={completeExchange}
-        >
-          <Check className="w-4 h-4 mr-2" />
-          Completar intercambio
-        </Button>
-      </div>
+          <Button className="bg-green-600 hover:bg-green-700" onClick={() => onStatusChange("completed")}>
+            <Check className="w-4 h-4 mr-2" />
+            {t("exchange.complete")}
+          </Button>
+        </div>
+      )}
     </div>
-  );
-};
+  )
+}
+

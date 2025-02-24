@@ -1,0 +1,64 @@
+{
+  "exchanges": {
+    "title": "My Exchanges",
+    "searchCollector": "Search collector...",
+    "sortBy": "Sort by",
+    "sortByCollector": "Collector",
+    "sortByStatus": "Status",
+    "sortByDate": "Date",
+    "sortByLastAccess": "Last access",
+    "advancedFilters": "Advanced filters",
+    "advancedFiltersDescription": "Apply advanced filters to your exchanges",
+    "status": "Status",
+    "statusInProgress": "In progress",
+    "statusCancelled": "Cancelled",
+    "statusCompleted": "Completed",
+    "collector": "Collector",
+    "selectCollector": "Select collector",
+    "applyFilters": "Apply filters",
+    "newExchange": "New exchange"
+  },
+  "exchange": {
+    "vs": "VS",
+    "progress": "Progreso del Intercambio",
+    "status": {
+      "pending": "Pendiente",
+      "accepted": "Aceptado",
+      "completed": "Completado",
+      "rejected": "Rechazado"
+    },
+    "urgent": "Urgente - Expira en {{time}}",
+    "collections": "Colecciones",
+    "stickerCount": "{{count}} cromos",
+    "listView": "Vista de Lista",
+    "gridView": "Vista de Cuadrícula",
+    "messagePlaceholder": "Escribe tu mensaje...",
+    "reject": "Rechazar",
+    "complete": "Completar Intercambio"
+  },
+  "collections": {
+    "title": "My Collections",
+    "searchCollection": "Search collection...",
+    "sortBy": "Sort by",
+    "sortByName": "Name",
+    "sortByYear": "Year",
+    "sortByCompletionRate": "Completion rate",
+    "advancedFilters": "Advanced filters",
+    "advancedFiltersDescription": "Apply advanced filters to your collections",
+    "category": "Category",
+    "categorySports": "Sports",
+    "categoryMovies": "Movies",
+    "categoryAnime": "Anime",
+    "categoryVideogames": "Video games",
+    "publisher": "Publisher",
+    "selectPublisher": "Select publisher",
+    "applyFilters": "Apply filters",
+    "newCollection": "New collection",
+    "completionRate": "Completed: {{rate}}",
+    "editCollection": "Edit collection"
+  },
+  "common": {
+    "ascending": "Ascending",
+    "descending": "Descending"
+  }
+}

@@ -1,21 +1,20 @@
-
-import { Card } from "../ui/card";
-import { Button } from "../ui/button";
-import { Badge } from "../ui/badge";
-import { generatePath, Link, useSearchParams } from "react-router-dom";
-import { CheckCircle, Clock, XCircle, ArrowRight } from "lucide-react";
-import { Exchange } from "@/app/types";
-import { cn } from "@/lib/utils";
-import { routes } from "@/use/routes";
+import { Card } from "../ui/card"
+import { Badge } from "../ui/badge"
+import { generatePath, Link } from "react-router-dom"
+import { CheckCircle, Clock, ArrowRight } from "lucide-react"
+import type { Exchange } from "@/app/types"
+import { cn } from "@/lib/utils"
+import { t } from "@/use/i18n"
+import { routes } from "@/use/routes"
 
 interface MyExchangesProps {
-  exchanges: Exchange[];
+  exchanges: Exchange[]
 }
 
 export const MyExchanges = ({ exchanges }: MyExchangesProps) => {
   return (
     <Card className="p-6">
-      <h3 className="font-bold text-lg mb-4">Mis Intercambios</h3>
+      <h3 className="font-bold text-lg mb-4">{t("myExchanges.title")}</h3>
       <div className="space-y-4">
         {exchanges.map((exchange) => (
           <Link
@@ -25,19 +24,21 @@ export const MyExchanges = ({ exchanges }: MyExchangesProps) => {
           >
             <div className="flex items-center gap-4 p-4 rounded-lg">
               <img
-                src={exchange.sender?.avatar}
-                alt={exchange.sender?.name}
+                src={exchange.user.avatar || "/placeholder.svg"}
+                alt={exchange.user.name}
                 className="w-10 h-10 rounded-full"
               />
               <div className="flex-1">
-                <p className="font-medium">{exchange.sender?.name}</p>
+                <p className="font-medium">{exchange.user.name}</p>
                 <div className="flex gap-2 text-sm">
                   <span className="text-gray-600">
-                    Ofrece: {exchange.senderStickers.length} cromos
+                    {t("myExchanges.totalStickers", {
+                      count: exchange.tradeCollections.reduce((sum, collection) => sum + collection.stickers.length, 0),
+                    })}
                   </span>
                   <span className="text-gray-400">•</span>
                   <span className="text-gray-600">
-                    Solicita: {exchange.receiverStickers.length} cromos
+                    {t("myExchanges.collections", { count: exchange.tradeCollections.length })}
                   </span>
                 </div>
               </div>
@@ -46,7 +47,7 @@ export const MyExchanges = ({ exchanges }: MyExchangesProps) => {
                 className={cn(
                   exchange.status === "completed"
                     ? "text-green-600 border-green-200"
-                    : "text-orange-600 border-orange-200"
+                    : "text-orange-600 border-orange-200",
                 )}
               >
                 {exchange.status === "completed" ? (
@@ -54,7 +55,7 @@ export const MyExchanges = ({ exchanges }: MyExchangesProps) => {
                 ) : (
                   <Clock className="w-4 h-4 mr-1" />
                 )}
-                {exchange.status}
+                {t(`myExchanges.status.${exchange.status}`)}
               </Badge>
               <ArrowRight className="w-4 h-4 text-gray-400" />
             </div>
@@ -62,5 +63,6 @@ export const MyExchanges = ({ exchanges }: MyExchangesProps) => {
         ))}
       </div>
     </Card>
-  );
-};
+  )
+}
+
