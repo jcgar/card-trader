@@ -16,10 +16,10 @@ interface CategorySliderProps {
   title: string;
   itemsPerPage: number;
   collections: Collection[];
+  onCollectionClick: () => void;
 }
 
-export const CategorySlider = ({ title, itemsPerPage, collections }: CategorySliderProps) => {
-
+export const CategorySlider = ({ title, itemsPerPage, collections, onCollectionClick }: CategorySliderProps) => {
   // Calculate total stats for the category
   const categoryStats = {
     totalCollectors: collections.reduce((sum, col) => sum + col.activeUsers, 0),
@@ -27,11 +27,13 @@ export const CategorySlider = ({ title, itemsPerPage, collections }: CategorySli
   };
 
   const renderCollection = (collection: Collection) => (
-    <Link to={generateCollectionPath(collection.id)}>
+    <Link to={generateCollectionPath(collection.id)} onClick={onCollectionClick}>
       <Card
         key={collection.id}
         className="w-[280px] overflow-hidden group/card hover:shadow-lg transition-shadow duration-200"
-      > <CollectionCard collection={collection} />
+      >
+        {" "}
+        <CollectionCard collection={collection} />
       </Card>
     </Link>
   )

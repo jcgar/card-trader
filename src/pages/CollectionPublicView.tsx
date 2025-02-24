@@ -1,6 +1,6 @@
 
 import { useEffect, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { NavigationBar } from "@/components/NavigationBar";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -13,13 +13,15 @@ import {
   BookOpen,
   Shield,
   Trophy,
-  Star
+  Star,
+  ArrowLeft
 } from "lucide-react";
 import { Collection } from "@/app/types";
 
 const CollectionPublicView = () => {
   const { id } = useParams();
   const [collection, setCollection] = useState<Collection | null>(null);
+  const navigate = useNavigate()
 
   useEffect(() => {
     // Mock data - replace with actual API call
@@ -56,11 +58,20 @@ const CollectionPublicView = () => {
     // ... add other editions
   ];
 
+  const handleBack = () => {
+    navigate(-1)
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-green-50 via-white to-white pt-16">
       <NavigationBar />
+      <main className="container mx-auto px-4 py-24">
+        <Button variant="ghost" className="mb-6" onClick={handleBack}>
+          <ArrowLeft className="mr-2 h-4 w-4" />
+          Volver
+        </Button>
 
-      <main className="container mx-auto px-4 py-8">
+
         <Card className="p-6">
           <div className="grid md:grid-cols-2 gap-8">
             <div>

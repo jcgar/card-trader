@@ -2,9 +2,14 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
 import { t } from "@/use/i18n"
+import { Collection } from "@/app/types"
 
+interface FeaturedCollectionsProps {
+  collections: Collection[]
+  onCollectionClick: () => void
+}
 
-export const FeaturedCollections = ({ collections }) => {
+export const FeaturedCollections = ({ collections, onCollectionClick }: FeaturedCollectionsProps) => {
 
   return (
     <Card className="mb-8">

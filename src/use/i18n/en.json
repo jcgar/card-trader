@@ -1,40 +1,58 @@
 {
+  "nav": {
+    "collections": "Collections",
+    "community": "Community",
+    "blog": "Blog",
+    "help": "Help",
+    "login": "Login",
+    "dashboard": "Dashboard",
+    "search": "Search",
+    "language": "Language"
+  },
+  "hero": {
+    "title": "Your Ultimate Card Collection Journey Begins Here",
+    "subtitle": "Discover, trade, and complete your collections with fellow enthusiasts in the world's most engaging card trading community",
+    "startCollecting": "Start Collecting",
+    "exploreCollections": "Explore Collections"
+  },
   "exchanges": {
     "title": "My Exchanges",
-    "searchCollector": "Search collector...",
+    "searchExchange": "Search exchanges...",
     "sortBy": "Sort by",
     "sortByCollector": "Collector",
     "sortByStatus": "Status",
     "sortByDate": "Date",
-    "sortByLastAccess": "Last access",
+    "sortByLastActivity": "Last Activity",
+    "sortByTotalStickers": "Total Stickers",
     "advancedFilters": "Advanced filters",
     "advancedFiltersDescription": "Apply advanced filters to your exchanges",
     "status": "Status",
-    "statusInProgress": "In progress",
-    "statusCancelled": "Cancelled",
+    "statusPending": "Pending",
+    "statusAccepted": "Accepted",
     "statusCompleted": "Completed",
-    "collector": "Collector",
-    "selectCollector": "Select collector",
+    "statusRejected": "Rejected",
+    "collectionType": "Collection Type",
+    "selectCollectionType": "Select collection type",
+    "collectionTypeSports": "Sports",
+    "collectionTypeMovies": "Movies",
+    "collectionTypeAnime": "Anime",
+    "collectionTypeVideogames": "Video Games",
+    "totalStickers": "Total Stickers",
+    "enterMinimumStickers": "Enter minimum stickers",
     "applyFilters": "Apply filters",
-    "newExchange": "New exchange"
+    "newExchange": "New Exchange"
   },
   "exchange": {
-    "vs": "VS",
-    "progress": "Exchange Progress",
+    "with": "Exchange with {{name}}",
     "status": {
       "pending": "Pending",
       "accepted": "Accepted",
       "completed": "Completed",
       "rejected": "Rejected"
     },
-    "urgent": "Urgent - Expires in {{time}}",
-    "collections": "Collections",
-    "stickerCount": "{{count}} stickers",
-    "listView": "List View",
-    "gridView": "Grid View",
-    "messagePlaceholder": "Type your message...",
-    "reject": "Reject",
-    "complete": "Complete Exchange"
+    "stickers": "stickers",
+    "lastActivity": "Last activity: {{time}}",
+    "totalStickers": "Total stickers: {{count}}"
   },
   "collections": {
     "title": "My Collections",
@@ -56,6 +74,11 @@
     "newCollection": "New collection",
     "completionRate": "Completed: {{rate}}",
     "editCollection": "Edit collection"
+  },
+  "catalog": {
+    "featuredCollections": "Featured Collections",
+    "popularity": "Popularity: {{score}}%",
+    "explore": "Explore"
   },
   "common": {
     "ascending": "Ascending",

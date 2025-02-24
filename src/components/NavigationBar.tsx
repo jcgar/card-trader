@@ -1,8 +1,6 @@
-"use client"
-
 import { Button } from "./ui/button"
 import { NavigationMenu, NavigationMenuItem, NavigationMenuList } from "./ui/navigation-menu"
-import { Search, Menu, X, User } from "lucide-react"
+import { Search, Menu, X, User, Globe } from "lucide-react"
 import { useState } from "react"
 import { useIsMobile } from "@/hooks/use-mobile"
 import { routes } from "@/use/routes"
@@ -17,6 +15,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
 import { AuthFlow } from "@/components/auth/AuthFlow"
+import { getCurrentLanguage, setLanguage, t } from "@/use/i18n"
 
 export const NavigationBar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -24,6 +23,7 @@ export const NavigationBar = () => {
   const [isAdmin, setIsAdmin] = useState(false)
   const isMobile = useIsMobile()
   const navigate = useNavigate()
+  const currentLanguage = getCurrentLanguage()
 
   const handleLogin = (type: "user" | "admin") => {
     setIsLoggedIn(true)
@@ -33,6 +33,12 @@ export const NavigationBar = () => {
   const handleLogout = () => {
     setIsLoggedIn(false)
     setIsAdmin(false)
+  }
+
+  const toggleLanguage = () => {
+    const newLang = currentLanguage === "es" ? "en" : "es"
+    setLanguage(newLang)
+    window.location.reload() // Reload to apply new language
   }
 
   return (
@@ -48,22 +54,22 @@ export const NavigationBar = () => {
                 <NavigationMenuList>
                   <NavigationMenuItem>
                     <Link to={routes.collections} className="px-4 py-2 text-green-700">
-                      Colecciones
+                      {t("nav.collections")}
                     </Link>
                   </NavigationMenuItem>
                   <NavigationMenuItem>
                     <Link to={routes.community} className="px-4 py-2 text-green-700">
-                      Comunidad
+                      {t("nav.community")}
                     </Link>
                   </NavigationMenuItem>
                   <NavigationMenuItem>
                     <Link to={routes.blog} className="px-4 py-2 text-green-700">
-                      Blog
+                      {t("nav.blog")}
                     </Link>
                   </NavigationMenuItem>
                   <NavigationMenuItem>
                     <Link to={routes.help} className="px-4 py-2 text-green-700">
-                      Ayuda
+                      {t("nav.help")}
                     </Link>
                   </NavigationMenuItem>
                   <NavigationMenuItem>
@@ -73,7 +79,7 @@ export const NavigationBar = () => {
                       onClick={() => navigate(routes.search)}
                     >
                       <Search className="w-4 h-4 mr-2" />
-                      Buscar
+                      {t("nav.search")}
                     </Button>
                   </NavigationMenuItem>
                 </NavigationMenuList>
@@ -83,11 +89,15 @@ export const NavigationBar = () => {
           <div className="flex items-center gap-4">
             {!isMobile && (
               <>
+                <Button variant="ghost" onClick={toggleLanguage} className="text-green-700">
+                  <Globe className="w-4 h-4 mr-2" />
+                  {currentLanguage.toUpperCase()}
+                </Button>
                 {!isLoggedIn ? (
                   <Dialog>
                     <DialogTrigger asChild>
                       <Button variant="ghost" className="text-green-700">
-                        Iniciar sesión
+                        {t("nav.login")}
                       </Button>
                     </DialogTrigger>
                     <DialogContent>
@@ -105,7 +115,9 @@ export const NavigationBar = () => {
                     <DropdownMenuContent align="end">
                       <DropdownMenuLabel>Mi cuenta</DropdownMenuLabel>
                       <DropdownMenuSeparator />
-                      <DropdownMenuItem onClick={() => navigate(routes.dashboard)}>Dashboard</DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => navigate(routes.dashboard)}>
+                        {t("nav.dashboard")}
+                      </DropdownMenuItem>
                       {isAdmin && (
                         <DropdownMenuItem onClick={() => navigate(routes.admin)} className="text-red-600">
                           Admin Panel
@@ -136,30 +148,34 @@ export const NavigationBar = () => {
           <div className="container mx-auto px-4 py-4">
             <nav className="flex flex-col gap-4">
               <Link to={routes.collections} className="text-green-700 py-2">
-                Colecciones
+                {t("nav.collections")}
               </Link>
               <Link to={routes.community} className="text-green-700 py-2">
-                Comunidad
+                {t("nav.community")}
               </Link>
               <Link to={routes.blog} className="text-green-700 py-2">
-                Blog
+                {t("nav.blog")}
               </Link>
               <Link to={routes.help} className="text-green-700 py-2">
-                Ayuda
+                {t("nav.help")}
               </Link>
               <Link to={routes.search} className="text-green-700 py-2">
-                Buscar
+                {t("nav.search")}
               </Link>
+              <Button variant="outline" onClick={toggleLanguage} className="text-green-700">
+                <Globe className="w-4 h-4 mr-2" />
+                {t("nav.language")}: {currentLanguage.toUpperCase()}
+              </Button>
               <div className="flex flex-col gap-2 pt-4 border-t">
                 {!isLoggedIn ? (
                   <AuthFlow onClose={() => setIsMenuOpen(false)} isMobile={true} />
                 ) : (
                   <>
                     <Link to={routes.dashboard} className="text-green-700 py-2">
-                      Dashboard
+                      {t("nav.dashboard")}
                     </Link>
                     <Link to={routes.myCollections} className="text-green-700 py-2">
-                      Mis colecciones
+                      {t("collections.title")}
                     </Link>
                     {isAdmin && (
                       <Button variant="destructive" onClick={() => navigate(routes.admin)}>
@@ -179,4 +195,3 @@ export const NavigationBar = () => {
     </header>
   )
 }
-
