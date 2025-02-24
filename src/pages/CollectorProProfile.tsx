@@ -13,9 +13,9 @@ const CollectorProProfile = () => {
   const { data: collectors, loading } = useApi<Collector>('collectors', { page: 1, pageSize: 10, fullQuery: false })
   const profile = collectors[0]
 
-  if (loading || !profile) {
-    return <div>Loading...</div>;
-  }
+  // if (loading || !profile) {
+  //   return <div>Loading...</div>;
+  // }
 
 
   return (

@@ -26,10 +26,7 @@ export const CollectorActivity = ({ profile }: CollectorActivityProps) => {
             <div className="flex-1">
               <p className="text-gray-800">{activity.content}</p>
               <p className="text-sm text-gray-500">
-                {formatDistanceToNow(new Date(activity.timestamp), {
-                  addSuffix: true,
-                  locale: es
-                })}
+                {activity.timestamp}
               </p>
             </div>
           </div>

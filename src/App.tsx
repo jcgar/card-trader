@@ -4,13 +4,9 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { TooltipProvider } from "@/components/ui/tooltip"
 import { Toaster } from "@/components/ui/toaster"
-import { toast } from "sonner"
-
 import Index from './pages/Index';
 import Community from './pages/Community';
 import Dashboard from './pages/Dashboard';
-import CollectionDetail from './pages/CollectionDetail';
-import NewCollection from './pages/NewCollection';
 import PublicCollections from './pages/PublicCollections';
 import Search from './pages/Search';
 import CollectorProfile from './pages/CollectorProfile';
@@ -21,6 +17,7 @@ import CollectionPublicView from "./pages/CollectionPublicView";
 import AdminDashboard from './pages/admin/AdminDashboard';
 import NotFound from './pages/NotFound';
 import { routes } from './use/routes';
+import TradeMarket from './pages/TradeMarketPage';
 
 const queryClient = new QueryClient();
 
@@ -44,6 +41,7 @@ const App = () => (
           <Route path={routes.collections} element={<PublicCollections />} />
           <Route path={routes.collection} element={<CollectionPublicView />} />
           <Route path={routes.search} element={<Search />} />
+          <Route path={routes.tradeMarket} element={<TradeMarket />} />
           <Route path={routes.collector} element={<CollectorProfile />} />
           <Route path={routes.collectorPro} element={<CollectorProProfile />} />
           <Route path={routes.blog} element={<Blog />} />

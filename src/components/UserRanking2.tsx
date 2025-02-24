@@ -5,20 +5,12 @@ import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { Crown, Trophy, Medal, Users, Activity, Star, ThumbsUp } from "lucide-react"
-import { api } from "@/use/api"
+import { api, useApi } from "@/use/api"
 import { motion } from "framer-motion"
 import { Collector } from "@/app/types"
 
 export const UserRanking2 = () => {
-  const [topUsers, setTopUsers] = useState<Collector[]>([])
-
-  useEffect(() => {
-    const fetchTopUsers = async () => {
-      const data = await api("topCollectors")
-      setTopUsers(data.slice(0, 3))
-    }
-    fetchTopUsers()
-  }, [])
+  const { data: collectors } = useApi<Collector>('topCollectors', { page: 1, pageSize: 10, fullQuery: false });
 
   const getRankIcon = (index: number) => {
     switch (index) {
@@ -37,7 +29,7 @@ export const UserRanking2 = () => {
     <section className="py-12 bg-gradient-to-b from-background to-background/80">
       <h2 className="text-4xl font-bold text-center mb-12">Top Collectors</h2>
       <div className="max-w-3xl mx-auto">
-        {topUsers.map((user, index) => (
+        {collectors.map((user, index) => (
           <motion.div
             key={user.id}
             initial={{ opacity: 0, x: -20 }}

@@ -22,13 +22,13 @@ const Collector = () => {
   const { data: collectors, loading } = useApi<Collector>('collectors', { page: 1, pageSize: 10, fullQuery: false })
   const profile = collectors[0]
 
-  if (loading || !profile) {
-    return <div>Loading...</div>;
-  }
+  // if (loading || !profile) {
+  //   return <div>Loading...</div>;
+  // }
 
-  if (!profile) {
-    return <div>Profile not found</div>;
-  }
+  // if (!profile) {
+  //   return <div>Profile not found</div>;
+  // }
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-green-50 via-white to-white">
