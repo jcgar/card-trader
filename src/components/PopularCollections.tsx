@@ -1,26 +1,25 @@
-import { Card } from "./ui/card";
-import { Star, Users, Activity, TrendingUp, Clock, Heart } from "lucide-react";
-import { useEffect, useState } from "react";
+"use client"
 
+import { Card } from "./ui/card"
+import { Star, Users, TrendingUp, Clock, Heart } from "lucide-react"
+import { useEffect, useState } from "react"
 
 export const PopularCollections = ({ collections }) => {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [hoveredId, setHoveredId] = useState<number | null>(null);
+  const [activeIndex, setActiveIndex] = useState(0)
+  const [hoveredId, setHoveredId] = useState<number | null>(null)
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setActiveIndex((prev) => (prev + 1) % collections.length);
-    }, 5000);
-    return () => clearInterval(timer);
-  }, []);
+      setActiveIndex((prev) => (prev + 1) % collections.length)
+    }, 5000)
+    return () => clearInterval(timer)
+  }, [])
 
   return (
     <section className="py-12 bg-gradient-to-b from-green-50 to-white overflow-hidden">
       <div className="container mx-auto px-4">
         <div className="text-center mb-8 animate-fade-in">
-          <h2 className="text-2xl md:text-3xl font-playfair font-bold mb-3 text-green-800">
-            Popular Collections
-          </h2>
+          <h2 className="text-2xl md:text-3xl font-playfair font-bold mb-3 text-green-800">Popular Collections</h2>
           <p className="text-green-600 max-w-2xl mx-auto text-sm md:text-base">
             Explore the most sought-after collections in our community
           </p>
@@ -33,20 +32,16 @@ export const PopularCollections = ({ collections }) => {
             {collections.map((collection) => (
               <Card
                 key={collection.id}
-                className={`min-w-full bg-white rounded-lg shadow-md overflow-hidden mx-2 transition-all duration-300 ${hoveredId === collection.id ? 'scale-[1.02] shadow-lg' : ''
+                className={`min-w-full bg-white rounded-lg shadow-md overflow-hidden mx-2 transition-all duration-300 ${hoveredId === collection.id ? "scale-[1.02] shadow-lg" : ""
                   }`}
-                style={{ flex: '0 0 calc(100% - 1rem)' }}
+                style={{ flex: "0 0 calc(100% - 1rem)" }}
                 onMouseEnter={() => setHoveredId(collection.id)}
                 onMouseLeave={() => setHoveredId(null)}
               >
                 <div className="md:flex h-full">
                   <div className="md:w-2/5">
                     <div className="relative aspect-[4/3] md:h-full">
-                      <img
-                        src={collection.image}
-                        alt={collection.title}
-                        className="w-full h-full object-cover"
-                      />
+                      <img src={collection.image} alt={collection.title} className="w-full h-full object-cover" />
                       {collection.featured && (
                         <div className="absolute top-2 right-2 bg-yellow-400 text-yellow-900 px-2 py-0.5 rounded-full text-xs font-medium">
                           Featured
@@ -96,9 +91,7 @@ export const PopularCollections = ({ collections }) => {
             {collections.map((_, index) => (
               <button
                 key={index}
-                className={`w-2 h-2 rounded-full transition-all duration-300 ${activeIndex === index
-                  ? 'bg-green-500 scale-125'
-                  : 'bg-green-200 hover:bg-green-300'
+                className={`w-2 h-2 rounded-full transition-all duration-300 ${activeIndex === index ? "bg-green-500 scale-125" : "bg-green-200 hover:bg-green-300"
                   }`}
                 onClick={() => setActiveIndex(index)}
               />
@@ -107,5 +100,6 @@ export const PopularCollections = ({ collections }) => {
         </div>
       </div>
     </section>
-  );
-};
+  )
+}
+

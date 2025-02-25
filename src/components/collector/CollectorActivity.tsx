@@ -1,12 +1,11 @@
-
-import { Card } from "@/components/ui/card";
-import { Activity } from "lucide-react";
-import type { Collector } from "@/app/types";
-import { formatDistanceToNow } from "date-fns";
-import { es } from "date-fns/locale";
+import { Card } from "@/components/ui/card"
+import { Activity } from "lucide-react"
+import type { Collector } from "@/app/types"
+import { formatDistanceToNow } from "date-fns"
+import { es } from "date-fns/locale"
 
 interface CollectorActivityProps {
-  profile: Collector;
+  profile: Collector
 }
 
 export const CollectorActivity = ({ profile }: CollectorActivityProps) => {
@@ -19,19 +18,20 @@ export const CollectorActivity = ({ profile }: CollectorActivityProps) => {
 
       <div className="space-y-4">
         {profile.recentActivity.map((activity) => (
-          <div
-            key={activity.id}
-            className="flex items-start gap-4 p-4 bg-gray-50 rounded-lg"
-          >
+          <div key={activity.id} className="flex items-start gap-4 p-4 bg-gray-50 rounded-lg">
             <div className="flex-1">
               <p className="text-gray-800">{activity.content}</p>
               <p className="text-sm text-gray-500">
-                {activity.timestamp}
+                {formatDistanceToNow(new Date(activity.timestamp), {
+                  addSuffix: true,
+                  locale: es,
+                })}
               </p>
             </div>
           </div>
         ))}
       </div>
     </Card>
-  );
-};
+  )
+}
+

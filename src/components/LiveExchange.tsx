@@ -1,6 +1,5 @@
-
-import { Card } from "./ui/card";
-import { useEffect, useState } from "react";
+"use client"
+import { useEffect, useState } from "react"
 
 const steps = [
   {
@@ -19,18 +18,18 @@ const steps = [
     title: "4. ¡Intercambio completado!",
     image: "https://images.unsplash.com/photo-1577563908411-5077b6dc7624?w=800",
   },
-];
+]
 
 export const LiveExchange = () => {
-  const [currentStep, setCurrentStep] = useState(0);
-  const [isHovered, setIsHovered] = useState(false);
+  const [currentStep, setCurrentStep] = useState(0)
+  const [isHovered, setIsHovered] = useState(false)
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setCurrentStep((prev) => (prev + 1) % steps.length);
-    }, 5000);
-    return () => clearInterval(timer);
-  }, []);
+      setCurrentStep((prev) => (prev + 1) % steps.length)
+    }, 5000)
+    return () => clearInterval(timer)
+  }, [])
 
   return (
     <section className="py-20 bg-gradient-to-b from-green-50 to-white">
@@ -43,21 +42,17 @@ export const LiveExchange = () => {
             Descubre lo fácil que es intercambiar cromos en nuestra plataforma
           </p>
         </div>
-        <div 
+        <div
           className="relative overflow-hidden rounded-xl shadow-xl bg-white transform transition-all duration-500 hover:scale-[1.02]"
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
         >
-          <div 
+          <div
             className="flex transition-transform duration-700 ease-in-out"
             style={{ transform: `translateX(-${currentStep * 100}%)` }}
           >
             {steps.map((step, index) => (
-              <div 
-                key={index} 
-                className="min-w-full"
-                style={{ flex: '0 0 100%' }}
-              >
+              <div key={index} className="min-w-full" style={{ flex: "0 0 100%" }}>
                 <div className="relative aspect-video">
                   <img
                     src={step.image}
@@ -79,10 +74,8 @@ export const LiveExchange = () => {
                 key={index}
                 className={`
                   w-2 h-2 rounded-full transition-all duration-300
-                  ${currentStep === index 
-                    ? 'bg-green-500 w-4' 
-                    : 'bg-white/50 hover:bg-white/75'}
-                  ${isHovered ? 'scale-110' : ''}
+                  ${currentStep === index ? "bg-green-500 w-4" : "bg-white/50 hover:bg-white/75"}
+                  ${isHovered ? "scale-110" : ""}
                 `}
                 onClick={() => setCurrentStep(index)}
               />
@@ -91,5 +84,6 @@ export const LiveExchange = () => {
         </div>
       </div>
     </section>
-  );
-};
+  )
+}
+

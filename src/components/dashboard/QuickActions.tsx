@@ -1,7 +1,5 @@
-
-import { Button } from "../ui/button";
-import { Card } from "../ui/card";
-import { Plus, RefreshCw, Trophy, MessageSquare } from "lucide-react";
+import { Card } from "../ui/card"
+import { Plus, RefreshCw, Trophy, MessageSquare } from "lucide-react"
 
 const actions = [
   {
@@ -24,7 +22,7 @@ const actions = [
     label: "Mensajes",
     description: "3 sin leer",
   },
-];
+]
 
 export const QuickActions = () => {
   return (
@@ -32,10 +30,7 @@ export const QuickActions = () => {
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {actions.map((action) => (
-            <Card
-              key={action.label}
-              className="p-4 hover:shadow-md transition-shadow cursor-pointer group"
-            >
+            <Card key={action.label} className="p-4 hover:shadow-md transition-shadow cursor-pointer group">
               <div className="flex flex-col items-center text-center">
                 <div className="mb-3 p-3 bg-green-50 rounded-full group-hover:bg-green-100 transition-colors">
                   <action.icon className="w-6 h-6 text-green-600" />
@@ -48,5 +43,6 @@ export const QuickActions = () => {
         </div>
       </div>
     </section>
-  );
-};
+  )
+}
+

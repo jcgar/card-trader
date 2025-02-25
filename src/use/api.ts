@@ -1,7 +1,9 @@
 "use client"
 
-import { Collection } from "@/app/types"
 import { useState, useEffect } from "react"
+import { ApolloClient, HttpLink, InMemoryCache, gql, useLazyQuery } from "@apollo/client"
+import type { Collection } from "@/app/types"
+import { graphqlRoutes } from "@/use/graphqlRoutes"
 
 const apiModules: { [key: string]: any } = {}
 
@@ -18,6 +20,15 @@ const importModule = async (key: string) => {
   }
   return apiModules[key]
 }
+
+const client = new ApolloClient({
+  link: new HttpLink({
+    uri: 'https://dev.acabaramos.com/graphql-local.php',
+    credentials: 'include',
+  }),
+  cache: new InMemoryCache(),
+})
+
 
 export async function getCollections(): Promise<Collection[]> {
   const collectionsModule = await importModule("collections")
@@ -60,9 +71,10 @@ type ApiOptions = {
   country?: string
   term?: string
   filters?: Record<string, string>
+  useGraphQL?: boolean
 }
 
-export function useApi<T>(route: string, options: ApiOptions = {}) {
+export function useApi<T>(route: string, pageOptions: ApiOptions = {}, filter?: any) {
   const [data, setData] = useState<T[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<Error | null>(null)
@@ -71,7 +83,12 @@ export function useApi<T>(route: string, options: ApiOptions = {}) {
     const fetchData = async () => {
       try {
         setLoading(true)
-        const result = await api(route, options)
+        let result
+        if (pageOptions.useGraphQL && graphqlRoutes[route]) {
+          result = await fetchGraphQLData(route, pageOptions, filter)
+        } else {
+          result = await api(route, pageOptions)
+        }
         setData(result)
       } catch (err) {
         setError(err instanceof Error ? err : new Error("An error occurred"))
@@ -81,7 +98,7 @@ export function useApi<T>(route: string, options: ApiOptions = {}) {
     }
 
     fetchData()
-  }, [route, options]) //Corrected dependencies
+  }, [route, JSON.stringify(pageOptions), JSON.stringify(filter)])
 
   return { data, loading, error }
 }
@@ -125,5 +142,60 @@ export async function api(route: string, options: ApiOptions = {}): Promise<any>
   }
 
   return result
+}
+
+// New function to fetch data using GraphQL
+async function fetchGraphQLData(route: string, pageOptions: ApiOptions = {}, filter: any): Promise<any> {
+  // const query = gql`
+  //   query GetData($route: String!, $options: ApiOptionsInput!) {
+  //     getData(route: $route, options: $options) {
+  //       ... on Collection {
+  //         id
+  //         name
+  //         publisher
+  //         totalCards
+  //         category
+  //         year
+  //         description
+  //         image
+  //         completionRate
+  //         popularity
+  //         activeUsers
+  //         likes
+  //         recentActivity
+  //       }
+  //       ... on Collector {
+  //         id
+  //         name
+  //         username
+  //         avatar
+  //         level
+  //       }
+  //       ... on Exchange {
+  //         id
+  //         status
+  //         createdAt
+  //         urgentUntil
+  //       }
+  //     }
+  //   }
+  // `
+
+  const query = graphqlRoutes[route]
+
+  console.log('fetchGraphQLData', route, pageOptions, filter)
+  const { loading, data, error } = await client.query({
+    query,
+    variables: { page: pageOptions, filter },
+  })
+
+  // const [get, { loading, data, error }] = useLazyQuery(query, {
+  //   notifyOnNetworkStatusChange: true,
+  //   fetchPolicy: 'cache-and-network'
+  // })
+
+  console.log('fetchGraphQLData result', loading, data, error)
+
+  return data.getData
 }
 

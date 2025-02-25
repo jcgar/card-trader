@@ -1,7 +1,6 @@
-
-import { Card } from "../ui/card";
-import { Button } from "../ui/button";
-import { MessageSquare, UserPlus } from "lucide-react";
+import { Card } from "../ui/card"
+import { Button } from "../ui/button"
+import { MessageSquare, UserPlus } from "lucide-react"
 
 const users = [
   {
@@ -18,7 +17,7 @@ const users = [
     commonInterests: "Movies, Anime",
     mutualConnections: 5,
   },
-];
+]
 
 export const RecommendedUsers = () => {
   return (
@@ -27,17 +26,11 @@ export const RecommendedUsers = () => {
       <div className="space-y-4">
         {users.map((user) => (
           <div key={user.id} className="flex items-center gap-4">
-            <img
-              src={user.avatar}
-              alt={user.name}
-              className="w-12 h-12 rounded-full"
-            />
+            <img src={user.avatar} alt={user.name} className="w-12 h-12 rounded-full" />
             <div className="flex-1">
               <p className="font-medium">{user.name}</p>
               <p className="text-sm text-gray-600">{user.commonInterests}</p>
-              <p className="text-xs text-gray-500">
-                {user.mutualConnections} conexiones en común
-              </p>
+              <p className="text-xs text-gray-500">{user.mutualConnections} conexiones en común</p>
             </div>
             <div className="flex gap-2">
               <Button size="sm" variant="ghost">
@@ -51,5 +44,6 @@ export const RecommendedUsers = () => {
         ))}
       </div>
     </Card>
-  );
-};
+  )
+}
+

@@ -1,14 +1,5 @@
-
-import { Button } from "../ui/button";
-import {
-  Bell,
-  MessageSquare,
-  Trophy,
-  Calendar,
-  PlusCircle,
-  Users,
-  Sparkles,
-} from "lucide-react";
+import { Button } from "../ui/button"
+import { Bell, MessageSquare, Trophy, Calendar, PlusCircle } from "lucide-react"
 
 export const ActionsMenu = () => {
   return (
@@ -72,5 +63,6 @@ export const ActionsMenu = () => {
         </div>
       </div>
     </section>
-  );
-};
+  )
+}
+

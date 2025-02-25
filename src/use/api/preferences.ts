@@ -1,4 +1,4 @@
-import { CollectorSettings } from "@/app/types";
+import type { CollectorSettings } from "@/app/types"
 
 export const preferences: CollectorSettings[] = [
   {
@@ -24,5 +24,6 @@ export const preferences: CollectorSettings[] = [
       showLocation: false,
       showActivity: true,
     },
-  }
-];
+  },
+]
+

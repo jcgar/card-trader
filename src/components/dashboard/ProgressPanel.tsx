@@ -1,7 +1,6 @@
-
-import { Card } from "../ui/card";
-import { Progress } from "../ui/progress";
-import { Award, Star, Trophy } from "lucide-react";
+import { Card } from "../ui/card"
+import { Progress } from "../ui/progress"
+import { Award, Star, Trophy } from "lucide-react"
 
 const achievements = [
   {
@@ -28,15 +27,13 @@ const achievements = [
     description: "Help 100 community members",
     icon: Award,
   },
-];
+]
 
 export const ProgressPanel = () => {
   return (
     <section className="py-20">
       <div className="container mx-auto px-4">
-        <h2 className="text-3xl font-playfair font-bold mb-8 text-center text-green-800">
-          Your Progress
-        </h2>
+        <h2 className="text-3xl font-playfair font-bold mb-8 text-center text-green-800">Your Progress</h2>
         <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
           {achievements.map((achievement) => (
             <Card key={achievement.id} className="p-6">
@@ -48,17 +45,12 @@ export const ProgressPanel = () => {
                 </div>
               </div>
               <div className="space-y-2">
-                <Progress
-                  value={(achievement.progress / achievement.total) * 100}
-                  className="h-2"
-                />
+                <Progress value={(achievement.progress / achievement.total) * 100} className="h-2" />
                 <div className="flex justify-between text-sm">
                   <span className="text-green-600 font-medium">
                     {achievement.progress}/{achievement.total}
                   </span>
-                  <span className="text-gray-500">
-                    {Math.round((achievement.progress / achievement.total) * 100)}%
-                  </span>
+                  <span className="text-gray-500">{Math.round((achievement.progress / achievement.total) * 100)}%</span>
                 </div>
               </div>
             </Card>
@@ -66,5 +58,6 @@ export const ProgressPanel = () => {
         </div>
       </div>
     </section>
-  );
-};
+  )
+}
+

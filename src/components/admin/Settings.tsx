@@ -1,15 +1,8 @@
-
-import { Card } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Switch } from "@/components/ui/switch";
+import { Card } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Switch } from "@/components/ui/switch"
 
 export const Settings = () => {
   return (
@@ -45,27 +38,21 @@ export const Settings = () => {
             <div className="flex items-center justify-between">
               <div>
                 <p className="font-medium">Registro de usuarios</p>
-                <p className="text-sm text-gray-500">
-                  Permitir que nuevos usuarios se registren
-                </p>
+                <p className="text-sm text-gray-500">Permitir que nuevos usuarios se registren</p>
               </div>
               <Switch defaultChecked />
             </div>
             <div className="flex items-center justify-between">
               <div>
                 <p className="font-medium">Intercambios</p>
-                <p className="text-sm text-gray-500">
-                  Habilitar sistema de intercambios
-                </p>
+                <p className="text-sm text-gray-500">Habilitar sistema de intercambios</p>
               </div>
               <Switch defaultChecked />
             </div>
             <div className="flex items-center justify-between">
               <div>
                 <p className="font-medium">Modo mantenimiento</p>
-                <p className="text-sm text-gray-500">
-                  Activar modo mantenimiento
-                </p>
+                <p className="text-sm text-gray-500">Activar modo mantenimiento</p>
               </div>
               <Switch />
             </div>
@@ -76,15 +63,11 @@ export const Settings = () => {
           <h2 className="text-lg font-semibold mb-4">Límites y Cuotas</h2>
           <div className="space-y-4">
             <div>
-              <label className="text-sm font-medium">
-                Máximo de colecciones por usuario
-              </label>
+              <label className="text-sm font-medium">Máximo de colecciones por usuario</label>
               <Input type="number" defaultValue="10" />
             </div>
             <div>
-              <label className="text-sm font-medium">
-                Máximo de intercambios diarios
-              </label>
+              <label className="text-sm font-medium">Máximo de intercambios diarios</label>
               <Input type="number" defaultValue="50" />
             </div>
           </div>
@@ -96,5 +79,6 @@ export const Settings = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
+

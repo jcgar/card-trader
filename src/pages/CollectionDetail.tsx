@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button"
 import { ArrowLeft } from "lucide-react"
 import { useEffect, useState } from "react"
 import type { Sticker } from "@/app/types"
+import { t } from "@/use/i18n"
 
 const allTeams = [
   "Real Madrid",
@@ -29,7 +30,6 @@ const allTeams = [
 ]
 
 const generateStickers = () => {
-  console.log("generateStickers")
   const allStickers = []
   let currentNumber = 1
 
@@ -71,19 +71,18 @@ const CollectionDetail = ({ collection }) => {
       <main className="container mx-auto px-4 py-24">
         <Button variant="ghost" className="mb-6" onClick={handleBack}>
           <ArrowLeft className="mr-2 h-4 w-4" />
-          Volver
+          {t("common.back")}
         </Button>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 space-y-8">
-            <p>hola</p>
-            <CollectionOverview />
+            <CollectionOverview collection={collection} />
             <CollectionFilters />
             <StickerGrid stickerGroups={groups} />
           </div>
 
           <div className="space-y-8">
-            <CollectionStats />
+            <CollectionStats collection={collection} />
             <CollectionActions />
             <CollectionSocial />
           </div>

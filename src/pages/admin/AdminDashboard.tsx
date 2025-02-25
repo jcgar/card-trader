@@ -1,11 +1,9 @@
-
-import React from 'react';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Users } from '@/components/admin/Users';
-import { Collections } from '@/components/admin/Collections';
-import { Stats } from '@/components/admin/Stats';
-import { Settings } from '@/components/admin/Settings';
-import { NavigationBar } from '@/components/NavigationBar';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Users } from "@/components/admin/Users"
+import { Collections } from "@/components/admin/Collections"
+import { Stats } from "@/components/admin/Stats"
+import { Settings } from "@/components/admin/Settings"
+import { NavigationBar } from "@/components/NavigationBar"
 
 const AdminDashboard = () => {
   return (
@@ -40,7 +38,8 @@ const AdminDashboard = () => {
         </Tabs>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default AdminDashboard;
+export default AdminDashboard
+

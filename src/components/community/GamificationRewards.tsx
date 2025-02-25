@@ -1,9 +1,10 @@
+"use client"
 
-import { Card } from "../ui/card";
-import { Gift, Star, Trophy, Crown, Sparkles } from "lucide-react";
-import { useState } from "react";
-import { Button } from "../ui/button";
-import { showToast } from "@/use/ui";
+import { Card } from "../ui/card"
+import { Gift, Star, Trophy, Crown, Sparkles } from "lucide-react"
+import { useState } from "react"
+import { Button } from "../ui/button"
+import { showToast } from "@/use/ui"
 
 const rewards = [
   {
@@ -36,28 +37,30 @@ const rewards = [
     color: "from-blue-400 to-indigo-600",
     progress: 45,
   },
-];
+]
 
 export const GamificationRewards = () => {
-  const [openChest, setOpenChest] = useState<number | null>(null);
-  const [playingSound, setPlayingSound] = useState(false);
+  const [openChest, setOpenChest] = useState<number | null>(null)
+  const [playingSound, setPlayingSound] = useState(false)
 
   const playRewardSound = () => {
-    if (playingSound) return;
-    setPlayingSound(true);
-    const audio = new Audio("data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdH2Dem6Cb3UCeH+gopwEIAQzBU8FZwZ/CpcKsgvBC8ULyAvJC8wLz8lhwkZwc3UoJN8jwRwEQrVCvUK/QsNCxkLCLxsoGwgAAAAAAAAAAAAAAA==");
-    audio.play().finally(() => setPlayingSound(false));
-  };
+    if (playingSound) return
+    setPlayingSound(true)
+    const audio = new Audio(
+      "data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdH2Dem6Cb3UCeH+gopwEIAQzBU8FZwZ/CpcKsgvBC8ULyAvJC8wLz8lhwkZwc3UoJN8jwRwEQrVCvUK/QsNCxkLCLxsoGwgAAAAAAAAAAAAAAA==",
+    )
+    audio.play().finally(() => setPlayingSound(false))
+  }
 
   const handleOpenChest = (rewardId: number) => {
-    setOpenChest(rewardId);
-    playRewardSound();
+    setOpenChest(rewardId)
+    playRewardSound()
     showToast({
       title: "¡Recompensa desbloqueada!",
       description: "Has obtenido un nuevo premio para tu colección.",
-    });
-    setTimeout(() => setOpenChest(null), 2000);
-  };
+    })
+    setTimeout(() => setOpenChest(null), 2000)
+  }
 
   return (
     <section className="py-20 bg-gradient-to-b from-white to-green-50">
@@ -76,15 +79,17 @@ export const GamificationRewards = () => {
               key={reward.id}
               className={`
                 overflow-hidden transition-all duration-500
-                ${openChest === reward.id ? 'transform scale-105' : ''}
+                ${openChest === reward.id ? "transform scale-105" : ""}
               `}
             >
               <div className="p-6">
-                <div className={`
+                <div
+                  className={`
                   w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center
                   bg-gradient-to-r ${reward.color}
-                  ${openChest === reward.id ? 'animate-spin' : 'animate-pulse'}
-                `}>
+                  ${openChest === reward.id ? "animate-spin" : "animate-pulse"}
+                `}
+                >
                   <reward.icon className="w-8 h-8 text-white" />
                 </div>
 
@@ -117,12 +122,12 @@ export const GamificationRewards = () => {
                       w-full bg-gradient-to-r ${reward.color} text-white
                       transform transition-all duration-300
                       hover:scale-105 hover:shadow-lg
-                      ${reward.progress < 100 ? 'opacity-50 cursor-not-allowed' : ''}
+                      ${reward.progress < 100 ? "opacity-50 cursor-not-allowed" : ""}
                     `}
                     onClick={() => handleOpenChest(reward.id)}
                     disabled={reward.progress < 100}
                   >
-                    {reward.progress >= 100 ? 'Reclamar Recompensa' : 'Bloqueado'}
+                    {reward.progress >= 100 ? "Reclamar Recompensa" : "Bloqueado"}
                   </Button>
                 </div>
               </div>
@@ -131,5 +136,6 @@ export const GamificationRewards = () => {
         </div>
       </div>
     </section>
-  );
-};
+  )
+}
+

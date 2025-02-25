@@ -1,6 +1,7 @@
 import type React from "react"
 import { Button } from "./ui/button"
 import { ArrowRight } from "lucide-react"
+import { t } from "@/use/i18n"
 
 interface HeroSectionProps {
   onStartCollecting: () => void
@@ -15,22 +16,19 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onStartCollecting, onE
       <div className="container mx-auto px-4 relative">
         <div className="max-w-4xl mx-auto text-center animate-fade-up">
           <span className="inline-block px-4 py-1.5 mb-6 text-sm font-medium bg-gradient-to-r from-green-500/10 to-emerald-500/10 text-green-600 rounded-full animate-fade-in">
-            Join thousands of collectors worldwide
+            {t("hero.subtitle")}
           </span>
           <h1 className="text-5xl md:text-6xl lg:text-7xl font-playfair font-bold mb-6 tracking-tight bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
-            Your Ultimate Card Collection Journey Begins Here
+            {t("hero.title")}
           </h1>
-          <p className="text-lg md:text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-            Discover, trade, and complete your collections with fellow enthusiasts in the world's most engaging card
-            trading community.
-          </p>
+          <p className="text-lg md:text-xl text-gray-600 mb-8 max-w-2xl mx-auto">{t("hero.description")}</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button
               size="lg"
               className="text-lg px-8 py-6 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700"
               onClick={onStartCollecting}
             >
-              Start Collecting
+              {t("hero.startCollecting")}
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
             <Button
@@ -39,7 +37,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onStartCollecting, onE
               className="text-lg px-8 py-6 border-green-200 text-green-600 hover:bg-green-50"
               onClick={onExploreCollections}
             >
-              Explore Collections
+              {t("hero.exploreCollections")}
             </Button>
           </div>
         </div>

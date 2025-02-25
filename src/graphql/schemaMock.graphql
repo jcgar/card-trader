@@ -1,0 +1,168 @@
+type Query {
+  getData(route: String!, options: ApiOptionsInput!): [DataUnion!]!
+}
+
+input ApiOptionsInput {
+  page: Int
+  pageSize: Int
+  fullQuery: Boolean
+  country: String
+  term: String
+  filters: JSON
+}
+
+scalar JSON
+
+union DataUnion = Collection | Collector | Exchange | Activity | Achievement | Sticker | TradeCollection | TradeMessage
+
+type Collection {
+  id: ID!
+  name: String!
+  publisher: String!
+  totalCards: Int!
+  category: String!
+  year: Int!
+  description: String!
+  image: String!
+  completionRate: Float!
+  popularity: Float!
+  activeUsers: Int!
+  likes: Int!
+  recentActivity: [String!]!
+}
+
+type Collector {
+  id: ID!
+  name: String!
+  username: String!
+  avatar: String!
+  coverImage: String!
+  level: Int!
+  joinedDate: String!
+  verified: Boolean!
+  bio: String!
+  location: String!
+  socialLinks: SocialLinks
+  stats: CollectorStats!
+  achievements: [Achievement!]!
+  badges: [String!]!
+  rank: Rank!
+  title: String!
+  motto: String!
+  recentActivity: [Activity!]!
+  wishlist: [Sticker!]!
+}
+
+type SocialLinks {
+  twitter: String
+  instagram: String
+  website: String
+}
+
+type CollectorStats {
+  totalCards: Int!
+  completedCollections: Int!
+  totalCollections: Int!
+  exchanges: Int!
+  successRate: Float!
+  rank: Int!
+  likes: Int!
+  followers: Int!
+  following: Int!
+  completionRate: Float!
+  reputation: Float!
+}
+
+type Rank {
+  global: Int!
+  category: String!
+  categoryRank: Int!
+}
+
+type Exchange {
+  id: ID!
+  status: ExchangeStatus!
+  createdAt: String!
+  urgentUntil: String
+  user: Collector!
+  tradeCollections: [TradeCollection!]!
+  messages: [TradeMessage!]!
+  lastActivity: String!
+}
+
+enum ExchangeStatus {
+  PENDING
+  ACCEPTED
+  COMPLETED
+  REJECTED
+}
+
+type Activity {
+  id: ID!
+  type: ActivityType!
+  user: String!
+  avatar: String!
+  content: String!
+  timestamp: String!
+  likes: Int!
+}
+
+enum ActivityType {
+  ACHIEVEMENT
+  EXCHANGE
+  COLLECTION
+  SOCIAL
+}
+
+type Achievement {
+  id: ID!
+  name: String!
+  description: String!
+  icon: String!
+  unlockedAt: String!
+  rarity: AchievementRarity!
+}
+
+enum AchievementRarity {
+  COMMON
+  RARE
+  EPIC
+  LEGENDARY
+}
+
+type Sticker {
+  id: ID!
+  number: Int!
+  name: String!
+  type: StickerType!
+  owned: Boolean!
+  repeated: Int!
+}
+
+enum StickerType {
+  NORMAL
+  SPECIAL
+}
+
+type TradeCollection {
+  id: ID!
+  name: String!
+  image: String!
+  stickers: [Sticker!]!
+}
+
+type TradeMessage {
+  id: ID!
+  senderId: ID!
+  content: String!
+  type: TradeMessageType!
+  timestamp: String!
+}
+
+enum TradeMessageType {
+  TEXT
+  STICKER_ADDED
+  STICKER_REMOVED
+  STATUS_CHANGE
+}
+

@@ -4,84 +4,159 @@
     "community": "Community",
     "blog": "Blog",
     "help": "Help",
-    "login": "Login",
-    "dashboard": "Dashboard",
     "search": "Search",
+    "login": "Log in",
+    "dashboard": "Dashboard",
     "language": "Language"
+  },
+  "auth": {
+    "login": "Log in",
+    "register": "Register",
+    "forgotPassword": "Forgot your password?",
+    "email": "Email",
+    "password": "Password",
+    "name": "Name",
+    "continueWithEmail": "Continue with email",
+    "continueWithFacebook": "Continue with Facebook",
+    "continueWithGoogle": "Continue with Google",
+    "noAccount": "Don't have an account?",
+    "startHere": "Start here",
+    "createAccount": "Create an account",
+    "back": "Back",
+    "sendInstructions": "Send instructions"
+  },
+  "collections": {
+    "title": "Collections",
+    "featured": "Featured Collections",
+    "catalog": "Collections Catalog",
+    "search": "Search collections...",
+    "advancedSearch": "Advanced Search",
+    "filters": {
+      "title": "Filters",
+      "category": "Category",
+      "year": "Year"
+    },
+    "popularity": "Popularity: {{score}}",
+    "explore": "Explore",
+    "searchByNumber": "Search by number",
+    "searchPlaceholder": "E.g., 1, 2, 3, 4...",
+    "stickerType": "Sticker type",
+    "selectType": "Select type",
+    "allTypes": "All",
+    "regularTypes": "Regular",
+    "specialTypes": "Special",
+    "albumTypes": "Albums",
+    "actions": "Actions",
+    "addSelection": "Add selection",
+    "removeSelection": "Remove selection",
+    "resetFilters": "Reset filters",
+    "selectedNumbers": "Selected numbers: {{numbers}}",
+    "scrollView": "Scroll view",
+    "gridView": "Grid view",
+    "albumView": "Album view",
+    "allStickers": "All",
+    "missingStickers": "Missing",
+    "repeatedStickers": "Repeated",
+    "specialStickers": "Special",
+    "bulkEdit": "Bulk edit",
+    "apply": "Apply ({{count}})",
+    "saveChanges": "Save changes",
+    "pageInfo": "Page {{current}} of {{total}}"
+  },
+  "tradeMarket": {
+    "title": "Trade Market",
+    "subtitle": "Most Wanted",
+    "albums": "Albums",
+    "packs": "Packs",
+    "cards": "Cards",
+    "topSellers": "Top Sellers",
+    "exploreAll": "Explore all market",
+    "condition": {
+      "new": "New",
+      "used": "Used"
+    },
+    "badges": {
+      "rare": "Rare",
+      "limitedEdition": "Limited Edition",
+      "recentlySold": "Recently Sold"
+    },
+    "actions": {
+      "buy": "Buy",
+      "bid": "Bid",
+      "addToCart": "Add to Cart",
+      "contact": "Contact Seller"
+    },
+    "auctionEndsIn": "Ends in"
   },
   "hero": {
     "title": "Your Ultimate Card Collection Journey Begins Here",
-    "subtitle": "Discover, trade, and complete your collections with fellow enthusiasts in the world's most engaging card trading community",
+    "subtitle": "Join thousands of collectors worldwide",
+    "description": "Discover, trade, and complete your collections with fellow enthusiasts in the world's most engaging card trading community.",
     "startCollecting": "Start Collecting",
     "exploreCollections": "Explore Collections"
   },
-  "exchanges": {
-    "title": "My Exchanges",
-    "searchExchange": "Search exchanges...",
-    "sortBy": "Sort by",
-    "sortByCollector": "Collector",
-    "sortByStatus": "Status",
-    "sortByDate": "Date",
-    "sortByLastActivity": "Last Activity",
-    "sortByTotalStickers": "Total Stickers",
-    "advancedFilters": "Advanced filters",
-    "advancedFiltersDescription": "Apply advanced filters to your exchanges",
-    "status": "Status",
-    "statusPending": "Pending",
-    "statusAccepted": "Accepted",
-    "statusCompleted": "Completed",
-    "statusRejected": "Rejected",
-    "collectionType": "Collection Type",
-    "selectCollectionType": "Select collection type",
-    "collectionTypeSports": "Sports",
-    "collectionTypeMovies": "Movies",
-    "collectionTypeAnime": "Anime",
-    "collectionTypeVideogames": "Video Games",
-    "totalStickers": "Total Stickers",
-    "enterMinimumStickers": "Enter minimum stickers",
-    "applyFilters": "Apply filters",
-    "newExchange": "New Exchange"
-  },
-  "exchange": {
-    "with": "Exchange with {{name}}",
-    "status": {
-      "pending": "Pending",
-      "accepted": "Accepted",
-      "completed": "Completed",
-      "rejected": "Rejected"
-    },
-    "stickers": "stickers",
-    "lastActivity": "Last activity: {{time}}",
-    "totalStickers": "Total stickers: {{count}}"
-  },
-  "collections": {
-    "title": "My Collections",
-    "searchCollection": "Search collection...",
-    "sortBy": "Sort by",
-    "sortByName": "Name",
-    "sortByYear": "Year",
-    "sortByCompletionRate": "Completion rate",
-    "advancedFilters": "Advanced filters",
-    "advancedFiltersDescription": "Apply advanced filters to your collections",
-    "category": "Category",
-    "categorySports": "Sports",
-    "categoryMovies": "Movies",
-    "categoryAnime": "Anime",
-    "categoryVideogames": "Video games",
-    "publisher": "Publisher",
-    "selectPublisher": "Select publisher",
-    "applyFilters": "Apply filters",
-    "newCollection": "New collection",
-    "completionRate": "Completed: {{rate}}",
-    "editCollection": "Edit collection"
-  },
-  "catalog": {
-    "featuredCollections": "Featured Collections",
-    "popularity": "Popularity: {{score}}%",
-    "explore": "Explore"
+  "cta": {
+    "title": "Ready to Start Your Collection?",
+    "description": "Join thousands of collectors and start your journey today. Create an account to begin trading, collecting, and connecting with fellow enthusiasts.",
+    "createAccount": "Create Free Account"
   },
   "common": {
-    "ascending": "Ascending",
-    "descending": "Descending"
+    "loading": "Loading...",
+    "error": "An error has occurred",
+    "retry": "Retry",
+    "save": "Save",
+    "cancel": "Cancel",
+    "edit": "Edit",
+    "delete": "Delete",
+    "confirm": "Confirm",
+    "submit": "Submit"
+  },
+  "collection": {
+    "collectors": "Collectors",
+    "images": "Images",
+    "exchanges": "Exchanges",
+    "groups": {
+      "title": "Groups",
+      "darkElves": "Dark Elves",
+      "hoplites": "Hoplites",
+      "gnomes": "Gnomes"
+    },
+    "editions": {
+      "title": "Editions",
+      "bronze": "Bronze",
+      "silver": "Silver",
+      "gold": "Gold"
+    },
+    "materials": {
+      "title": "Materials",
+      "availableMaterials": "Available Materials",
+      "collectorAlbum": "Collector's Album",
+      "standardAlbum": "Standard Album",
+      "packs": "Packs",
+      "premiumBox": "Premium Box"
+    },
+    "cardCount": "{{count}} cards",
+    "totalCards": "{{count}} total cards",
+    "description": "Official collection description goes here.",
+    "addToMyCollection": "Add to My Collection",
+    "follow": "Follow"
+  },
+  "collector": {
+    "viewInHallOfFame": "View in Hall of Fame"
+  },
+  "collectorPro": {
+    "hallOfFame": "Hall of Fame",
+    "digitalCardCollector": "Digital Card Collector Extraordinaire",
+    "globalRank": "Global Rank #{{rank}}",
+    "categoryRank": "#{{rank}} in {{category}}",
+    "completedCollections": "Completed Collections",
+    "successfulExchanges": "Successful Exchanges",
+    "reputation": "Reputation",
+    "featuredAchievements": "Featured Achievements",
+    "statistics": "Statistics",
+    "totalCards": "Total Cards",
+    "completedCollections": "Completed Collections",
+    "successRate": "Success Rate",
+    "challengeToDuel": "Challenge to a Duel"
   }
 }

@@ -1,15 +1,6 @@
-
-import { Card } from "@/components/ui/card";
-import { Users, BookOpen, RefreshCw, TrendingUp } from "lucide-react";
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-} from "recharts";
+import { Card } from "@/components/ui/card"
+import { Users, BookOpen, RefreshCw, TrendingUp } from "lucide-react"
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts"
 
 const data = [
   { name: "Ene", usuarios: 400, colecciones: 240 },
@@ -18,7 +9,7 @@ const data = [
   { name: "Abr", usuarios: 278, colecciones: 390 },
   { name: "May", usuarios: 189, colecciones: 480 },
   { name: "Jun", usuarios: 239, colecciones: 380 },
-];
+]
 
 export const Stats = () => {
   return (
@@ -85,24 +76,14 @@ export const Stats = () => {
                 <XAxis dataKey="name" />
                 <YAxis />
                 <Tooltip />
-                <Line
-                  type="monotone"
-                  dataKey="usuarios"
-                  stroke="#3b82f6"
-                  strokeWidth={2}
-                />
-                <Line
-                  type="monotone"
-                  dataKey="colecciones"
-                  stroke="#22c55e"
-                  strokeWidth={2}
-                />
+                <Line type="monotone" dataKey="usuarios" stroke="#3b82f6" strokeWidth={2} />
+                <Line type="monotone" dataKey="colecciones" stroke="#22c55e" strokeWidth={2} />
               </LineChart>
             </ResponsiveContainer>
           </div>
         </Card>
       </div>
     </div>
-  );
-};
+  )
+}
 

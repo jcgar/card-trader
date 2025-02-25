@@ -1,13 +1,14 @@
+"use client"
 
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { Trophy, MessageSquare, UserPlus, Star } from "lucide-react";
-import type { Collector } from "@/app/types";
-import { motion } from "framer-motion";
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import { Card } from "@/components/ui/card"
+import { Trophy, MessageSquare, UserPlus, Star } from "lucide-react"
+import type { Collector } from "@/app/types"
+import { motion } from "framer-motion"
 
 interface CollectorHeaderProps {
-  profile: Collector;
+  profile: Collector
 }
 
 export const CollectorHeader = ({ profile }: CollectorHeaderProps) => {
@@ -60,9 +61,7 @@ export const CollectorHeader = ({ profile }: CollectorHeaderProps) => {
                         <Trophy className="w-3 h-3 mr-1" />
                         {profile.title}
                       </Badge>
-                      <Badge variant="outline">
-                        Top {profile.rank.global} Global
-                      </Badge>
+                      <Badge variant="outline">Top {profile.rank.global} Global</Badge>
                       <Badge variant="outline" className="text-purple-600">
                         #{profile.rank.categoryRank} en {profile.rank.category}
                       </Badge>
@@ -83,27 +82,19 @@ export const CollectorHeader = ({ profile }: CollectorHeaderProps) => {
                 {/* Stats Summary */}
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
                   <div className="text-center">
-                    <div className="text-2xl font-bold text-green-600">
-                      {profile.stats.followers}
-                    </div>
+                    <div className="text-2xl font-bold text-green-600">{profile.stats.followers}</div>
                     <div className="text-sm text-muted-foreground">Seguidores</div>
                   </div>
                   <div className="text-center">
-                    <div className="text-2xl font-bold text-blue-600">
-                      {profile.stats.totalCollections}
-                    </div>
+                    <div className="text-2xl font-bold text-blue-600">{profile.stats.totalCollections}</div>
                     <div className="text-sm text-muted-foreground">Colecciones</div>
                   </div>
                   <div className="text-center">
-                    <div className="text-2xl font-bold text-purple-600">
-                      {profile.stats.exchanges}
-                    </div>
+                    <div className="text-2xl font-bold text-purple-600">{profile.stats.exchanges}</div>
                     <div className="text-sm text-muted-foreground">Intercambios</div>
                   </div>
                   <div className="text-center">
-                    <div className="text-2xl font-bold text-yellow-600">
-                      {profile.stats.reputation}
-                    </div>
+                    <div className="text-2xl font-bold text-yellow-600">{profile.stats.reputation}</div>
                     <div className="text-sm text-muted-foreground">Reputación</div>
                   </div>
                 </div>
@@ -118,5 +109,6 @@ export const CollectorHeader = ({ profile }: CollectorHeaderProps) => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
+

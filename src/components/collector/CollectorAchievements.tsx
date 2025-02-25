@@ -1,12 +1,13 @@
+"use client"
 
-import { Card } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Trophy, Star } from "lucide-react";
-import type { Collector } from "@/app/types";
-import { motion } from "framer-motion";
+import { Card } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import { Trophy, Star } from "lucide-react"
+import type { Collector } from "@/app/types"
+import { motion } from "framer-motion"
 
 interface CollectorAchievementsProps {
-  profile: Collector;
+  profile: Collector
 }
 
 export const CollectorAchievements = ({ profile }: CollectorAchievementsProps) => {
@@ -14,8 +15,8 @@ export const CollectorAchievements = ({ profile }: CollectorAchievementsProps) =
     common: "bg-gray-100 text-gray-600",
     rare: "bg-blue-100 text-blue-600",
     epic: "bg-purple-100 text-purple-600",
-    legendary: "bg-yellow-100 text-yellow-600"
-  };
+    legendary: "bg-yellow-100 text-yellow-600",
+  }
 
   return (
     <Card className="p-6">
@@ -50,5 +51,6 @@ export const CollectorAchievements = ({ profile }: CollectorAchievementsProps) =
         ))}
       </div>
     </Card>
-  );
-};
+  )
+}
+

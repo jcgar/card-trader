@@ -1,28 +1,28 @@
-import { Crown, Trophy, Award } from "lucide-react";
-import { Activity, Collector } from "../../app/types";
-import { userTestimonials } from "./userTestimonials";
-import { formatDistanceToNow } from "date-fns";
+import { Crown, Trophy, Award } from "lucide-react"
+import type { Activity, Collector } from "../../app/types"
+import { userTestimonials } from "./userTestimonials"
+import { formatDistanceToNow } from "date-fns"
 
 function getRandomInt(min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
+  return Math.floor(Math.random() * (max - min + 1)) + min
 }
 
 function getRandomFloat(min, max, decimals = 1) {
-  return parseFloat((Math.random() * (max - min) + min).toFixed(decimals));
+  return Number.parseFloat((Math.random() * (max - min) + min).toFixed(decimals))
 }
 
 export function generateMockProfile(id): Collector {
-  const icons = [Crown, Trophy, Award];
-  const usernames = ["cardmaster", "traderking", "collectorlord", "swapgenius", "packhunter"];
-  const names = ["Alex Thompson", "Maria Gonzalez", "John Carter", "Sophia Lee", "David Martins"];
+  const icons = [Crown, Trophy, Award]
+  const usernames = ["cardmaster", "traderking", "collectorlord", "swapgenius", "packhunter"]
+  const names = ["Alex Thompson", "Maria Gonzalez", "John Carter", "Sophia Lee", "David Martins"]
   const mottos = [
     "Coleccionando momentos, un cromo a la vez",
     "Cada carta cuenta una historia",
     "Intercambiar es un arte",
     "El juego nunca termina",
-    "Siempre en busca de la carta perfecta"
-  ];
-  const categories = ["Anime", "Deportes", "Cine", "Videojuegos", "Historia"];
+    "Siempre en busca de la carta perfecta",
+  ]
+  const categories = ["Anime", "Deportes", "Cine", "Videojuegos", "Historia"]
   const stats: Collector["stats"] = {
     totalCards: getRandomInt(100, 1000),
     totalCollections: getRandomInt(5, 50),
@@ -36,14 +36,14 @@ export function generateMockProfile(id): Collector {
     completionRate: getRandomFloat(50, 100),
     likes: getRandomFloat(3.5, 5, 2),
   }
-  const avatar = `https://i.pravatar.cc/300?u=user${id}`;
+  const avatar = `https://i.pravatar.cc/300?u=user${id}`
   const testimonials = userTestimonials
   const collector: Collector = {
     id: id.toString(),
     username: usernames[id % usernames.length],
     name: names[id % names.length],
     avatar,
-    coverImage: 'https://images.unsplash.com/photo-1615715616181-6ba22b04bec9',
+    coverImage: "https://images.unsplash.com/photo-1615715616181-6ba22b04bec9",
     title: `Maestro de ${categories[id % categories.length]}`,
     level: getRandomInt(5, 50),
     motto: mottos[id % mottos.length],
@@ -63,12 +63,12 @@ export function generateMockProfile(id): Collector {
     socialLinks: {
       twitter: "",
       instagram: "",
-      website: ""
+      website: "",
     },
-    wishlist: []
-  };
+    wishlist: [],
+  }
 
-  return collector;
+  return collector
 }
 
 function generateRecentActivity(stats: Collector["stats"], user, avatar): Activity {
@@ -78,8 +78,8 @@ function generateRecentActivity(stats: Collector["stats"], user, avatar): Activi
     `Found 3 rare cards`,
     `Achieved a new milestone in card trading`,
     `Unlocked a Legendary Card`,
-  ];
-  const types = ['trade', 'collection', 'achievement', 'social'] as Activity["type"][];
+  ]
+  const types = ["trade", "collection", "achievement", "social"] as Activity["type"][]
   const id = getRandomInt(1, 4)
   const activity: Activity = {
     id,
@@ -88,10 +88,10 @@ function generateRecentActivity(stats: Collector["stats"], user, avatar): Activi
     timestamp: formatDistanceToNow(new Date().getTime()),
     user,
     avatar,
-    likes: 0
+    likes: 0,
   }
-  return activity;
+  return activity
 }
 
-export const collectors: Collector[] = Array
-  .from({ length: 10 }, (_, i) => generateMockProfile(i))
+export const collectors: Collector[] = Array.from({ length: 10 }, (_, i) => generateMockProfile(i))
+

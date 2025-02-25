@@ -1,34 +1,27 @@
+"use client"
 
-import { useEffect, useState } from "react";
-import { useParams, Link, useNavigate } from "react-router-dom";
-import { NavigationBar } from "@/components/NavigationBar";
-import { Card } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import {
-  Users,
-  Image as ImageIcon,
-  Repeat,
-  BookOpen,
-  Shield,
-  Trophy,
-  Star,
-  ArrowLeft
-} from "lucide-react";
-import { Collection } from "@/app/types";
+import { useEffect, useState } from "react"
+import { useParams, useNavigate } from "react-router-dom"
+import { NavigationBar } from "@/components/NavigationBar"
+import { Card } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Users, ImageIcon, Repeat, BookOpen, Shield, Star, ArrowLeft } from "lucide-react"
+import type { Collection } from "@/app/types"
+import { t } from "@/use/i18n"
 
 const CollectionPublicView = () => {
-  const { id } = useParams();
-  const [collection, setCollection] = useState<Collection | null>(null);
+  const { id } = useParams()
+  const [collection, setCollection] = useState<Collection | null>(null)
   const navigate = useNavigate()
 
   useEffect(() => {
     // Mock data - replace with actual API call
     setCollection({
       id: "1",
-      name: "Fantasy Riders 2. La Invasión de los Gigantes",
-      publisher: "Panini",
+      name: t("collection.name"),
+      publisher: t("collection.publisher"),
       year: 2019,
       totalCards: 410,
       image: "https://picsum.photos/800/400",
@@ -38,25 +31,25 @@ const CollectionPublicView = () => {
       recentActivity: [],
       lastUpdated: 3,
       likes: 245,
-      featured: true
-    });
-  }, [id]);
+      featured: true,
+    })
+  }, [t])
 
-  if (!collection) return <div>Loading...</div>;
+  if (!collection) return <div>{t("common.loading")}</div>
 
   const groups = [
-    { name: "Elfos Oscuros", cards: 37 },
-    { name: "Hoplitas", cards: 37 },
-    { name: "Gnomos", cards: 37 },
+    { name: t("collection.groups.darkElves"), cards: 37 },
+    { name: t("collection.groups.hoplites"), cards: 37 },
+    { name: t("collection.groups.gnomes"), cards: 37 },
     // ... add other groups
-  ];
+  ]
 
   const editions = [
-    { name: "Bronce", cards: 33 },
-    { name: "Plata", cards: 33 },
-    { name: "Oro", cards: 33 },
+    { name: t("collection.editions.bronze"), cards: 33 },
+    { name: t("collection.editions.silver"), cards: 33 },
+    { name: t("collection.editions.gold"), cards: 33 },
     // ... add other editions
-  ];
+  ]
 
   const handleBack = () => {
     navigate(-1)
@@ -68,15 +61,14 @@ const CollectionPublicView = () => {
       <main className="container mx-auto px-4 py-24">
         <Button variant="ghost" className="mb-6" onClick={handleBack}>
           <ArrowLeft className="mr-2 h-4 w-4" />
-          Volver
+          {t("common.back")}
         </Button>
-
 
         <Card className="p-6">
           <div className="grid md:grid-cols-2 gap-8">
             <div>
               <img
-                src={collection.image}
+                src={collection.image || "/placeholder.svg"}
                 alt={collection.name}
                 className="rounded-lg w-full object-cover"
               />
@@ -94,7 +86,7 @@ const CollectionPublicView = () => {
                   {collection.year}
                 </Badge>
                 <Badge variant="secondary" className="bg-green-50">
-                  {collection.totalCards} cartas
+                  {t("collection.totalCards", { count: collection.totalCards })}
                 </Badge>
               </div>
 
@@ -102,31 +94,29 @@ const CollectionPublicView = () => {
                 <div className="text-center p-4 bg-green-50 rounded-lg">
                   <Users className="w-6 h-6 mx-auto mb-2 text-green-600" />
                   <div className="font-semibold">{collection.activeUsers}</div>
-                  <div className="text-sm text-gray-600">Coleccionistas</div>
+                  <div className="text-sm text-gray-600">{t("collection.collectors")}</div>
                 </div>
                 <div className="text-center p-4 bg-green-50 rounded-lg">
                   <ImageIcon className="w-6 h-6 mx-auto mb-2 text-green-600" />
                   <div className="font-semibold">110</div>
-                  <div className="text-sm text-gray-600">Imágenes</div>
+                  <div className="text-sm text-gray-600">{t("collection.images")}</div>
                 </div>
                 <div className="text-center p-4 bg-green-50 rounded-lg">
                   <Repeat className="w-6 h-6 mx-auto mb-2 text-green-600" />
                   <div className="font-semibold">150</div>
-                  <div className="text-sm text-gray-600">Cambios</div>
+                  <div className="text-sm text-gray-600">{t("collection.exchanges")}</div>
                 </div>
               </div>
 
-              <p className="text-gray-600 mt-4">
-                La nueva colección de Fantasy Riders presenta nuevas tribus, personajes y monturas.
-              </p>
+              <p className="text-gray-600 mt-4">{t("collection.description")}</p>
             </div>
           </div>
 
           <Tabs defaultValue="groups" className="mt-8">
             <TabsList className="grid w-full grid-cols-3">
-              <TabsTrigger value="groups">Grupos</TabsTrigger>
-              <TabsTrigger value="editions">Ediciones</TabsTrigger>
-              <TabsTrigger value="materials">Álbumes y sobres</TabsTrigger>
+              <TabsTrigger value="groups">{t("collection.groups.title")}</TabsTrigger>
+              <TabsTrigger value="editions">{t("collection.editions.title")}</TabsTrigger>
+              <TabsTrigger value="materials">{t("collection.materials.title")}</TabsTrigger>
             </TabsList>
 
             <TabsContent value="groups" className="mt-4">
@@ -134,7 +124,7 @@ const CollectionPublicView = () => {
                 {groups.map((group, index) => (
                   <div key={index} className="p-4 bg-green-50 rounded-lg">
                     <h3 className="font-semibold">{group.name}</h3>
-                    <p className="text-sm text-gray-600">{group.cards} cartas</p>
+                    <p className="text-sm text-gray-600">{t("collection.cardCount", { count: group.cards })}</p>
                   </div>
                 ))}
               </div>
@@ -145,7 +135,7 @@ const CollectionPublicView = () => {
                 {editions.map((edition, index) => (
                   <div key={index} className="p-4 bg-green-50 rounded-lg">
                     <h3 className="font-semibold">{edition.name}</h3>
-                    <p className="text-sm text-gray-600">{edition.cards} cartas</p>
+                    <p className="text-sm text-gray-600">{t("collection.cardCount", { count: edition.cards })}</p>
                   </div>
                 ))}
               </div>
@@ -153,12 +143,12 @@ const CollectionPublicView = () => {
 
             <TabsContent value="materials" className="mt-4">
               <div className="p-4 bg-green-50 rounded-lg">
-                <h3 className="font-semibold mb-2">Materiales disponibles</h3>
+                <h3 className="font-semibold mb-2">{t("collection.materials.availableMaterials")}</h3>
                 <ul className="list-disc list-inside text-gray-600">
-                  <li>Álbum coleccionista</li>
-                  <li>Álbum standard</li>
-                  <li>Sobres (5 cartas)</li>
-                  <li>Caja premium (24 sobres)</li>
+                  <li>{t("collection.materials.collectorAlbum")}</li>
+                  <li>{t("collection.materials.standardAlbum")}</li>
+                  <li>{t("collection.materials.packs")}</li>
+                  <li>{t("collection.materials.premiumBox")}</li>
                 </ul>
               </div>
             </TabsContent>
@@ -167,17 +157,18 @@ const CollectionPublicView = () => {
           <div className="mt-8 flex justify-center gap-4">
             <Button className="flex items-center gap-2">
               <Shield className="w-4 h-4" />
-              Añadir a mi colección
+              {t("collection.addToMyCollection")}
             </Button>
             <Button variant="outline" className="flex items-center gap-2">
               <Star className="w-4 h-4" />
-              Seguir
+              {t("collection.follow")}
             </Button>
           </div>
         </Card>
       </main>
     </div>
-  );
-};
+  )
+}
 
-export default CollectionPublicView;
+export default CollectionPublicView
+

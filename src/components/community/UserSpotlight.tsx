@@ -1,31 +1,23 @@
+"use client"
 
-import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import {
-  Trophy,
-  Star,
-  Users,
-  Heart,
-  Medal,
-  Flame
-} from "lucide-react";
-import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { api } from "@/use/api";
-import { routes } from "@/use/routes";
-import { Collector } from "@/app/types";
+import { Card } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import { Trophy, Star, Users, Flame } from "lucide-react"
+import { motion } from "framer-motion"
+import { Link } from "react-router-dom"
+import { routes } from "@/use/routes"
+import type { Collector } from "@/app/types"
 
 interface UserSpotlight {
-  id: string;
-  name: string;
-  avatar: string;
-  level: number;
-  achievements: number;
-  followers: number;
-  collections: number;
-  speciality: string;
-  rarity: string;
+  id: string
+  name: string
+  avatar: string
+  level: number
+  achievements: number
+  followers: number
+  collections: number
+  speciality: string
+  rarity: string
 }
 
 export const UserSpotlight = ({ collectors }: { collectors: Collector[] }) => {
@@ -51,7 +43,7 @@ export const UserSpotlight = ({ collectors }: { collectors: Collector[] }) => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.2 }}
           >
-            <Link to={routes.collector.replace(':id', user.id)}>
+            <Link to={routes.collector.replace(":id", user.id)}>
               <Card className="p-6 hover:shadow-lg transition-shadow group">
                 <div className="relative">
                   <div className="absolute -top-2 -right-2 bg-yellow-400 text-xs font-bold px-2 py-1 rounded-full">
@@ -95,12 +87,9 @@ export const UserSpotlight = ({ collectors }: { collectors: Collector[] }) => {
                 <div className="mt-6 pt-4 border-t">
                   <div className="flex items-center justify-between text-sm">
                     <span className="flex items-center gap-2">
-
-                      {user.badges.map(badge =>
-                        <div className="p-2 bg-yellow-100 rounded-full">
-                          {badge}
-                        </div>
-                      )}
+                      {user.badges.map((badge) => (
+                        <div className="p-2 bg-yellow-100 rounded-full">{badge}</div>
+                      ))}
                     </span>
                     <span className="flex items-center gap-1 text-orange-500">
                       <Flame className="w-4 h-4" />
@@ -116,5 +105,6 @@ export const UserSpotlight = ({ collectors }: { collectors: Collector[] }) => {
         ))}
       </div>
     </div>
-  );
-};
+  )
+}
+

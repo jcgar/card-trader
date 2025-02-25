@@ -1,8 +1,10 @@
+"use client"
+
 import { motion } from "framer-motion"
 import { Card } from "@/components/ui/card"
 import { Heart, Search, Star, Users } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { Collection } from "@/app/types"
+import type { Collection } from "@/app/types"
 
 const statusColors = {
   iniciado: "bg-yellow-500 text-black",
@@ -14,10 +16,7 @@ const statusColors = {
 export default function CollectionCard({ collection }: { collection: Collection }) {
   return (
     <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-      <Card
-        key={collection.id}
-        className="overflow-hidden hover:shadow-lg transition-all duration-300"
-      >
+      <Card key={collection.id} className="overflow-hidden hover:shadow-lg transition-all duration-300">
         <div className="group relative aspect-[4/3]">
           <img
             src={collection.image}

@@ -1,12 +1,12 @@
-import { Card } from "../ui/card";
-import { Trophy, Star, MessageSquare, Crown, LucideIcon, Sticker } from "lucide-react";
-import { useState } from "react";
-import { Link } from "react-router-dom";
-import { generateCollectorPath } from "@/use/routes";
-import { Activity } from "@/app/types";
+import { Card } from "../ui/card"
+import { Trophy, Star, MessageSquare, Crown, type LucideIcon, Sticker } from "lucide-react"
+import { useState } from "react"
+import { Link } from "react-router-dom"
+import { generateCollectorPath } from "@/use/routes"
+import type { Activity } from "@/app/types"
 
 interface ActivityDisplay {
-  icon: LucideIcon,
+  icon: LucideIcon
   color: string
 }
 
@@ -26,21 +26,17 @@ const displays = {
   social: {
     icon: Crown,
     color: "from-purple-500 to-pink-600",
-  }
+  },
 }
 
-
 export const ActivityFeed = ({ activities }: { activities: Activity[] }) => {
-  const [highlightedActivity, setHighlightedActivity] = useState<number | null>(null);
-
+  const [highlightedActivity, setHighlightedActivity] = useState<number | null>(null)
 
   return (
     <section className="py-20">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-playfair font-bold mb-4 text-green-800">
-            Actividad de la Comunidad
-          </h2>
+          <h2 className="text-3xl font-playfair font-bold mb-4 text-green-800">Actividad de la Comunidad</h2>
           <p className="text-green-600">Mantente al día con lo que sucede en la comunidad</p>
         </div>
 
@@ -52,15 +48,13 @@ export const ActivityFeed = ({ activities }: { activities: Activity[] }) => {
                 <Link to={generateCollectorPath(activity.user)}>
                   <div className="p-4 flex items-center gap-4">
                     <div className="relative">
-                      <img
-                        src={activity.avatar}
-                        alt={activity.user}
-                        className="w-12 h-12 rounded-full"
-                      />
-                      <div className={`
+                      <img src={activity.avatar} alt={activity.user} className="w-12 h-12 rounded-full" />
+                      <div
+                        className={`
                       absolute -bottom-1 -right-1 p-1 rounded-full bg-white
-                      ${highlightedActivity === activity.id ? 'animate-bounce' : ''}
-                    `}>
+                      ${highlightedActivity === activity.id ? "animate-bounce" : ""}
+                    `}
+                      >
                         <div className={`w-4 h-4 ${display.color}`} />
                         <display.icon />
                       </div>
@@ -68,8 +62,7 @@ export const ActivityFeed = ({ activities }: { activities: Activity[] }) => {
 
                     <div className="flex-1">
                       <p className="text-gray-800">
-                        <span className="font-medium">{activity.user}</span>{' '}
-                        {activity.content}
+                        <span className="font-medium">{activity.user}</span> {activity.content}
                       </p>
                       <p className="text-sm text-gray-500">{activity.timestamp}</p>
                     </div>
@@ -85,5 +78,6 @@ export const ActivityFeed = ({ activities }: { activities: Activity[] }) => {
         </div>
       </div>
     </section>
-  );
-};
+  )
+}
+

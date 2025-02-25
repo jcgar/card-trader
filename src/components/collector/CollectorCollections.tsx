@@ -1,11 +1,10 @@
-
-import { Card } from "@/components/ui/card";
-import { Collection } from "@/app/types";
-import { Progress } from "@/components/ui/progress";
-import { Users, Heart } from "lucide-react";
+import { Card } from "@/components/ui/card"
+import type { Collection } from "@/app/types"
+import { Progress } from "@/components/ui/progress"
+import { Users, Heart } from "lucide-react"
 
 interface CollectorCollectionsProps {
-  collections: Collection[];
+  collections: Collection[]
 }
 
 export const CollectorCollections = ({ collections }: CollectorCollectionsProps) => {
@@ -16,11 +15,7 @@ export const CollectorCollections = ({ collections }: CollectorCollectionsProps)
         {collections.map((collection) => (
           <Card key={collection.id} className="p-4">
             <div className="flex gap-4">
-              <img
-                src={collection.image}
-                alt={collection.name}
-                className="w-24 h-24 object-cover rounded-lg"
-              />
+              <img src={collection.image} alt={collection.name} className="w-24 h-24 object-cover rounded-lg" />
               <div className="flex-1">
                 <h3 className="font-semibold mb-2">{collection.name}</h3>
                 <div className="flex items-center gap-4 text-sm text-gray-600 mb-2">
@@ -41,5 +36,6 @@ export const CollectorCollections = ({ collections }: CollectorCollectionsProps)
         ))}
       </div>
     </Card>
-  );
-};
+  )
+}
+

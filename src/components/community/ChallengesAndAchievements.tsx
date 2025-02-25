@@ -1,9 +1,10 @@
+"use client"
 
-import { Card } from "../ui/card";
-import { Trophy, Star, Crown, Award, Sparkles } from "lucide-react";
-import { Progress } from "../ui/progress";
-import { useState } from "react";
-import { showToast } from "@/use/ui";
+import { Card } from "../ui/card"
+import { Trophy, Star, Crown, Award, Sparkles } from "lucide-react"
+import { Progress } from "../ui/progress"
+import { useState } from "react"
+import { showToast } from "@/use/ui"
 
 const challenges = [
   {
@@ -36,7 +37,7 @@ const challenges = [
     deadline: "3 días restantes",
     color: "from-purple-500 to-pink-600",
   },
-];
+]
 
 const achievements = [
   {
@@ -53,27 +54,29 @@ const achievements = [
     icon: Star,
     date: "Conseguido hace 1 semana",
   },
-];
+]
 
 export const ChallengesAndAchievements = () => {
-  const [activeChallenge, setActiveChallenge] = useState<number | null>(null);
-  const [playingSound, setPlayingSound] = useState(false);
+  const [activeChallenge, setActiveChallenge] = useState<number | null>(null)
+  const [playingSound, setPlayingSound] = useState(false)
 
   const playAchievementSound = () => {
-    if (playingSound) return;
-    setPlayingSound(true);
-    const audio = new Audio("data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdH2Dem6Cb3UCeH+gopwEIAQzBU8FZwZ/CpcKsgvBC8ULyAvJC8wLz8lhwkZwc3UoJN8jwRwEQrVCvUK/QsNCxkLCLxsoGwgAAAAAAAAAAAAAAA==");
-    audio.play().finally(() => setPlayingSound(false));
-  };
+    if (playingSound) return
+    setPlayingSound(true)
+    const audio = new Audio(
+      "data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdH2Dem6Cb3UCeH+gopwEIAQzBU8FZwZ/CpcKsgvBC8ULyAvJC8wLz8lhwkZwc3UoJN8jwRwEQrVCvUK/QsNCxkLCLxsoGwgAAAAAAAAAAAAAAA==",
+    )
+    audio.play().finally(() => setPlayingSound(false))
+  }
 
   const handleChallengeClick = (challengeId: number) => {
-    setActiveChallenge(challengeId);
-    playAchievementSound();
+    setActiveChallenge(challengeId)
+    playAchievementSound()
     showToast({
       title: "¡Reto seleccionado!",
       description: "Continúa trabajando en este desafío para obtener recompensas.",
-    });
-  };
+    })
+  }
 
   return (
     <section className="py-20 bg-gradient-to-b from-green-50 to-white">
@@ -93,16 +96,18 @@ export const ChallengesAndAchievements = () => {
               className={`
                 transform transition-all duration-500 cursor-pointer
                 hover:scale-105 hover:shadow-xl
-                ${activeChallenge === challenge.id ? 'ring-2 ring-green-400 ring-offset-4' : ''}
+                ${activeChallenge === challenge.id ? "ring-2 ring-green-400 ring-offset-4" : ""}
               `}
               onClick={() => handleChallengeClick(challenge.id)}
             >
               <div className="p-6">
                 <div className="flex items-start gap-4">
-                  <div className={`
+                  <div
+                    className={`
                     p-3 rounded-full bg-gradient-to-r ${challenge.color}
                     transform transition-transform duration-300 hover:scale-110
-                  `}>
+                  `}
+                  >
                     <challenge.icon className="w-6 h-6 text-white" />
                   </div>
                   <div className="flex-1">
@@ -113,10 +118,7 @@ export const ChallengesAndAchievements = () => {
                         <span>Progreso</span>
                         <span>{challenge.progress}%</span>
                       </div>
-                      <Progress
-                        value={challenge.progress}
-                        className="h-2 animate-pulse"
-                      />
+                      <Progress value={challenge.progress} className="h-2 animate-pulse" />
                       <div className="flex justify-between items-center mt-2">
                         <span className="text-xs text-green-600">{challenge.deadline}</span>
                         <div className="flex items-center gap-1 text-yellow-600 text-sm">
@@ -154,5 +156,6 @@ export const ChallengesAndAchievements = () => {
         </div>
       </div>
     </section>
-  );
-};
+  )
+}
+

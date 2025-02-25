@@ -1,29 +1,27 @@
+"use client"
 
-import { NavigationBar } from "@/components/NavigationBar";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Search, Users, Archive, HelpCircle } from "lucide-react";
-import { useState } from "react";
-import { Card } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { NavigationBar } from "@/components/NavigationBar"
+import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button"
+import { Search, Users, Archive, HelpCircle } from "lucide-react"
+import { useState } from "react"
+import { Card } from "@/components/ui/card"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 type SearchResult = {
-  id: number;
-  name?: string;
-  title?: string;
-  collections?: number;
-  followers?: number;
-  users?: number;
-  completed?: string;
-  views?: number;
-};
+  id: number
+  name?: string
+  title?: string
+  collections?: number
+  followers?: number
+  users?: number
+  completed?: string
+  views?: number
+}
 
 const SearchPage = () => {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [suggestions] = useState([
-    "Pokemon", "Yu-Gi-Oh!", "Magic", "Dragon Ball",
-    "Liga Santander", "NBA", "World Cup"
-  ]);
+  const [searchTerm, setSearchTerm] = useState("")
+  const [suggestions] = useState(["Pokemon", "Yu-Gi-Oh!", "Magic", "Dragon Ball", "Liga Santander", "NBA", "World Cup"])
 
   const mockResults: Record<string, SearchResult[]> = {
     users: [
@@ -37,19 +35,15 @@ const SearchPage = () => {
     help: [
       { id: 1, title: "¿Cómo empezar una colección?", views: 1234 },
       { id: 2, title: "Guía de intercambios", views: 987 },
-    ]
-  };
+    ],
+  }
 
-  const allResults: SearchResult[] = [
-    ...mockResults.users,
-    ...mockResults.collections,
-    ...mockResults.help
-  ];
+  const allResults: SearchResult[] = [...mockResults.users, ...mockResults.collections, ...mockResults.help]
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-green-50 via-white to-white pt-16">
       <NavigationBar />
-      
+
       <main className="container mx-auto px-4 py-8">
         <div className="max-w-3xl mx-auto space-y-8">
           <div className="relative">
@@ -64,7 +58,7 @@ const SearchPage = () => {
             {searchTerm && (
               <div className="absolute w-full bg-white shadow-lg rounded-lg mt-2 p-2 border z-10">
                 {suggestions
-                  .filter(s => s.toLowerCase().includes(searchTerm.toLowerCase()))
+                  .filter((s) => s.toLowerCase().includes(searchTerm.toLowerCase()))
                   .map((suggestion, i) => (
                     <Button
                       key={i}
@@ -105,8 +99,8 @@ const SearchPage = () => {
                       {result.collections
                         ? `${result.collections} colecciones`
                         : result.users
-                        ? `${result.users} usuarios`
-                        : `${result.views} visualizaciones`}
+                          ? `${result.users} usuarios`
+                          : `${result.views} visualizaciones`}
                     </p>
                   </Card>
                 ))}
@@ -115,7 +109,7 @@ const SearchPage = () => {
 
             <TabsContent value="users" className="space-y-6 mt-6">
               <div className="grid gap-4">
-                {mockResults.users.map(user => (
+                {mockResults.users.map((user) => (
                   <Card key={user.id} className="p-4">
                     <h3 className="font-semibold">{user.name}</h3>
                     <p className="text-sm text-gray-600">
@@ -128,7 +122,7 @@ const SearchPage = () => {
 
             <TabsContent value="collections" className="space-y-6 mt-6">
               <div className="grid gap-4">
-                {mockResults.collections.map(collection => (
+                {mockResults.collections.map((collection) => (
                   <Card key={collection.id} className="p-4">
                     <h3 className="font-semibold">{collection.name}</h3>
                     <p className="text-sm text-gray-600">
@@ -141,7 +135,7 @@ const SearchPage = () => {
 
             <TabsContent value="help" className="space-y-6 mt-6">
               <div className="grid gap-4">
-                {mockResults.help.map(article => (
+                {mockResults.help.map((article) => (
                   <Card key={article.id} className="p-4">
                     <h3 className="font-semibold">{article.title}</h3>
                     <p className="text-sm text-gray-600">{article.views} visualizaciones</p>
@@ -153,7 +147,8 @@ const SearchPage = () => {
         </div>
       </main>
     </div>
-  );
-};
+  )
+}
 
-export default SearchPage;
+export default SearchPage
+

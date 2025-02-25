@@ -147,3 +147,4 @@ export const collections2: Collection[] = [
     completionRate: 0
   },
 ]
+

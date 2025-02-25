@@ -1,7 +1,8 @@
+"use client"
 
-import { Card } from "../ui/card";
-import { Activity, Users, Award, RefreshCcw } from "lucide-react";
-import { useEffect, useState } from "react";
+import { Card } from "../ui/card"
+import { Activity, RefreshCcw } from "lucide-react"
+import { useEffect, useState } from "react"
 
 // const initialActivities = [
 //   {
@@ -31,7 +32,7 @@ import { useEffect, useState } from "react";
 // ];
 
 export const LiveActivity = ({ activities }) => {
-  const [liveActivities, setActivities] = useState(activities);
+  const [liveActivities, setActivities] = useState(activities)
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -43,12 +44,12 @@ export const LiveActivity = ({ activities }) => {
         action: "made a new trade",
         time: "just now",
         icon: RefreshCcw,
-      };
-      setActivities(prev => [newActivity, ...prev.slice(0, -1)]);
-    }, 5000);
+      }
+      setActivities((prev) => [newActivity, ...prev.slice(0, -1)])
+    }, 5000)
 
-    return () => clearInterval(interval);
-  }, []);
+    return () => clearInterval(interval)
+  }, [])
 
   return (
     <section className="py-20 bg-green-50">
@@ -68,8 +69,7 @@ export const LiveActivity = ({ activities }) => {
               </div>
               <div className="flex-1">
                 <p className="text-gray-800">
-                  <span className="font-medium">{activity.user}</span>{" "}
-                  {activity.action}
+                  <span className="font-medium">{activity.user}</span> {activity.action}
                 </p>
                 <p className="text-sm text-gray-500">{activity.time}</p>
               </div>
@@ -78,5 +78,6 @@ export const LiveActivity = ({ activities }) => {
         </div>
       </div>
     </section>
-  );
-};
+  )
+}
+

@@ -1,16 +1,14 @@
-
-import { Card } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
-import { Trophy, Star, Repeat, Book } from "lucide-react";
-import type { Collector } from "@/app/types";
+import { Card } from "@/components/ui/card"
+import { Progress } from "@/components/ui/progress"
+import { Trophy, Star, Repeat, Book } from "lucide-react"
 
 interface CollectorStatsProps {
-  profile: CollectorProfile;
+  profile: CollectorProfile
 }
 
 export const CollectorStats = ({ profile }: CollectorStatsProps) => {
-  const completionRate = (profile.stats.completedCards / profile.stats.totalCards) * 100;
-  const collectionRate = (profile.stats.completedCollections / profile.stats.collections) * 100;
+  const completionRate = (profile.stats.completedCards / profile.stats.totalCards) * 100
+  const collectionRate = (profile.stats.completedCollections / profile.stats.collections) * 100
 
   return (
     <Card className="p-6">
@@ -22,7 +20,9 @@ export const CollectorStats = ({ profile }: CollectorStatsProps) => {
               <Book className="w-4 h-4 text-blue-500" />
               Cromos completados
             </span>
-            <span className="font-medium">{profile.stats.completedCards}/{profile.stats.totalCards}</span>
+            <span className="font-medium">
+              {profile.stats.completedCards}/{profile.stats.totalCards}
+            </span>
           </div>
           <Progress value={completionRate} className="h-2" />
         </div>
@@ -33,7 +33,9 @@ export const CollectorStats = ({ profile }: CollectorStatsProps) => {
               <Trophy className="w-4 h-4 text-yellow-500" />
               Colecciones completadas
             </span>
-            <span className="font-medium">{profile.stats.completedCollections}/{profile.stats.collections}</span>
+            <span className="font-medium">
+              {profile.stats.completedCollections}/{profile.stats.collections}
+            </span>
           </div>
           <Progress value={collectionRate} className="h-2" />
         </div>
@@ -52,5 +54,6 @@ export const CollectorStats = ({ profile }: CollectorStatsProps) => {
         </div>
       </div>
     </Card>
-  );
-};
+  )
+}
+

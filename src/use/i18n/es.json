@@ -4,84 +4,159 @@
     "community": "Comunidad",
     "blog": "Blog",
     "help": "Ayuda",
-    "login": "Iniciar sesión",
-    "dashboard": "Panel",
     "search": "Buscar",
+    "login": "Iniciar sesión",
+    "dashboard": "Panel de control",
     "language": "Idioma"
   },
-  "hero": {
-    "title": "Tu viaje de coleccionismo comienza aquí",
-    "subtitle": "Descubre, intercambia y completa tus colecciones con otros entusiastas en la comunidad de intercambio de cromos más atractiva del mundo",
-    "startCollecting": "Empezar a coleccionar",
-    "exploreCollections": "Explorar colecciones"
-  },
-  "exchanges": {
-    "title": "Mis Intercambios",
-    "searchExchange": "Buscar intercambios...",
-    "sortBy": "Ordenar por",
-    "sortByCollector": "Coleccionista",
-    "sortByStatus": "Estado",
-    "sortByDate": "Fecha",
-    "sortByLastActivity": "Última actividad",
-    "sortByTotalStickers": "Total de cromos",
-    "advancedFilters": "Filtros avanzados",
-    "advancedFiltersDescription": "Aplica filtros avanzados a tus intercambios",
-    "status": "Estado",
-    "statusPending": "Pendiente",
-    "statusAccepted": "Aceptado",
-    "statusCompleted": "Completado",
-    "statusRejected": "Rechazado",
-    "collectionType": "Tipo de colección",
-    "selectCollectionType": "Seleccionar tipo de colección",
-    "collectionTypeSports": "Deportes",
-    "collectionTypeMovies": "Películas",
-    "collectionTypeAnime": "Anime",
-    "collectionTypeVideogames": "Videojuegos",
-    "totalStickers": "Total de cromos",
-    "enterMinimumStickers": "Introduce mínimo de cromos",
-    "applyFilters": "Aplicar filtros",
-    "newExchange": "Nuevo intercambio"
-  },
-  "exchange": {
-    "with": "Intercambio con {{name}}",
-    "status": {
-      "pending": "Pendiente",
-      "accepted": "Aceptado",
-      "completed": "Completado",
-      "rejected": "Rechazado"
-    },
-    "stickers": "cromos",
-    "lastActivity": "Última actividad: {{time}}",
-    "totalStickers": "Total de cromos: {{count}}"
+  "auth": {
+    "login": "Iniciar sesión",
+    "register": "Registrarse",
+    "forgotPassword": "¿Olvidaste tu contraseña?",
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "name": "Nombre",
+    "continueWithEmail": "Continuar con correo",
+    "continueWithFacebook": "Continuar con Facebook",
+    "continueWithGoogle": "Continuar con Google",
+    "noAccount": "¿No tienes una cuenta?",
+    "startHere": "Empieza aquí",
+    "createAccount": "Crear una cuenta",
+    "back": "Volver",
+    "sendInstructions": "Enviar instrucciones"
   },
   "collections": {
-    "title": "Mis Colecciones",
-    "searchCollection": "Buscar colección...",
-    "sortBy": "Ordenar por",
-    "sortByName": "Nombre",
-    "sortByYear": "Año",
-    "sortByCompletionRate": "Tasa de completado",
-    "advancedFilters": "Filtros avanzados",
-    "advancedFiltersDescription": "Aplica filtros avanzados a tus colecciones",
-    "category": "Categoría",
-    "categorySports": "Deportes",
-    "categoryMovies": "Películas",
-    "categoryAnime": "Anime",
-    "categoryVideogames": "Videojuegos",
-    "publisher": "Editorial",
-    "selectPublisher": "Seleccionar editorial",
-    "applyFilters": "Aplicar filtros",
-    "newCollection": "Nueva colección",
-    "completionRate": "Completado: {{rate}}",
-    "editCollection": "Editar colección"
+    "title": "Colecciones",
+    "featured": "Colecciones Destacadas",
+    "catalog": "Catálogo de colecciones",
+    "search": "Buscar colecciones...",
+    "advancedSearch": "Búsqueda avanzada",
+    "filters": {
+      "title": "Filtros",
+      "category": "Categoría",
+      "year": "Año"
+    },
+    "popularity": "Popularidad: {{score}}",
+    "explore": "Explorar",
+    "searchByNumber": "Buscar por número",
+    "searchPlaceholder": "Ej: 1, 2, 3, 4...",
+    "stickerType": "Tipo de cromo",
+    "selectType": "Seleccionar tipo",
+    "allTypes": "Todos",
+    "regularTypes": "Regulares",
+    "specialTypes": "Especiales",
+    "albumTypes": "Álbumes",
+    "actions": "Acciones",
+    "addSelection": "Añadir selección",
+    "removeSelection": "Quitar selección",
+    "resetFilters": "Reiniciar filtros",
+    "selectedNumbers": "Números seleccionados: {{numbers}}",
+    "scrollView": "Vista de desplazamiento",
+    "gridView": "Vista de cuadrícula",
+    "albumView": "Vista de álbum",
+    "allStickers": "Todos",
+    "missingStickers": "Faltantes",
+    "repeatedStickers": "Repetidos",
+    "specialStickers": "Especiales",
+    "bulkEdit": "Edición masiva",
+    "apply": "Aplicar ({{count}})",
+    "saveChanges": "Guardar cambios",
+    "pageInfo": "Página {{current}} de {{total}}"
   },
-  "catalog": {
-    "featuredCollections": "Colecciones Destacadas",
-    "popularity": "Popularidad: {{score}}%",
-    "explore": "Explorar"
+  "tradeMarket": {
+    "title": "Mercado de Intercambios",
+    "subtitle": "Lo más buscado",
+    "albums": "Álbumes",
+    "packs": "Sobres",
+    "cards": "Cromos",
+    "topSellers": "Mejores Vendedores",
+    "exploreAll": "Explorar todo el mercado",
+    "condition": {
+      "new": "Nuevo",
+      "used": "Usado"
+    },
+    "badges": {
+      "rare": "Raro",
+      "limitedEdition": "Edición Limitada",
+      "recentlySold": "Vendido recientemente"
+    },
+    "actions": {
+      "buy": "Comprar",
+      "bid": "Pujar",
+      "addToCart": "Añadir al carrito",
+      "contact": "Contactar vendedor"
+    },
+    "auctionEndsIn": "Termina en"
+  },
+  "hero": {
+    "title": "Tu Viaje de Colección de Cartas Definitivo Comienza Aquí",
+    "subtitle": "Únete a miles de coleccionistas en todo el mundo",
+    "description": "Descubre, intercambia y completa tus colecciones con otros entusiastas en la comunidad de intercambio de cartas más atractiva del mundo.",
+    "startCollecting": "Empezar a Coleccionar",
+    "exploreCollections": "Explorar Colecciones"
+  },
+  "cta": {
+    "title": "¿Listo para Comenzar tu Colección?",
+    "description": "Únete a miles de coleccionistas y comienza tu viaje hoy. Crea una cuenta para empezar a intercambiar, coleccionar y conectar con otros entusiastas.",
+    "createAccount": "Crear Cuenta Gratis"
   },
   "common": {
-    "ascending": "Ascendente",
-    "descendente": "Descendente"
+    "loading": "Cargando...",
+    "error": "Ha ocurrido un error",
+    "retry": "Reintentar",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "edit": "Editar",
+    "delete": "Eliminar",
+    "confirm": "Confirmar",
+    "submit": "Enviar"
+  },
+  "collection": {
+    "collectors": "Coleccionistas",
+    "images": "Imágenes",
+    "exchanges": "Intercambios",
+    "groups": {
+      "title": "Grupos",
+      "darkElves": "Elfos Oscuros",
+      "hoplites": "Hoplitas",
+      "gnomes": "Gnomos"
+    },
+    "editions": {
+      "title": "Ediciones",
+      "bronze": "Bronce",
+      "silver": "Plata",
+      "gold": "Oro"
+    },
+    "materials": {
+      "title": "Materiales",
+      "availableMaterials": "Materiales Disponibles",
+      "collectorAlbum": "Álbum de Coleccionista",
+      "standardAlbum": "Álbum Estándar",
+      "packs": "Sobres",
+      "premiumBox": "Caja Premium"
+    },
+    "cardCount": "{{count}} cromos",
+    "totalCards": "{{count}} cromos en total",
+    "description": "Descripción oficial de la colección aquí.",
+    "addToMyCollection": "Añadir a Mi Colección",
+    "follow": "Seguir"
+  },
+  "collector": {
+    "viewInHallOfFame": "Ver en el Salón de la Fama"
+  },
+  "collectorPro": {
+    "hallOfFame": "Salón de la Fama",
+    "digitalCardCollector": "Coleccionista de Cartas Digitales Extraordinario",
+    "globalRank": "Rango Global #{{rank}}",
+    "categoryRank": "#{{rank}} en {{category}}",
+    "completedCollections": "Colecciones Completadas",
+    "successfulExchanges": "Intercambios Exitosos",
+    "reputation": "Reputación",
+    "featuredAchievements": "Logros Destacados",
+    "statistics": "Estadísticas",
+    "totalCards": "Total de Cromos",
+    "completedCollections": "Colecciones Completadas",
+    "successRate": "Tasa de Éxito",
+    "challengeToDuel": "Desafiar a un Duelo"
   }
 }

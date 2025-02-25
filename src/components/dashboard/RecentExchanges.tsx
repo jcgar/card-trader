@@ -1,6 +1,5 @@
-
-import { Card } from "../ui/card";
-import { ArrowRight } from "lucide-react";
+import { Card } from "../ui/card"
+import { ArrowRight } from "lucide-react"
 
 const exchanges = [
   {
@@ -31,7 +30,7 @@ const exchanges = [
       avatar: "https://i.pravatar.cc/150?u=emma",
     },
   },
-];
+]
 
 export const RecentExchanges = () => {
   return (
@@ -42,31 +41,22 @@ export const RecentExchanges = () => {
           <div key={exchange.id} className="relative">
             <div className="flex items-center gap-4">
               <div className="flex flex-col items-center">
-                <img
-                  src={exchange.user1.avatar}
-                  alt={exchange.user1.name}
-                  className="w-10 h-10 rounded-full"
-                />
+                <img src={exchange.user1.avatar} alt={exchange.user1.name} className="w-10 h-10 rounded-full" />
                 <p className="text-xs mt-1">{exchange.user1.card}</p>
               </div>
               <ArrowRight className="w-4 h-4 text-green-600" />
               <div className="flex flex-col items-center">
-                <img
-                  src={exchange.user2.avatar}
-                  alt={exchange.user2.name}
-                  className="w-10 h-10 rounded-full"
-                />
+                <img src={exchange.user2.avatar} alt={exchange.user2.name} className="w-10 h-10 rounded-full" />
                 <p className="text-xs mt-1">{exchange.user2.card}</p>
               </div>
               <div className="flex-1 text-right">
-                <p className="text-sm text-gray-500">
-                  {new Date(exchange.date).toLocaleDateString()}
-                </p>
+                <p className="text-sm text-gray-500">{new Date(exchange.date).toLocaleDateString()}</p>
               </div>
             </div>
           </div>
         ))}
       </div>
     </Card>
-  );
-};
+  )
+}
+

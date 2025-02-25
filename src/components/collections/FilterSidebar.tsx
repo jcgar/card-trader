@@ -1,16 +1,9 @@
-
-import { Card } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
-import { Search, Filter, X } from "lucide-react";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Card } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button"
+import { Label } from "@/components/ui/label"
+import { Search, Filter, X } from "lucide-react"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
 export const FilterSidebar = () => {
   return (
@@ -19,11 +12,7 @@ export const FilterSidebar = () => {
         <Label htmlFor="search">Buscar</Label>
         <div className="relative">
           <Search className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-          <Input
-            id="search"
-            placeholder="Buscar colección..."
-            className="pl-9"
-          />
+          <Input id="search" placeholder="Buscar colección..." className="pl-9" />
         </div>
       </div>
 
@@ -80,5 +69,6 @@ export const FilterSidebar = () => {
         </Button>
       </div>
     </Card>
-  );
-};
+  )
+}
+

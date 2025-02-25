@@ -1,4 +1,3 @@
-
 import { useRef, useEffect, useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -79,3 +78,4 @@ export const CategorySlider = ({ title, itemsPerPage, collections, onCollectionC
 
   );
 };
+

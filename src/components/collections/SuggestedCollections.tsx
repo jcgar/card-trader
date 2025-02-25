@@ -1,7 +1,6 @@
-
-import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Star, Users, Activity } from "lucide-react";
+import { Card } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import { Star, Users, Activity } from "lucide-react"
 
 const suggestions = [
   {
@@ -21,7 +20,7 @@ const suggestions = [
     image: "https://picsum.photos/200/300?8",
   },
   // ... más sugerencias
-];
+]
 
 export const SuggestedCollections = () => {
   return (
@@ -60,5 +59,6 @@ export const SuggestedCollections = () => {
         </Card>
       ))}
     </div>
-  );
-};
+  )
+}
+

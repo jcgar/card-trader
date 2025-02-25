@@ -10,6 +10,7 @@ import { Badge } from "../ui/badge"
 import { Heart, ShoppingCart, MessageCircle, Clock, Star, ArrowRight } from "lucide-react"
 import { Link } from "react-router-dom"
 import { routes } from "@/use/routes"
+import { t } from "@/use/i18n"
 
 interface TradeItem {
   id: number
@@ -151,13 +152,13 @@ export const TradeMarket: React.FC<TradeMarketProps> = ({ preview = false }) => 
   return (
     <section className={`py-${preview ? "10" : "20"}`}>
       <div className="container mx-auto px-4">
-        <h2 className="text-2xl font-bold mb-4">Mercado de Álbumes y Cromos - Lo más buscado</h2>
+        <h2 className="text-2xl font-bold mb-4">{t("tradeMarket.title")}</h2>
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           <TabsList className="grid w-full grid-cols-4">
-            <TabsTrigger value="albums">Álbumes</TabsTrigger>
-            <TabsTrigger value="packs">Sobres</TabsTrigger>
-            <TabsTrigger value="cards">Cromos</TabsTrigger>
-            <TabsTrigger value="sellers">Top Vendedores</TabsTrigger>
+            <TabsTrigger value="albums">{t("tradeMarket.albums")}</TabsTrigger>
+            <TabsTrigger value="packs">{t("tradeMarket.packs")}</TabsTrigger>
+            <TabsTrigger value="cards">{t("tradeMarket.cards")}</TabsTrigger>
+            <TabsTrigger value="sellers">{t("tradeMarket.topSellers")}</TabsTrigger>
           </TabsList>
           <TabsContent value="albums" className="space-y-4 mt-4">
             {mockItems.filter((item) => item.category === "Albums").map(renderTradeItem)}
@@ -175,7 +176,7 @@ export const TradeMarket: React.FC<TradeMarketProps> = ({ preview = false }) => 
         <div className="mt-8 text-center">
           <Link to={routes.tradeMarket}>
             <Button variant="outline" className="border-green-200">
-              Explorar todo el mercado
+              {t("tradeMarket.exploreAll")}
               <ArrowRight className="ml-2 w-4 h-4" />
             </Button>
           </Link>

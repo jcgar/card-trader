@@ -1,7 +1,6 @@
-
-import { Card } from "./ui/card";
-import { Users, TrendingUp, Sparkles, Tag } from "lucide-react";
-import { useState } from "react";
+import { Card } from "./ui/card"
+import { Users, TrendingUp, Sparkles } from "lucide-react"
+import { useState } from "react"
 
 const categories = [
   {
@@ -44,21 +43,17 @@ const categories = [
     image: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=800",
     gradient: "from-red-500 to-blue-500",
   },
-];
+]
 
 export const FeaturedCategories = () => {
-  const [hoveredCard, setHoveredCard] = useState<string | null>(null);
+  const [hoveredCard, setHoveredCard] = useState<string | null>(null)
 
   return (
     <section className="py-20 bg-gradient-to-b from-white to-green-50">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12 animate-fade-in">
-          <h2 className="text-3xl md:text-4xl font-playfair font-bold mb-4 text-green-800">
-            Featured Categories
-          </h2>
-          <p className="text-green-600 max-w-2xl mx-auto">
-            Explore our most popular collection categories
-          </p>
+          <h2 className="text-3xl md:text-4xl font-playfair font-bold mb-4 text-green-800">Featured Categories</h2>
+          <p className="text-green-600 max-w-2xl mx-auto">Explore our most popular collection categories</p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
           {categories.map((category, index) => (
@@ -67,7 +62,7 @@ export const FeaturedCategories = () => {
               className={`
                 group overflow-hidden hover:shadow-lg transition-all duration-500
                 transform hover:-translate-y-2
-                ${hoveredCard === category.name ? 'ring-2 ring-green-400 ring-offset-2' : ''}
+                ${hoveredCard === category.name ? "ring-2 ring-green-400 ring-offset-2" : ""}
               `}
               onMouseEnter={() => setHoveredCard(category.name)}
               onMouseLeave={() => setHoveredCard(null)}
@@ -79,12 +74,14 @@ export const FeaturedCategories = () => {
                   alt={category.name}
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                 />
-                <div className={`
+                <div
+                  className={`
                   absolute inset-0 bg-gradient-to-t opacity-80
                   ${category.gradient}
                   transition-opacity duration-300
                   group-hover:opacity-90
-                `} />
+                `}
+                />
                 <h3 className="absolute bottom-4 left-4 text-xl font-bold text-white transform transition-all duration-300 group-hover:scale-110">
                   {category.name}
                 </h3>
@@ -108,5 +105,6 @@ export const FeaturedCategories = () => {
         </div>
       </div>
     </section>
-  );
-};
+  )
+}
+

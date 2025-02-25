@@ -1,34 +1,25 @@
-import { Card } from "./ui/card";
-import { Button } from "./ui/button";
-import { Badge } from "./ui/badge";
-import { generateCollectorPath } from "@/use/routes";
-import { Crown, Trophy, Medal, Users, Activity, Star, ThumbsUp } from "lucide-react";
-import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
-import { useApi } from "@/use/api";
-import { Collector } from "@/app/types";
+"use client"
+
+import { Card } from "./ui/card"
+import { generateCollectorPath } from "@/use/routes"
+import { Users, Activity, Star, ThumbsUp } from "lucide-react"
+import { Link } from "react-router-dom"
+import { useApi } from "@/use/api"
+import type { Collector } from "@/app/types"
 
 export const UserRanking = () => {
-  const { data: collectors } = useApi<Collector>('topCollectors', { page: 1, pageSize: 10, fullQuery: false });
+  const { data: collectors } = useApi<Collector>("topCollectors", { page: 1, pageSize: 10, fullQuery: false })
 
   return (
     <section className="py-20 bg-gray-50">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-playfair font-bold mb-4">
-            Top Collectors
-          </h2>
-          <p className="text-gray-600 max-w-2xl mx-auto mb-8">
-            Meet our most accomplished community members
-          </p>
+          <h2 className="text-3xl md:text-4xl font-playfair font-bold mb-4">Top Collectors</h2>
+          <p className="text-gray-600 max-w-2xl mx-auto mb-8">Meet our most accomplished community members</p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
           {collectors.map((collector, index) => (
-            <Link
-              key={`${collector.id}-${index}`}
-              to={generateCollectorPath(collector.id)}
-              className="block"
-            >
+            <Link key={`${collector.id}-${index}`} to={generateCollectorPath(collector.id)} className="block">
               <Card className="p-6 text-center hover:shadow-lg transition-shadow duration-300">
                 <img
                   src={collector.avatar}
@@ -59,14 +50,13 @@ export const UserRanking = () => {
                   </div>
                 </div>
 
-                <p className="text-sm text-green-600 bg-green-50 p-2 rounded">
-                  {collector.recentActivity[0].content}
-                </p>
+                <p className="text-sm text-green-600 bg-green-50 p-2 rounded">{collector.recentActivity[0].content}</p>
               </Card>
             </Link>
           ))}
         </div>
       </div>
     </section>
-  );
-};
+  )
+}
+

@@ -1,8 +1,7 @@
+import { Card } from "@/components/ui/card"
+import { Trophy, TrendingUp, History, Users } from "lucide-react"
 
-import { Card } from "@/components/ui/card";
-import { Trophy, TrendingUp, History, Users } from "lucide-react";
-
-export const CollectionStats = () => {
+export const CollectionStats = ({ collection }) => {
   return (
     <Card className="p-6">
       <h3 className="font-semibold mb-4">Estadísticas</h3>
@@ -37,5 +36,6 @@ export const CollectionStats = () => {
         </div>
       </div>
     </Card>
-  );
-};
+  )
+}
+

@@ -1,11 +1,10 @@
-
-import { Card } from "@/components/ui/card";
-import { Users, ThumbsUp } from "lucide-react";
-import { Progress } from "@/components/ui/progress";
-import CollectorProfile from "@/pages/CollectorProfile";
+import { Card } from "@/components/ui/card"
+import { Users, ThumbsUp } from "lucide-react"
+import { Progress } from "@/components/ui/progress"
+import type CollectorProfile from "@/pages/CollectorProfile"
 
 interface CollectorSocialProps {
-  profile: CollectorProfile;
+  profile: CollectorProfile
 }
 
 export const CollectorSocial = ({ profile }: CollectorSocialProps) => {
@@ -19,15 +18,11 @@ export const CollectorSocial = ({ profile }: CollectorSocialProps) => {
       <div className="space-y-6">
         <div className="grid grid-cols-2 gap-4">
           <div className="text-center p-4 bg-purple-50 rounded-lg">
-            <div className="text-2xl font-bold text-purple-600">
-              {profile.stats.followers}
-            </div>
+            <div className="text-2xl font-bold text-purple-600">{profile.stats.followers}</div>
             <div className="text-sm text-purple-600">Seguidores</div>
           </div>
           <div className="text-center p-4 bg-blue-50 rounded-lg">
-            <div className="text-2xl font-bold text-blue-600">
-              {profile.stats.following}
-            </div>
+            <div className="text-2xl font-bold text-blue-600">{profile.stats.following}</div>
             <div className="text-sm text-blue-600">Siguiendo</div>
           </div>
         </div>
@@ -40,12 +35,10 @@ export const CollectorSocial = ({ profile }: CollectorSocialProps) => {
             </span>
             <span className="font-medium">{profile.stats.reputation}/5.0</span>
           </div>
-          <Progress
-            value={profile.stats.reputation * 20}
-            className="h-2"
-          />
+          <Progress value={profile.stats.reputation * 20} className="h-2" />
         </div>
       </div>
     </Card>
-  );
-};
+  )
+}
+

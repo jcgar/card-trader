@@ -1,4 +1,4 @@
-import { exchanges as data } from '../data'
+import { exchanges as data } from "../data"
 export const exchanges = data
 // const exchanges = [
 //   {
@@ -18,3 +18,4 @@ export const exchanges = data
 //     status: "completed",
 //   },
 // ];
+

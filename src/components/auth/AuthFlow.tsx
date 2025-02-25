@@ -7,9 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { AnimatePresence, motion } from "framer-motion"
-import { Facebook, Mail, ChromeIcon as Google, ArrowLeft, ShieldCheck } from "lucide-react"
-import { Link } from "react-router-dom"
-import { routes } from "@/use/routes"
+import { Facebook, Mail, ChromeIcon as Google, ArrowLeft } from "lucide-react"
 
 type AuthFlowProps = {
   onClose: () => void
@@ -37,21 +35,12 @@ export const AuthFlow: React.FC<AuthFlowProps> = ({ onClose, isMobile }) => {
               <Button onClick={() => setStep("email")} className="w-full">
                 <Mail className="mr-2 h-4 w-4" /> Continuar con correo
               </Button>
-              <Link to={routes.dashboard}>
-                <Button onClick={() => setStep("email")} variant="outline" className="w-full">
-                  <Facebook className="mr-2 h-4 w-4" /> Continuar con Facebook
-                </Button>
-              </Link>
-              <Link to={routes.dashboard}>
-                <Button variant="outline" className="w-full">
-                  <Google className="mr-2 h-4 w-4" /> Continuar con Google
-                </Button>
-              </Link>
-              <Link to={routes.admin}>
-                <Button variant="outline" className="w-full">
-                  <ShieldCheck className="mr-2 h-4 w-4" /> Entrar como administrador
-                </Button>
-              </Link>
+              <Button variant="outline" className="w-full">
+                <Facebook className="mr-2 h-4 w-4" /> Continuar con Facebook
+              </Button>
+              <Button variant="outline" className="w-full">
+                <Google className="mr-2 h-4 w-4" /> Continuar con Google
+              </Button>
               <p className="text-sm text-center">
                 ¿No tienes una cuenta?{" "}
                 <Button variant="link" className="p-0" onClick={() => setStep("register")}>

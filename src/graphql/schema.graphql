@@ -1,0 +1,317 @@
+type Query {
+  test: Test
+  users: [User!]!
+  allAlerts(
+    filter: AlertFilter!
+  ): [Alert]
+  allCollections: [Collection]
+  allElements: [Element]
+  allNewExchanges(
+    filter: UserSearchChangeFilter!
+  ): [UserExchange]
+  allSearchCollections: [SearchCollection]
+  allUserChanges(
+    filter: UserChangeFilter!
+  ): [UserChange]
+  allUserCollections(
+    filter: UserCollectionFilter!
+  ): [UserCollection]
+  allUserExchanges(
+    filter: UserChangeFilter!
+  ): [UserExchange]
+  currentUser: User
+  changesPage(
+    page: PageFilter!
+    filter: UserChangeFilter!
+  ): UserChangePagination
+  collections(
+    filter: CollectionFilter!
+  ): [Collection]
+  collectionsPage(
+    page: PageFilter!
+    filter: CollectionFilter!
+  ): CollectionPagination
+  exchangesPage(
+    page: PageFilter!
+    filter: UserChangeFilter!
+  ): UserExchangePagination
+  searchCollectionsPage(
+    page: PageFilter!
+    filter: CollectionFilter!
+  ): SearchCollectionPagination
+  userChangesPage(
+    page: PageFilter!
+    filter: UserChangeFilter!
+  ): UserChangePagination
+  userExchangesPage(
+    page: PageFilter!
+    filter: UserChangeFilter!
+  ): UserExchangePagination
+  userCollectionEx(
+    filter: UserCollectionFilter!
+  ): [UserCollectionEx]
+  userCollectionExPage(
+    page: PageFilter!
+    filter: UserCollectionFilter!
+  ): UserCollectionExPagination
+  userCollectionsPage(
+    page: PageFilter!
+    filter: UserCollectionFilter!
+  ): UserCollectionPagination
+  userInfo(
+    filter: UserInfoFilter!
+  ): [UserInfo]
+  userInfoEx(
+    filter: UserInfoFilter!
+  ): [UserInfoEx]
+}
+
+type Mutation {
+  addLike(
+    params: FeedbackFilter!
+  ): Int
+  deleteLike(
+    id: Int
+  ): Int
+  joinCollection(
+    params: UserCollectionSettingsFilter!
+  ): Int
+  favCollection(
+    params: UserCollectionSettingsFilter!
+  ): Int
+  sleepCollection(
+    params: UserCollectionSettingsFilter!
+  ): Int
+  deleteCollection(
+    params: UserCollectionSettingsFilter!
+  ): Int
+  newChange(
+    params: ChangeUpdateFilter!
+  ): Int
+  updateChange(
+    params: ChangeUpdateFilter!
+  ): Int
+}
+
+enum ChangeState {
+  PROGRESS
+  COMPLETE
+  CANCELLED
+}
+
+enum ChangeOffer {
+  FILLED
+  EMPTY
+}
+
+input AlertFilter {
+  dev: Boolean
+  date: String
+}
+input CollectionFilter {
+  codes: [Int]
+  subject: String
+}
+input FeedbackFilter {
+  from: Int
+  to: Int
+}
+input UserChangeFilter {
+  codes: [Int]
+  userId: Int
+  otherUserId: Int
+  state: ChangeState
+}
+input UserSearchChangeFilter {
+  userId: Int!
+  otherUserId: Int
+  offer: ChangeOffer
+}
+input UserCollectionFilter {
+  codes: [Int]
+  userId: Int
+  state: ChangeState
+  elements: Boolean
+  userElements: Boolean
+  changes: Boolean
+}
+input UserCollectionSettingsFilter {
+  code: Int
+  userId: Int
+  value: Int
+}
+input UserInfoFilter {
+  userIds: [Int!]!
+  userId: Int
+}
+input PageFilter {
+  sort: String
+  direction: String!
+  page: Int
+  per_page: Int!
+  noMerge: Boolean
+}
+input ChangeUpdateFilter {
+  changeId: Int
+  userId: Int
+  otherUserId: Int
+  otherUserName: String
+  comment: String
+  action: String
+  offered: String
+  requested: String
+}
+
+type Test {
+  result: String
+}
+
+type Alert {
+  id: Int!
+  page: String
+  title: String
+  urlContent: String
+  urlTrigger: String
+}
+type Collection {
+  code: Int!
+  name: String!
+  description: String
+  year: Int
+  subject: String
+  key: String
+}
+type Collectors {
+  total: Int
+  recent: Int
+}
+type CollectionPagination {
+  page: Int
+  total: Int
+  data: [Collection]
+}
+type Element {
+  code: Int!
+  order: String!
+  number: Int
+  name: String
+  nameEx: String
+  group: String
+  type: String
+  comment: String
+  comment2: String
+  imgDate: String
+}
+type Exchange {
+  collection: Collection
+  mine: [String]
+  his: [String]
+}
+type SearchCollection {
+  collection: Collection!
+  collectors: Collectors!
+}
+type SearchCollectionPagination {
+  page: Int
+  total: Int
+  data: [SearchCollection]
+}
+type User {
+  _id: ID!
+  email: String!
+  password: String!
+  createdAt: String!
+  updatedAt: String!
+}
+type UserChange {
+  id: ID!
+  chat: String
+  stateId: Int
+  startDate: String
+  endDate: String
+  lastUpdater: Int
+  him: Boolean
+}
+type UserChangePagination {
+  page: Int
+  total: Int
+  data: [UserChange]
+}
+type UserElement {
+  id: ID!
+  iduser: Int!
+  code: Int!
+  order: String!
+  state: String
+  date: String
+  type: String
+  index: Int
+  changeId: Int
+  changeState: String
+}
+type UserExchange {
+  change: UserChange
+  user: UserInfoEx
+  exchanges: [Exchange]
+}
+type UserExchangePagination {
+  page: Int
+  total: Int
+  data: [UserExchange]
+}
+type UserCollection {
+  id: ID!
+  iduser: Int!
+  collection: Collection!
+  lastUpdated: String
+  priority: Int
+  settings: String!
+  countElements: Int
+}
+type UserCollectionEx {
+  code: Int!
+  userCollection: UserCollection!
+  elements: [Element]
+  userElements: [UserElement]
+  exchanges: [UserExchange]
+  countExchanges: Int
+  countFaults: Int
+  countRepeated: Int
+}
+type UserCollectionPagination {
+  page: Int
+  total: Int
+  data: [UserCollection]
+}
+type UserCollectionExPagination {
+  page: Int
+  total: Int
+  data: [UserCollectionEx]
+}
+type UserInfo {
+  iduser: Int!
+  name: String
+  surname: String
+  address: String
+  postalCode: String
+  city: String
+  place: String
+  country: String
+  settings: String
+}
+type UserInfoEx {
+  iduser: Int!
+  username: String
+  avatar: String
+  numCollections: Int
+  numChangesStarted: Int
+  numChangesFinished: Int
+  numChangesWith: Int
+  numChangesNok: Int
+  lastChange: Int
+  lastChangeFinished: Int
+  lastLogin: Int
+  likes: Int
+  mine: Int
+  unanswered: Int
+}

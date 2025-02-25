@@ -1,8 +1,7 @@
-
-import { Card } from "@/components/ui/card";
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
-import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
+import { Card } from "@/components/ui/card"
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area"
+import { Button } from "@/components/ui/button"
+import { ArrowRight } from "lucide-react"
 
 const categories = [
   {
@@ -12,7 +11,7 @@ const categories = [
       { id: 1, name: "Liga 2023-24", image: "https://picsum.photos/200/300?1" },
       { id: 2, name: "Mundial 2022", image: "https://picsum.photos/200/300?2" },
       { id: 3, name: "NBA 2024", image: "https://picsum.photos/200/300?3" },
-    ]
+    ],
   },
   {
     id: 2,
@@ -21,10 +20,10 @@ const categories = [
       { id: 4, name: "Dragon Ball", image: "https://picsum.photos/200/300?4" },
       { id: 5, name: "Naruto", image: "https://picsum.photos/200/300?5" },
       { id: 6, name: "One Piece", image: "https://picsum.photos/200/300?6" },
-    ]
+    ],
   },
   // ... más categorías
-];
+]
 
 export const CollectionsByCategory = () => {
   return (
@@ -40,10 +39,7 @@ export const CollectionsByCategory = () => {
           <ScrollArea className="w-full whitespace-nowrap">
             <div className="flex space-x-4">
               {category.collections.map((collection) => (
-                <Card
-                  key={collection.id}
-                  className="w-[250px] overflow-hidden group cursor-pointer"
-                >
+                <Card key={collection.id} className="w-[250px] overflow-hidden group cursor-pointer">
                   <div className="relative aspect-[4/3]">
                     <img
                       src={collection.image}
@@ -63,5 +59,6 @@ export const CollectionsByCategory = () => {
         </Card>
       ))}
     </div>
-  );
-};
+  )
+}
+

@@ -1,3 +1,5 @@
+"use client"
+
 import { Button } from "./ui/button"
 import { NavigationMenu, NavigationMenuItem, NavigationMenuList } from "./ui/navigation-menu"
 import { Search, Menu, X, User, Globe } from "lucide-react"
@@ -109,11 +111,11 @@ export const NavigationBar = () => {
                     <DropdownMenuTrigger asChild>
                       <Button variant="ghost" className="text-green-700">
                         <User className="w-4 h-4 mr-2" />
-                        {isAdmin ? "Admin" : "Usuario"}
+                        {isAdmin ? "Admin" : t("nav.dashboard")}
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
-                      <DropdownMenuLabel>Mi cuenta</DropdownMenuLabel>
+                      <DropdownMenuLabel>{t("nav.dashboard")}</DropdownMenuLabel>
                       <DropdownMenuSeparator />
                       <DropdownMenuItem onClick={() => navigate(routes.dashboard)}>
                         {t("nav.dashboard")}
@@ -124,7 +126,7 @@ export const NavigationBar = () => {
                         </DropdownMenuItem>
                       )}
                       <DropdownMenuSeparator />
-                      <DropdownMenuItem onClick={handleLogout}>Cerrar sesión</DropdownMenuItem>
+                      <DropdownMenuItem onClick={handleLogout}>{t("auth.logout")}</DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
                 )}
@@ -183,7 +185,7 @@ export const NavigationBar = () => {
                       </Button>
                     )}
                     <Button variant="outline" onClick={handleLogout}>
-                      Cerrar sesión
+                      {t("auth.logout")}
                     </Button>
                   </>
                 )}
@@ -195,3 +197,4 @@ export const NavigationBar = () => {
     </header>
   )
 }
+

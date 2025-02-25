@@ -1,9 +1,9 @@
-import { Card } from "../ui/card";
-import { Award, Medal, Trophy, Star } from "lucide-react";
-import { Progress } from "../ui/progress";
-import { Link } from "react-router-dom";
-import { generateCollectorPath } from "@/use/routes";
-import { Collector } from "@/app/types";
+import { Card } from "../ui/card"
+import { Award, Medal, Trophy, Star } from "lucide-react"
+import { Progress } from "../ui/progress"
+import { Link } from "react-router-dom"
+import { generateCollectorPath } from "@/use/routes"
+import type { Collector } from "@/app/types"
 
 // const collectors = [
 //   {
@@ -44,10 +44,7 @@ export const TopCollectors = ({ collectors }: { collectors: Collector[] }) => {
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
           {collectors.map((collector) => (
-            <Link
-              to={generateCollectorPath(collector.id.toString())}
-              key={collector.id}
-            >
+            <Link to={generateCollectorPath(collector.id.toString())} key={collector.id}>
               <Card className="relative overflow-hidden group hover:shadow-xl transition-shadow duration-200">
                 <div className="absolute top-4 right-4">
                   {collector.rank.global === 1 && <Trophy className="w-8 h-8 text-yellow-500 animate-bounce" />}
@@ -88,5 +85,6 @@ export const TopCollectors = ({ collectors }: { collectors: Collector[] }) => {
         </div>
       </div>
     </section>
-  );
-};
+  )
+}
+

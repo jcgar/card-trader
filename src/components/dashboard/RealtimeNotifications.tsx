@@ -1,8 +1,9 @@
+"use client"
 
-import { useEffect, useState } from "react";
-import { Bell, MessageSquare, Star, Gift, X, ChevronUp, ChevronDown } from "lucide-react";
-import { Button } from "../ui/button";
-import { showToast } from "@/use/ui";
+import { useEffect, useState } from "react"
+import { Bell, MessageSquare, Star, Gift, X, ChevronUp, ChevronDown } from "lucide-react"
+import { Button } from "../ui/button"
+import { showToast } from "@/use/ui"
 
 const initialNotifications = [
   {
@@ -26,49 +27,49 @@ const initialNotifications = [
     icon: Gift,
     type: "offer",
   },
-];
+]
 
 export const RealtimeNotifications = () => {
-  const [activeNotifications, setActiveNotifications] = useState(initialNotifications);
-  const [isVisible, setIsVisible] = useState(true);
-  const [isPanelOpen, setIsPanelOpen] = useState(true);
+  const [activeNotifications, setActiveNotifications] = useState(initialNotifications)
+  const [isVisible, setIsVisible] = useState(true)
+  const [isPanelOpen, setIsPanelOpen] = useState(true)
 
   const removeNotification = (id: number) => {
-    setActiveNotifications(prev => prev.filter(n => n.id !== id));
-  };
+    setActiveNotifications((prev) => prev.filter((n) => n.id !== id))
+  }
 
   const togglePanel = () => {
-    setIsPanelOpen(!isPanelOpen);
-  };
+    setIsPanelOpen(!isPanelOpen)
+  }
 
   useEffect(() => {
     // Simulate receiving new notifications
     const interval = setInterval(() => {
-      const types = ["trade", "achievement", "offer"];
-      const type = types[Math.floor(Math.random() * types.length)];
+      const types = ["trade", "achievement", "offer"]
+      const type = types[Math.floor(Math.random() * types.length)]
       const newNotification = {
         id: Date.now(),
         title: `New ${type}`,
         message: `You have a new ${type} notification`,
         icon: type === "trade" ? MessageSquare : type === "achievement" ? Star : Gift,
         type,
-      };
+      }
 
       if (isVisible) {
         showToast({
           title: newNotification.title,
           description: newNotification.message,
           duration: 3000,
-        });
+        })
 
-        setActiveNotifications(prev => [newNotification, ...prev.slice(0, -1)]);
+        setActiveNotifications((prev) => [newNotification, ...prev.slice(0, -1)])
       }
-    }, 10000);
+    }, 10000)
 
-    return () => clearInterval(interval);
-  }, [isVisible]);
+    return () => clearInterval(interval)
+  }, [isVisible])
 
-  if (!isVisible) return null;
+  if (!isVisible) return null
 
   return (
     <div className="fixed top-20 right-4 z-40 w-80">
@@ -83,24 +84,10 @@ export const RealtimeNotifications = () => {
               </span>
             </div>
             <div className="flex items-center gap-2">
-              <Button
-                variant="ghost"
-                size="sm"
-                className="w-8 h-8 p-0"
-                onClick={togglePanel}
-              >
-                {isPanelOpen ? (
-                  <ChevronUp className="w-4 h-4" />
-                ) : (
-                  <ChevronDown className="w-4 h-4" />
-                )}
+              <Button variant="ghost" size="sm" className="w-8 h-8 p-0" onClick={togglePanel}>
+                {isPanelOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
               </Button>
-              <Button
-                variant="ghost"
-                size="sm"
-                className="w-8 h-8 p-0"
-                onClick={() => setIsVisible(false)}
-              >
+              <Button variant="ghost" size="sm" className="w-8 h-8 p-0" onClick={() => setIsVisible(false)}>
                 <X className="w-4 h-4" />
               </Button>
             </div>
@@ -132,5 +119,6 @@ export const RealtimeNotifications = () => {
         )}
       </div>
     </div>
-  );
-};
+  )
+}
+

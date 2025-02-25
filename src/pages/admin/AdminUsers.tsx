@@ -1,5 +1,4 @@
-
-import { Card } from "@/components/ui/card";
+import { Card } from "@/components/ui/card"
 
 export const AdminUsers = () => {
   return (
@@ -7,5 +6,6 @@ export const AdminUsers = () => {
       <h2 className="text-2xl font-bold mb-4">Gestión de Usuarios</h2>
       {/* Implementación pendiente */}
     </Card>
-  );
-};
+  )
+}
+

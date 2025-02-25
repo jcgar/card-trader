@@ -1,39 +1,32 @@
-
-import { Sticker } from "@/app/types";
-import { cn } from "@/lib/utils";
-import { Plus, Star, Heart } from "lucide-react";
-import { useIsMobile } from "@/hooks/use-mobile";
-import { Button } from "../ui/button";
+import type { Sticker } from "@/app/types"
+import { cn } from "@/lib/utils"
+import { Plus, Star } from "lucide-react"
+import { useIsMobile } from "@/hooks/use-mobile"
+import { Button } from "../ui/button"
 
 interface StickerCardProps {
-  sticker: Sticker;
-  onClick: (sticker: Sticker) => void;
-  isSelected?: boolean;
+  sticker: Sticker
+  onClick: (sticker: Sticker) => void
+  isSelected?: boolean
   changes?: {
-    owned: boolean;
-    repeated: number;
-    favorite?: boolean;
-  };
+    owned: boolean
+    repeated: number
+    favorite?: boolean
+  }
 }
 
-export const StickerCard = ({
-  sticker,
-  onClick,
-  isSelected,
-}: StickerCardProps) => {
-  const isMobile = useIsMobile();
-  const isOwned = sticker.owned;
-  const repeated = sticker.repeated;
+export const StickerCard = ({ sticker, onClick, isSelected }: StickerCardProps) => {
+  const isMobile = useIsMobile()
+  const isOwned = sticker.owned
+  const repeated = sticker.repeated
 
   return (
     <div
       className={cn(
         "relative rounded-lg border-2 transition-all duration-300 cursor-pointer group",
-        isOwned
-          ? "border-green-500 bg-green-50"
-          : "border-red-200 bg-red-50",
+        isOwned ? "border-green-500 bg-green-50" : "border-red-200 bg-red-50",
         isSelected && "ring-2 ring-blue-400",
-        "hover:shadow-md"
+        "hover:shadow-md",
       )}
       style={{
         aspectRatio: "2/3",
@@ -44,23 +37,23 @@ export const StickerCard = ({
           <div className="text-xl md:text-2xl font-bold mb-1">#{sticker.number}</div>
           <div className="text-xs md:text-sm font-medium">{sticker.name}</div>
           {repeated > 0 && (
-            <div className="mt-2 text-xs md:text-sm text-blue-600 font-semibold">
-              {repeated} repetidos
-            </div>
+            <div className="mt-2 text-xs md:text-sm text-blue-600 font-semibold">{repeated} repetidos</div>
           )}
         </div>
 
-        <div className={cn(
-          "flex gap-2 mt-2",
-          isMobile ? "opacity-100" : "opacity-0 group-hover:opacity-100 transition-opacity"
-        )}>
+        <div
+          className={cn(
+            "flex gap-2 mt-2",
+            isMobile ? "opacity-100" : "opacity-0 group-hover:opacity-100 transition-opacity",
+          )}
+        >
           <Button
             size="sm"
             variant="outline"
             className="bg-green-100 hover:bg-green-200 h-8 w-8 p-0"
             onClick={(e) => {
-              e.stopPropagation();
-              onClick(sticker);
+              e.stopPropagation()
+              onClick(sticker)
             }}
           >
             <Plus className="h-4 w-4" />
@@ -73,7 +66,7 @@ export const StickerCard = ({
           <Star className="w-4 h-4 text-yellow-500 animate-pulse" />
         </div>
       )}
-
     </div>
-  );
+  )
 }
+

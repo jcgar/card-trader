@@ -1,16 +1,13 @@
-
-import { Card } from "./ui/card";
-import { Button } from "./ui/button";
-import { ArrowRight, BookOpen, Calendar, Clock } from "lucide-react";
+import { Card } from "./ui/card"
+import { Button } from "./ui/button"
+import { ArrowRight, Calendar, Clock } from "lucide-react"
 
 export const FeaturedBlog = () => {
   return (
     <section className="py-20 bg-gradient-to-b from-green-50 to-white">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-playfair font-bold mb-4 text-green-800">
-            Featured Articles
-          </h2>
+          <h2 className="text-3xl md:text-4xl font-playfair font-bold mb-4 text-green-800">Featured Articles</h2>
           <p className="text-green-600 max-w-2xl mx-auto">
             Stay updated with the latest collecting tips and community news
           </p>
@@ -51,7 +48,7 @@ export const FeaturedBlog = () => {
               </div>
             </div>
           </Card>
-          
+
           <div className="space-y-8">
             {[1, 2].map((i) => (
               <Card key={i} className="group hover:shadow-xl transition-shadow duration-300">
@@ -77,6 +74,6 @@ export const FeaturedBlog = () => {
         </div>
       </div>
     </section>
-  );
-};
+  )
+}
 

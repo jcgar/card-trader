@@ -7,6 +7,7 @@ import { ProductGrid } from "@/components/trade-market/ProductGrid"
 import { ProductDetail } from "@/components/trade-market/ProductDetail"
 import { ShoppingCart } from "@/components/trade-market/ShoppingCart"
 import { SellerDashboard } from "@/components/trade-market/SellerDashboard"
+import { t } from "@/use/i18n"
 
 const TradeMarketPage = () => {
   const [selectedProduct, setSelectedProduct] = useState(null)
@@ -17,6 +18,7 @@ const TradeMarketPage = () => {
     <div className="min-h-screen bg-gradient-to-b from-green-50 via-white to-white">
       <NavigationBar />
       <main className="container mx-auto px-8 py-24">
+        <h1 className="text-3xl font-bold mb-6">{t("tradeMarket.title")}</h1>
         <TradeMarketHeader />
         {selectedProduct ? (
           <ProductDetail product={selectedProduct} onClose={() => setSelectedProduct(null)} />

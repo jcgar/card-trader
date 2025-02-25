@@ -1,16 +1,13 @@
+import { Card } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import { Calendar, Users, Book, Award } from "lucide-react"
 
-import { Card } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Calendar, Users, Book, Award } from "lucide-react";
-
-export const CollectionOverview = () => {
+export const CollectionOverview = ({ collection }) => {
   return (
     <Card className="p-6">
       <div className="flex items-start justify-between mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-green-800 mb-2">
-            Liga Santander 2023/24
-          </h1>
+          <h1 className="text-2xl font-bold text-green-800 mb-2">Liga Santander 2023/24</h1>
           <div className="flex gap-2 flex-wrap">
             <Badge variant="outline" className="bg-green-50">
               <Calendar className="w-4 h-4 mr-1" />
@@ -33,9 +30,8 @@ export const CollectionOverview = () => {
       </div>
 
       <p className="text-gray-600 mb-4">
-        Colección oficial de cromos de LaLiga Santander temporada 2023/24.
-        Incluye todos los equipos de primera división con jugadores, escudos,
-        estadios y cromos especiales.
+        Colección oficial de cromos de LaLiga Santander temporada 2023/24. Incluye todos los equipos de primera división
+        con jugadores, escudos, estadios y cromos especiales.
       </p>
 
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
@@ -57,5 +53,6 @@ export const CollectionOverview = () => {
         </div>
       </div>
     </Card>
-  );
-};
+  )
+}
+

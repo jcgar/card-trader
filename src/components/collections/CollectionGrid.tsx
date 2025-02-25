@@ -1,8 +1,7 @@
-
-import { Card } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Heart, Users, Star } from "lucide-react";
+import { Card } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import { Heart, Users, Star } from "lucide-react"
 
 const collections = [
   {
@@ -15,7 +14,7 @@ const collections = [
     rating: 4.5,
   },
   // ... más colecciones
-];
+]
 
 export const CollectionGrid = () => {
   return (
@@ -57,5 +56,6 @@ export const CollectionGrid = () => {
         </Card>
       ))}
     </div>
-  );
-};
+  )
+}
+

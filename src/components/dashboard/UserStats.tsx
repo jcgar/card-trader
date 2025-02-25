@@ -1,6 +1,5 @@
-
-import { Card } from "../ui/card";
-import { RefreshCw, Book, Award } from "lucide-react";
+import { Card } from "../ui/card"
+import { RefreshCw, Book, Award } from "lucide-react"
 
 const stats = [
   {
@@ -21,7 +20,7 @@ const stats = [
     icon: Award,
     change: "2 nuevos",
   },
-];
+]
 
 export const UserStats = () => {
   return (
@@ -42,5 +41,6 @@ export const UserStats = () => {
         ))}
       </div>
     </Card>
-  );
-};
+  )
+}
+
