@@ -1,5 +1,10 @@
 export type ActivityType = "achievement" | "exchange" | "collection" | "social"
-export type AchievementRarity = "common" | "rare" | "epic" | "legendary"
+export enum Rarity {
+  Common = "common",
+  Rare = "rare",
+  Epic = "epic",
+  Legendary = "legendary",
+}
 export interface Activity {
   id: number
   type: ActivityType
@@ -16,7 +21,7 @@ export interface Achievement {
   description: string
   icon: string
   unlockedAt: string
-  rarity: AchievementRarity
+  rarity: Rarity
 }
 export interface Sticker {
   id: number
@@ -112,6 +117,15 @@ export interface CollectorStats {
   reputation: number
 }
 
+export interface Reward {
+  id: number
+  title: string
+  description: string
+  points: number
+  rarity: Rarity
+  progress: number
+}
+
 export interface TradeCollection {
   id: string
   name: string
@@ -136,5 +150,13 @@ export interface TradeMessage {
   content: string
   type: "text" | "sticker-added" | "sticker-removed" | "status-change"
   timestamp: string
+}
+
+export interface User {
+  id: string
+  email: string
+  name: string
+  collector: Collector
+  isAdmin: boolean
 }
 

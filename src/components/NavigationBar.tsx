@@ -18,29 +18,73 @@ import {
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
 import { AuthFlow } from "@/components/auth/AuthFlow"
 import { getCurrentLanguage, setLanguage, t } from "@/use/i18n"
+import { useAuth } from "@/use/auth"
 
 export const NavigationBar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
-  const [isAdmin, setIsAdmin] = useState(false)
   const isMobile = useIsMobile()
   const navigate = useNavigate()
   const currentLanguage = getCurrentLanguage()
+  const { user, login, logout } = useAuth()
 
-  const handleLogin = (type: "user" | "admin") => {
-    setIsLoggedIn(true)
-    setIsAdmin(type === "admin")
+  const handleLogin = async (userData) => {
+    await login(userData)
   }
 
-  const handleLogout = () => {
-    setIsLoggedIn(false)
-    setIsAdmin(false)
+  const handleLogout = async () => {
+    await logout()
+    navigate(routes.home)
   }
 
   const toggleLanguage = () => {
     const newLang = currentLanguage === "es" ? "en" : "es"
     setLanguage(newLang)
     window.location.reload() // Reload to apply new language
+  }
+
+  const renderAuthButton = () => {
+    if (!user) {
+      return (
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button variant="ghost" className="text-green-700">
+              {t("nav.login")}
+            </Button>
+          </DialogTrigger>
+          <DialogContent>
+            <AuthFlow onClose={() => { }} isMobile={isMobile} onLogin={handleLogin} />
+          </DialogContent>
+        </Dialog>
+      )
+    }
+
+    return (
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="ghost" className="text-green-700">
+            <User className="w-4 h-4 mr-2" />
+            {user.collector.username}
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end">
+          <DropdownMenuLabel>{t("nav.dashboard")}</DropdownMenuLabel>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem onClick={() => navigate(routes.dashboard)}>{t("dashboard.home")}</DropdownMenuItem>
+          <DropdownMenuItem onClick={() => navigate(routes.myCollections)}>
+            {t("dashboard.collections")}
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={() => navigate(routes.myExchanges)}>{t("dashboard.exchanges")}</DropdownMenuItem>
+          <DropdownMenuItem onClick={() => navigate(routes.myProfile)}>{t("dashboard.settings")}</DropdownMenuItem>
+          {user.isAdmin && (
+            <DropdownMenuItem onClick={() => navigate(routes.admin)} className="text-red-600">
+              Admin Panel
+            </DropdownMenuItem>
+          )}
+          <DropdownMenuSeparator />
+          <DropdownMenuItem onClick={handleLogout}>{t("auth.logout")}</DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    )
   }
 
   return (
@@ -95,41 +139,7 @@ export const NavigationBar = () => {
                   <Globe className="w-4 h-4 mr-2" />
                   {currentLanguage.toUpperCase()}
                 </Button>
-                {!isLoggedIn ? (
-                  <Dialog>
-                    <DialogTrigger asChild>
-                      <Button variant="ghost" className="text-green-700">
-                        {t("nav.login")}
-                      </Button>
-                    </DialogTrigger>
-                    <DialogContent>
-                      <AuthFlow onClose={() => { }} isMobile={false} />
-                    </DialogContent>
-                  </Dialog>
-                ) : (
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" className="text-green-700">
-                        <User className="w-4 h-4 mr-2" />
-                        {isAdmin ? "Admin" : t("nav.dashboard")}
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuLabel>{t("nav.dashboard")}</DropdownMenuLabel>
-                      <DropdownMenuSeparator />
-                      <DropdownMenuItem onClick={() => navigate(routes.dashboard)}>
-                        {t("nav.dashboard")}
-                      </DropdownMenuItem>
-                      {isAdmin && (
-                        <DropdownMenuItem onClick={() => navigate(routes.admin)} className="text-red-600">
-                          Admin Panel
-                        </DropdownMenuItem>
-                      )}
-                      <DropdownMenuSeparator />
-                      <DropdownMenuItem onClick={handleLogout}>{t("auth.logout")}</DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                )}
+                {renderAuthButton()}
               </>
             )}
             <Button
@@ -169,17 +179,23 @@ export const NavigationBar = () => {
                 {t("nav.language")}: {currentLanguage.toUpperCase()}
               </Button>
               <div className="flex flex-col gap-2 pt-4 border-t">
-                {!isLoggedIn ? (
-                  <AuthFlow onClose={() => setIsMenuOpen(false)} isMobile={true} />
+                {!user ? (
+                  <AuthFlow onClose={() => setIsMenuOpen(false)} isMobile={true} onLogin={handleLogin} />
                 ) : (
                   <>
                     <Link to={routes.dashboard} className="text-green-700 py-2">
-                      {t("nav.dashboard")}
+                      {t("dashboard.home")}
                     </Link>
-                    <Link to={routes.myCollections} className="text-green-700 py-2">
-                      {t("collections.title")}
+                    <Link to={routes.collections} className="text-green-700 py-2">
+                      {t("dashboard.collections")}
                     </Link>
-                    {isAdmin && (
+                    <Link to={routes.myExchanges} className="text-green-700 py-2">
+                      {t("dashboard.exchanges")}
+                    </Link>
+                    <Link to={routes.myProfile} className="text-green-700 py-2">
+                      {t("dashboard.settings")}
+                    </Link>
+                    {user.isAdmin && (
                       <Button variant="destructive" onClick={() => navigate(routes.admin)}>
                         Admin Panel
                       </Button>

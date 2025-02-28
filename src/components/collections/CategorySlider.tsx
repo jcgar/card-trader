@@ -15,7 +15,7 @@ interface CategorySliderProps {
   title: string;
   itemsPerPage: number;
   collections: Collection[];
-  onCollectionClick: () => void;
+  onCollectionClick: (collectionId: string) => void;
 }
 
 export const CategorySlider = ({ title, itemsPerPage, collections, onCollectionClick }: CategorySliderProps) => {
@@ -26,15 +26,14 @@ export const CategorySlider = ({ title, itemsPerPage, collections, onCollectionC
   };
 
   const renderCollection = (collection: Collection) => (
-    <Link to={generateCollectionPath(collection.id)} onClick={onCollectionClick}>
-      <Card
-        key={collection.id}
-        className="w-[280px] overflow-hidden group/card hover:shadow-lg transition-shadow duration-200"
-      >
-        {" "}
-        <CollectionCard collection={collection} />
-      </Card>
-    </Link>
+    <Card
+      key={collection.id}
+      onClick={() => onCollectionClick(collection.id)}
+      className="w-[280px] overflow-hidden group/card hover:shadow-lg transition-shadow duration-200"
+    >
+      {" "}
+      <CollectionCard collection={collection} />
+    </Card>
   )
 
   const renderTitle = (
@@ -63,7 +62,7 @@ export const CategorySlider = ({ title, itemsPerPage, collections, onCollectionC
   };
 
   return (
-    <div className="relative group space-y-4">
+    <div className="relative space-y-4">
 
       <ScrollableCards
         items={collections}

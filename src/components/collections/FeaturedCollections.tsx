@@ -1,11 +1,23 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
 import { t } from "@/use/i18n"
-import { Collection } from "@/app/types"
 import { useState } from "react"
 import { ScrollableCards } from "../cards/ScrollableCards"
+import FeaturedCollectionsCard from "../cards/FeaturedCollectionsCard"
+import { Collection, Rarity } from "@/app/types"
 import { generateCollectionPath } from "@/use/routes"
 import { Link } from "react-router-dom"
+
+
+function getTypeByPopularity(value) {
+  const thresholds = [
+    { max: 25, type: Rarity.Common },
+    { max: 50, type: Rarity.Rare },
+    { max: 75, type: Rarity.Epic },
+    { max: 100, type: Rarity.Legendary }
+  ];
+
+  const level = thresholds.find(t => value <= t.max);
+  return level ? level.type : Rarity.Common;
+}
 
 export const FeaturedCollections = ({ collections, onCollectionClick }) => {
   const pageSize = 10
@@ -16,59 +28,26 @@ export const FeaturedCollections = ({ collections, onCollectionClick }) => {
     }
   }
 
-  const CollectionCard = (collection: Collection) => {
+  const renderItem = (collection: Collection) => {
+    const type = getTypeByPopularity(collection.popularity)
     return (
-      <Link to={generateCollectionPath(collection.id)} className="cursor-pointer hover:shadow-xl transition-shadow duration-300" onClick={onCollectionClick(collection.id)}>
-        <Card className="w-[250px]">
-          <CardContent className="group p-4 relative">
-            <img
-              src={collection.image || "/placeholder.svg"}
-              alt={collection.name}
-              className="group-hover:scale-105 transition-all duration-300
-            w-full h-40 object-cover mb-4 rounded"
-            />
-            <h3 className="font-bold mb-2">{collection.name}</h3>
-            <p className="text-sm mb-4">{t("collections.popularity", { score: collection.popularity })}</p>
-            <p className="text-sm mb-4">{t("collections.popularity", { score: collection.popularity })}</p>
-            <p className="text-sm mb-4">{t("collections.popularity", { score: collection.popularity })}</p>
-            <Button
-              className={`opacity-0 absolute bottom-4
-          w-[215px] text-lg bg-gradient-to-r from-green-600 to-green-500
-          group-hover:opacity-100 group-hover:scale-105
-          transform transition-all duration-300`}
-            >{t("collections.explore")}</Button>
-          </CardContent>
-        </Card>
+      <Link to={generateCollectionPath(collection.id)} onClick={onCollectionClick}>
+        <FeaturedCollectionsCard collection={collection} type={type} />
       </Link>
     )
   }
 
+  return (<div className="relative space-y-4 my-8">
 
-  return (
-    <Card className="mb-8">
-      <CardHeader>
-        <CardTitle>{t("collections.featured")}</CardTitle>
-      </CardHeader>
-      <CardContent>
-        {collections && <ScrollableCards
-          items={collections.slice(0, pageSize * (collectionsPage + 1))}
-          renderItem={CollectionCard}
-          title={t("collections.featured")}
-          itemsPerPage={10}
-          onLoadMore={handleLoadMore}
-          className="py-4"
-        />}
-
-        {/* <ScrollArea className="w-full whitespace-nowrap">
-          <div className="flex w-max space-x-4">
-            {collections.map((collection) => (
-              
-            ))}
-          </div>
-          <ScrollBar orientation="horizontal" />
-        </ScrollArea> */}
-      </CardContent>
-    </Card>
+    {collections && <ScrollableCards
+      items={collections.slice(0, pageSize * (collectionsPage + 1))}
+      renderItem={renderItem}
+      title={t("collections.featured")}
+      itemsPerPage={10}
+      onLoadMore={handleLoadMore}
+      className="py-4"
+    />}
+  </div>
   )
 }
 

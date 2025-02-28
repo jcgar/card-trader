@@ -2,11 +2,10 @@
 
 import { useEffect, useState } from "react"
 import { useParams, useNavigate } from "react-router-dom"
-import { NavigationBar } from "@/components/NavigationBar"
+import { AppLayout } from "@/components/layout/AppLayout"
 import { Card } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Users, ImageIcon, Repeat, BookOpen, Shield, Star, ArrowLeft } from "lucide-react"
 import type { Collection } from "@/app/types"
 import { t } from "@/use/i18n"
@@ -33,7 +32,7 @@ const CollectionPublicView = () => {
       likes: 245,
       featured: true,
     })
-  }, [t])
+  }, [])
 
   if (!collection) return <div>{t("common.loading")}</div>
 
@@ -55,15 +54,11 @@ const CollectionPublicView = () => {
     navigate(-1)
   }
 
-  return (
-    <div className="min-h-screen bg-gradient-to-b from-green-50 via-white to-white pt-16">
-      <NavigationBar />
-      <main className="container mx-auto px-4 py-24">
-        <Button variant="ghost" className="mb-6" onClick={handleBack}>
-          <ArrowLeft className="mr-2 h-4 w-4" />
-          {t("common.back")}
-        </Button>
-
+  const tabs = [
+    {
+      value: "overview",
+      label: t("collection.overview"),
+      content: (
         <Card className="p-6">
           <div className="grid md:grid-cols-2 gap-8">
             <div>
@@ -111,62 +106,74 @@ const CollectionPublicView = () => {
               <p className="text-gray-600 mt-4">{t("collection.description")}</p>
             </div>
           </div>
-
-          <Tabs defaultValue="groups" className="mt-8">
-            <TabsList className="grid w-full grid-cols-3">
-              <TabsTrigger value="groups">{t("collection.groups.title")}</TabsTrigger>
-              <TabsTrigger value="editions">{t("collection.editions.title")}</TabsTrigger>
-              <TabsTrigger value="materials">{t("collection.materials.title")}</TabsTrigger>
-            </TabsList>
-
-            <TabsContent value="groups" className="mt-4">
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                {groups.map((group, index) => (
-                  <div key={index} className="p-4 bg-green-50 rounded-lg">
-                    <h3 className="font-semibold">{group.name}</h3>
-                    <p className="text-sm text-gray-600">{t("collection.cardCount", { count: group.cards })}</p>
-                  </div>
-                ))}
-              </div>
-            </TabsContent>
-
-            <TabsContent value="editions" className="mt-4">
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                {editions.map((edition, index) => (
-                  <div key={index} className="p-4 bg-green-50 rounded-lg">
-                    <h3 className="font-semibold">{edition.name}</h3>
-                    <p className="text-sm text-gray-600">{t("collection.cardCount", { count: edition.cards })}</p>
-                  </div>
-                ))}
-              </div>
-            </TabsContent>
-
-            <TabsContent value="materials" className="mt-4">
-              <div className="p-4 bg-green-50 rounded-lg">
-                <h3 className="font-semibold mb-2">{t("collection.materials.availableMaterials")}</h3>
-                <ul className="list-disc list-inside text-gray-600">
-                  <li>{t("collection.materials.collectorAlbum")}</li>
-                  <li>{t("collection.materials.standardAlbum")}</li>
-                  <li>{t("collection.materials.packs")}</li>
-                  <li>{t("collection.materials.premiumBox")}</li>
-                </ul>
-              </div>
-            </TabsContent>
-          </Tabs>
-
-          <div className="mt-8 flex justify-center gap-4">
-            <Button className="flex items-center gap-2">
-              <Shield className="w-4 h-4" />
-              {t("collection.addToMyCollection")}
-            </Button>
-            <Button variant="outline" className="flex items-center gap-2">
-              <Star className="w-4 h-4" />
-              {t("collection.follow")}
-            </Button>
-          </div>
         </Card>
-      </main>
+      ),
+    },
+    {
+      value: "groups",
+      label: t("collection.groups.title"),
+      content: (
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          {groups.map((group, index) => (
+            <div key={index} className="p-4 bg-green-50 rounded-lg">
+              <h3 className="font-semibold">{group.name}</h3>
+              <p className="text-sm text-gray-600">{t("collection.cardCount", { count: group.cards })}</p>
+            </div>
+          ))}
+        </div>
+      ),
+    },
+    {
+      value: "editions",
+      label: t("collection.editions.title"),
+      content: (
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          {editions.map((edition, index) => (
+            <div key={index} className="p-4 bg-green-50 rounded-lg">
+              <h3 className="font-semibold">{edition.name}</h3>
+              <p className="text-sm text-gray-600">{t("collection.cardCount", { count: edition.cards })}</p>
+            </div>
+          ))}
+        </div>
+      ),
+    },
+    {
+      value: "materials",
+      label: t("collection.materials.title"),
+      content: (
+        <div className="p-4 bg-green-50 rounded-lg">
+          <h3 className="font-semibold mb-2">{t("collection.materials.availableMaterials")}</h3>
+          <ul className="list-disc list-inside text-gray-600">
+            <li>{t("collection.materials.collectorAlbum")}</li>
+            <li>{t("collection.materials.standardAlbum")}</li>
+            <li>{t("collection.materials.packs")}</li>
+            <li>{t("collection.materials.premiumBox")}</li>
+          </ul>
+        </div>
+      ),
+    },
+  ]
+
+  const sidebarContent = (
+    <div className="space-y-4">
+      <Button className="w-full flex items-center justify-center gap-2">
+        <Shield className="w-4 h-4" />
+        {t("collection.addToMyCollection")}
+      </Button>
+      <Button variant="outline" className="w-full flex items-center justify-center gap-2">
+        <Star className="w-4 h-4" />
+        {t("collection.follow")}
+      </Button>
     </div>
+  )
+
+  return (
+    <AppLayout tabs={tabs} sidebarContent={sidebarContent}>
+      <Button variant="ghost" className="mb-6" onClick={handleBack}>
+        <ArrowLeft className="mr-2 h-4 w-4" />
+        {t("common.back")}
+      </Button>
+    </AppLayout>
   )
 }
 

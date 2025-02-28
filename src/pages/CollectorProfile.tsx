@@ -1,6 +1,6 @@
 "use client"
 import { useParams, Link } from "react-router-dom"
-import { NavigationBar } from "@/components/NavigationBar"
+import { AppLayout } from "@/components/layout/AppLayout"
 import { CollectorHeader } from "@/components/collector/CollectorHeader"
 import { CollectorStats } from "@/components/collector/CollectorStats"
 import { CollectorAchievements } from "@/components/collector/CollectorAchievements"
@@ -26,43 +26,47 @@ const CollectorProfile = () => {
     return <div>{t("common.loading")}</div>
   }
 
+  const tabs = [
+    {
+      value: "collections",
+      label: t("collector.collections"),
+      content: <CollectorCollections collections={collections} />,
+    },
+    {
+      value: "activity",
+      label: t("collector.activity"),
+      content: <CollectorActivity profile={profile} />,
+    },
+    {
+      value: "trades",
+      label: t("collector.trades"),
+      content: <CollectorTrades profile={profile} />,
+    },
+  ]
+
+  const sidebarContent = (
+    <>
+      <CollectorStats profile={profile} />
+      <CollectorAchievements profile={profile} />
+      <CollectorSocial profile={profile} />
+    </>
+  )
+
   return (
-    <div className="min-h-screen bg-gradient-to-b from-green-50 via-white to-white">
-      <NavigationBar />
-
-      <main className="pt-16">
-        <CollectorHeader profile={profile} />
-
-        <div className="container mx-auto px-4 py-8">
-          <div className="text-center mb-8">
-            <Link to={generateCollectorProPath(profile.id)}>
-              <Button
-                variant="outline"
-                className="bg-yellow-50 border-yellow-200 text-yellow-700 hover:bg-yellow-100 hover:text-yellow-800"
-              >
-                <Crown className="w-5 h-5 mr-2 text-yellow-500" />
-                {t("collector.viewInHallOfFame")}
-              </Button>
-            </Link>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <div className="lg:col-span-2 space-y-8">
-              <CollectorStats profile={profile} />
-              <CollectorCollections collections={collections} />
-              <CollectorActivity profile={profile} />
-              <CollectorTrades profile={profile} />
-            </div>
-
-            <div className="space-y-8">
-              <CollectorAchievements profile={profile} />
-              <CollectorSocial profile={profile} />
-              <CollectorTrades profile={profile} />
-            </div>
-          </div>
-        </div>
-      </main>
-    </div>
+    <AppLayout tabs={tabs} sidebarContent={sidebarContent}>
+      <CollectorHeader profile={profile} />
+      <div className="text-center mb-8">
+        <Link to={generateCollectorProPath(profile.id)}>
+          <Button
+            variant="outline"
+            className="bg-yellow-50 border-yellow-200 text-yellow-700 hover:bg-yellow-100 hover:text-yellow-800"
+          >
+            <Crown className="w-5 h-5 mr-2 text-yellow-500" />
+            {t("collector.viewInHallOfFame")}
+          </Button>
+        </Link>
+      </div>
+    </AppLayout>
   )
 }
 

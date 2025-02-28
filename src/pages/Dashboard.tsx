@@ -1,24 +1,33 @@
 "use client"
 
-import { NavigationBar } from "@/components/NavigationBar"
+import { AppLayout } from "@/components/layout/AppLayout"
 import { RealtimeNotifications } from "@/components/dashboard/RealtimeNotifications"
 import { ProgressPanel } from "@/components/dashboard/ProgressPanel"
 import { MyCollections } from "@/components/dashboard/MyCollections"
-import { QuickActions } from "@/components/dashboard/QuickActions"
 import { UserStats } from "@/components/dashboard/UserStats"
 import { MyExchanges } from "@/components/dashboard/MyExchanges"
 import { RecommendedUsers } from "@/components/dashboard/RecommendedUsers"
 import { RecentExchanges } from "@/components/dashboard/RecentExchanges"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@radix-ui/react-tabs"
+import { ActiveChallenges } from "@/components/dashboard/ActiveChallenges"
+import { LatestAchievements } from "@/components/dashboard/LatestAchievements"
+import { SpecialEvents } from "@/components/dashboard/SpecialEvents"
+import { PersonalRanking } from "@/components/dashboard/PersonalRanking"
+import { FeaturedEvents } from "@/components/dashboard/FeaturedEvents"
 import CollectionsList from "@/components/dashboard/CollectionsList"
+import { RecommendedCollections } from "@/components/dashboard/RecommendedCollections"
+import ExchangesList from "@/components/dashboard/ExchangesList"
+import { TopExchangePartners } from "@/components/dashboard/TopExchangePartners"
 import { useApi } from "@/use/api"
-import type { Collection, Exchange } from "@/app/types"
+import type { Activity, Collection, Exchange } from "@/app/types"
 import { useLocation, useNavigate, useParams } from "react-router-dom"
+import { t } from "@/use/i18n"
 import CollectionDetail from "./CollectionDetail"
 import { ExchangeDetail } from "@/components/dashboard/ExchangeDetail"
-import ExchangesList from "@/components/dashboard/ExchangesList"
-import Profile from "./Profile"
-import { t } from "@/use/i18n"
+import { routes } from "@/use/routes"
+import { CollectionFilters } from "@/components/filter/CollectionFilters"
+import { ExchangeFilters } from "@/components/filter/ExchangeFilters"
+import { LiveActivity } from "@/components/community/LiveActivity"
+import { UserSummary } from "@/components/dashboard/UserSummary"
 
 const Dashboard = () => {
   const navigate = useNavigate()
@@ -26,72 +35,142 @@ const Dashboard = () => {
   const location = useLocation()
 
   const tabMapping = [
-    { path: "colecciones", tab: "collections" },
-    { path: "cambios", tab: "exchanges" },
-    { path: "perfil", tab: "settings" },
+    { index: 1, path: collectionId ? routes.myCollectionDetail : routes.myCollections, tab: "collections" },
+    { index: 2, path: exchangeId ? routes.myExchangesDetail : routes.myExchanges, tab: "exchanges" },
+    { index: 3, path: routes.myActivity, tab: "activity" },
+    { index: 0, path: routes.dashboard, tab: "home" },
   ]
 
-  const activeTab = tabMapping.find((item) => location.pathname.includes(item.path))?.tab || "dashboard"
+  const activeTab = tabMapping.find((item, i) => i > 0 && location.pathname.includes(item.path)).index
+  const { data: collections } = useApi<Collection>("collections", { page: 1, pageSize: 10 })
+  const { data: exchanges } = useApi<Exchange>("exchanges", { page: 1, pageSize: 10 })
+  const { data: activities } = useApi<Activity>("activities", { page: 1, pageSize: 4 })
 
-  const { data: collections } = useApi<Collection>("collections", { page: 1, pageSize: 10, fullQuery: false })
-  const { data: exchanges } = useApi<Exchange>("exchanges", { page: 1, pageSize: 10, fullQuery: false })
+  const selectedCollection = collections.find((o) => o.id === collectionId)
+  const selectedExchange = exchanges.find((o) => o.id === Number(exchangeId))
 
   const handleTabChange = (tab: string) => {
     const selectedTab = tabMapping.find((item) => item.tab === tab)
     if (selectedTab) {
-      navigate(`/dashboard/${selectedTab.path}`)
-    } else navigate("/dashboard")
+      navigate(selectedTab.path)
+    } else navigate(routes.dashboard)
   }
 
+  const handleCollectionFilterChange = (filters: any) => {
+    // Implement filter logic here
+    console.log("Collection filters applied:", filters)
+  }
+
+  const handleCollectionSortChange = (sortBy: string, sortOrder: "asc" | "desc") => {
+    // Implement sort logic here
+    console.log("Collection sort changed:", sortBy, sortOrder)
+  }
+
+  const handleExchangeFilterChange = (filters: any) => {
+    // Implement filter logic here
+    console.log("Exchange filters applied:", filters)
+  }
+
+  const handleExchangeSortChange = (sortBy: string, sortOrder: "asc" | "desc") => {
+    // Implement sort logic here
+    console.log("Exchange sort changed:", sortBy, sortOrder)
+  }
+
+  const tabs = [
+    {
+      value: "home",
+      label: t("dashboard.home"),
+      content: (
+        <>
+          <MyCollections collections={collections.slice(0, 6)} />
+          <MyExchanges exchanges={exchanges.slice(0, 6)} />
+          <ActiveChallenges />
+          <LatestAchievements />
+          <FeaturedEvents />
+        </>
+      ),
+      sidebar: (
+        <>
+          <UserSummary />
+          <UserStats />
+          <RecommendedUsers />
+          <RecentExchanges />
+        </>
+      ),
+    },
+    {
+      value: "collections",
+      label: t("dashboard.collections"),
+      content: (
+        <>
+          {selectedCollection ? (
+            <CollectionDetail collection={selectedCollection} />
+          ) : (
+            <CollectionsList collections={collections} />
+          )}
+          <RecommendedCollections />
+        </>
+      ),
+      sidebar: (
+        <>
+          <UserSummary />
+          <CollectionFilters onFilterChange={handleCollectionFilterChange} onSortChange={handleCollectionSortChange} />
+        </>
+      ),
+    },
+    {
+      value: "exchanges",
+      label: t("dashboard.exchanges"),
+      content: (
+        <>
+          {selectedExchange ? (
+            <ExchangeDetail exchange={selectedExchange} onStatusChange={(status) => console.log({ status })} />
+          ) : (
+            <ExchangesList exchanges={exchanges} />
+          )}
+          <TopExchangePartners />
+        </>
+      ),
+      sidebar: (
+        <>
+          <UserSummary />
+          <ExchangeFilters onFilterChange={handleExchangeFilterChange} onSortChange={handleExchangeSortChange} />
+        </>
+      ),
+    },
+    {
+      value: "activity",
+      label: t("dashboard.activityCenter"),
+      content: (
+        <>
+          <ProgressPanel />
+          <LatestAchievements />
+          <ActiveChallenges />
+          <PersonalRanking />
+          <SpecialEvents />
+        </>
+      ),
+      sidebar: (
+        <>
+          <UserSummary />
+          <UserStats />
+          <LiveActivity activities={activities} />
+        </>
+      ),
+    },
+  ]
+
   return (
-    <div className="min-h-screen bg-gradient-to-b from-green-50 via-white to-white pt-16">
-      <NavigationBar />
+    <AppLayout
+      tabs={tabs}
+      selectedTab={activeTab}
+      onTabChange={handleTabChange}
+      sidebarContent={tabs[activeTab].sidebar}
+      actionMenuVariant="full"
+      bgVariant="wood"
+    >
       <RealtimeNotifications />
-      <QuickActions />
-      <Tabs value={activeTab} onValueChange={handleTabChange}>
-        <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="dashboard">{t("dashboard.home")}</TabsTrigger>
-          <TabsTrigger value="collections">{t("dashboard.collections")}</TabsTrigger>
-          <TabsTrigger value="exchanges">{t("dashboard.exchanges")}</TabsTrigger>
-          <TabsTrigger value="settings">{t("dashboard.settings")}</TabsTrigger>
-        </TabsList>
-
-        <div className="container mx-auto px-4 py-8 grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <div className="lg:col-span-2 space-y-8">
-            <TabsContent value="dashboard">
-              <MyCollections collections={collections} />
-              <MyExchanges exchanges={exchanges} />
-            </TabsContent>
-
-            <TabsContent value="collections">
-              {collectionId ? (
-                <CollectionDetail collection={collections[collectionId]} />
-              ) : (
-                <CollectionsList collections={collections} />
-              )}
-            </TabsContent>
-
-            <TabsContent value="exchanges">
-              {exchanges[exchangeId] ? (
-                <ExchangeDetail exchange={exchanges[exchangeId]} onStatusChange={(status) => console.log({ status })} />
-              ) : (
-                <ExchangesList exchanges={exchanges} />
-              )}
-            </TabsContent>
-
-            <TabsContent value="settings">
-              <Profile />
-            </TabsContent>
-          </div>
-          <div className="space-y-8">
-            <UserStats />
-            <ProgressPanel />
-            <RecommendedUsers />
-            <RecentExchanges />
-          </div>
-        </div>
-      </Tabs>
-    </div>
+    </AppLayout>
   )
 }
 

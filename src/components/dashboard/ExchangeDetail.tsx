@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from "react"
 import { motion } from "framer-motion"
 import { useSwipeable } from "react-swipeable"
-import { Check, X, Clock, Star, Award, Send, ChevronRight } from "lucide-react"
+import { Check, X, Clock, Star, Award, Send, ChevronRight, Edit, Wand2 } from "lucide-react"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Progress } from "@/components/ui/progress"
@@ -12,6 +12,7 @@ import { Input } from "@/components/ui/input"
 import { useIsMobile } from "@/hooks/use-mobile"
 import type { Exchange, Sticker, TradeCollection } from "@/app/types"
 import { t } from "@/use/i18n"
+import { useAuth } from "@/use/auth"
 
 interface ExchangeDetailProps {
   exchange: Exchange
@@ -19,12 +20,14 @@ interface ExchangeDetailProps {
 }
 
 export const ExchangeDetail = ({ exchange, onStatusChange }: ExchangeDetailProps) => {
+  const { user } = useAuth()
   const isMobile = useIsMobile()
   const [message, setMessage] = useState("")
   const [selectedCollection, setSelectedCollection] = useState<TradeCollection | null>(null)
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid")
   const chatRef = useRef<HTMLDivElement>(null)
   const [localExchange, setLocalExchange] = useState(exchange)
+  const [isEditing, setIsEditing] = useState(false)
 
   const isReadOnly = localExchange?.status === "completed" || localExchange?.status === "rejected"
 
@@ -57,20 +60,23 @@ export const ExchangeDetail = ({ exchange, onStatusChange }: ExchangeDetailProps
     if (message.trim() && !isReadOnly) {
       const newMessage = {
         id: Date.now().toString(),
-        senderId: "currentUser", // Assuming the current user is sending the message
+        senderId: user.id,
         content: message,
         type: "text",
         timestamp: new Date().toISOString(),
       }
       setLocalExchange((prev) => ({
         ...prev,
-        messages: [...prev.messages, {
-          id: newMessage.id,
-          senderId: newMessage.senderId,
-          content: newMessage.content,
-          type: "text" as "text" | "sticker-added" | "sticker-removed" | "status-change",
-          timestamp: newMessage.timestamp,
-        }],
+        messages: [
+          ...prev.messages,
+          {
+            id: newMessage.id,
+            senderId: newMessage.senderId,
+            content: newMessage.content,
+            type: "text" as "text" | "sticker-added" | "sticker-removed" | "status-change",
+            timestamp: newMessage.timestamp,
+          },
+        ],
       }))
       setMessage("")
       playSound("message")
@@ -78,19 +84,19 @@ export const ExchangeDetail = ({ exchange, onStatusChange }: ExchangeDetailProps
   }
 
   const toggleStickerSelection = (collectionId: string, sticker: Sticker) => {
-    if (!isReadOnly) {
+    if (!isReadOnly && isEditing) {
       setLocalExchange((prev) => ({
         ...prev,
         tradeCollections: prev.tradeCollections.map((collection) =>
           collection.id === collectionId
             ? {
               ...collection,
-              stickers: collection.stickers.map((s) => (s.id === sticker.id ? { ...s, selected: !s["selected"] } : s)),
+              stickers: collection.stickers.map((s) => (s.id === sticker.id ? { ...s, selected: !s.selected } : s)),
             }
             : collection,
         ),
       }))
-      playSound(sticker["selected"] ? "remove" : "add")
+      playSound(sticker.selected ? "remove" : "add")
       vibrate()
     }
   }
@@ -119,13 +125,14 @@ export const ExchangeDetail = ({ exchange, onStatusChange }: ExchangeDetailProps
             key={sticker.id}
             className={`
               ${viewMode === "grid" ? "w-16 h-16" : "w-full h-24"}
-              ${sticker["selected"] ? "bg-green-200" : "bg-gray-100"}
+              ${sticker.selected ? "bg-green-200" : "bg-gray-100"}
               rounded-lg flex items-center justify-center cursor-pointer
               transition-colors duration-200 ease-in-out
+              ${isEditing ? "hover:bg-blue-100" : ""}
             `}
             onClick={() => toggleStickerSelection(collection.id, sticker)}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+            whileHover={{ scale: isEditing ? 1.05 : 1 }}
+            whileTap={{ scale: isEditing ? 0.95 : 1 }}
           >
             {viewMode === "grid" ? (
               <span className="text-sm font-bold">{sticker.number}</span>
@@ -144,9 +151,53 @@ export const ExchangeDetail = ({ exchange, onStatusChange }: ExchangeDetailProps
     )
   }
 
+  const renderStatusFlow = () => {
+    const statuses = ["accepted", "received", "completed"]
+    const currentIndex = statuses.indexOf(localExchange.status)
+
+    return (
+      <div className="flex justify-between items-center mb-4">
+        {statuses.map((status, index) => (
+          <div key={status} className="flex items-center">
+            <div
+              className={`w-8 h-8 rounded-full flex items-center justify-center ${index <= currentIndex ? "bg-green-500 text-white" : "bg-gray-300"
+                }`}
+            >
+              {index + 1}
+            </div>
+            <span className="ml-2 text-sm">{t(`exchange.status.${status}`)}</span>
+            {index < statuses.length - 1 && (
+              <ChevronRight className={`mx-2 ${index < currentIndex ? "text-green-500" : "text-gray-300"}`} />
+            )}
+          </div>
+        ))}
+      </div>
+    )
+  }
+
+  const autoSelectStickers = () => {
+    const userStickers = localExchange.tradeCollections.find((c) => c.id === "user")?.stickers || []
+    const otherUserStickers = localExchange.tradeCollections.find((c) => c.id === "otherUser")?.stickers || []
+
+    const maxSelectable = Math.min(userStickers.length, otherUserStickers.length)
+
+    setLocalExchange((prev) => ({
+      ...prev,
+      tradeCollections: prev.tradeCollections.map((collection) => ({
+        ...collection,
+        stickers: collection.stickers.map((sticker, index) => ({
+          ...sticker,
+          selected: index < maxSelectable,
+        })),
+      })),
+    }))
+  }
+
   return (
     <div className="flex flex-col space-y-6 p-4 md:p-6" {...handlers}>
-      {/* Exchange header */}
+      <h2 className="text-2xl font-bold">{t("exchange.header")}</h2>
+      {renderStatusFlow()}
+
       <div className="relative">
         <div className="flex justify-between items-center">
           <motion.div
@@ -200,6 +251,24 @@ export const ExchangeDetail = ({ exchange, onStatusChange }: ExchangeDetailProps
         )}
       </div>
 
+      <div className="flex justify-between items-center">
+        <h3 className="text-xl font-semibold">{t("exchange.yourRepeats")}</h3>
+        {!isReadOnly && (
+          <div className="flex gap-2">
+            <Button onClick={() => setIsEditing(!isEditing)} variant="outline" size="sm">
+              <Edit className="w-4 h-4 mr-2" />
+              {isEditing ? t("exchange.finishEditing") : t("exchange.editExchange")}
+            </Button>
+            {isEditing && (
+              <Button onClick={autoSelectStickers} variant="outline" size="sm">
+                <Wand2 className="w-4 h-4 mr-2" />
+                {t("exchange.autoSelect")}
+              </Button>
+            )}
+          </div>
+        )}
+      </div>
+
       {/* Collections section */}
       <Card className="p-4">
         <h4 className="font-bold mb-4">{t("exchange.collections")}</h4>
@@ -216,10 +285,14 @@ export const ExchangeDetail = ({ exchange, onStatusChange }: ExchangeDetailProps
                 <p className="text-sm text-gray-600">
                   {t("exchange.stickerCount", { count: collection.stickers.length })}
                 </p>
+                <p className="text-sm text-gray-600">
+                  {t("exchange.selectedCount", {
+                    count: collection.stickers.filter((s) => s.selected).length,
+                  })}
+                </p>
               </Card>
             ))}
           </div>
-          {/* <ScrollArea orientation={horizontal} /> */}
         </ScrollArea>
       </Card>
 
@@ -254,9 +327,9 @@ export const ExchangeDetail = ({ exchange, onStatusChange }: ExchangeDetailProps
         <ScrollArea className="h-[300px] mb-4" ref={chatRef}>
           <div className="space-y-4">
             {localExchange.messages.map((msg) => (
-              <div key={msg.id} className={`flex ${msg.senderId === "currentUser" ? "justify-end" : "justify-start"}`}>
+              <div key={msg.id} className={`flex ${msg.senderId === user.id ? "justify-end" : "justify-start"}`}>
                 <div
-                  className={`rounded-lg px-4 py-2 max-w-[80%] ${msg.senderId === "currentUser" ? "bg-blue-500 text-white" : "bg-gray-100"
+                  className={`rounded-lg px-4 py-2 max-w-[80%] ${msg.senderId === user.id ? "bg-blue-500 text-white" : "bg-gray-100"
                     }`}
                 >
                   <p className="text-sm">{msg.content}</p>
@@ -289,9 +362,16 @@ export const ExchangeDetail = ({ exchange, onStatusChange }: ExchangeDetailProps
             {t("exchange.reject")}
           </Button>
 
-          <Button className="bg-green-600 hover:bg-green-700" onClick={() => onStatusChange("completed")}>
+          <Button
+            className="bg-green-600 hover:bg-green-700"
+            onClick={() => onStatusChange(localExchange.status === "accepted" ? "received" : "completed")}
+          >
             <Check className="w-4 h-4 mr-2" />
-            {t("exchange.complete")}
+            {localExchange.status === "accepted"
+              ? t("exchange.markAsReceived")
+              : localExchange.status === "received"
+                ? t("exchange.complete")
+                : t("exchange.accept")}
           </Button>
         </div>
       )}

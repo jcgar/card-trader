@@ -65,6 +65,7 @@ export async function filterCollections(filters: Record<string, string>): Promis
 }
 
 type ApiOptions = {
+  id?: string;
   page?: number
   pageSize?: number
   fullQuery?: boolean
@@ -114,6 +115,10 @@ export async function api(route: string, options: ApiOptions = {}): Promise<any>
   }
 
   let result = module[route]
+
+  if (options.id) {
+    result = [result.find(o => `${o.id}` === options.id) || result[0]]
+  }
 
   // Handle pagination
   if (options.page && options.pageSize) {

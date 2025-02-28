@@ -10,8 +10,10 @@ export const routes = {
   myExchanges: "/dashboard/cambios",
   myExchangesDetail: "/dashboard/cambios/:exchangeId",
   myProfile: "/dashboard/perfil",
+  myActivity: "/dashboard/actividad",
 
   community: "/comunidad",
+  forum: "/foro",
   collector: "/coleccionistas/:id",
   collectorPro: "/coleccionistas/:id/pro",
   blog: "/blog",

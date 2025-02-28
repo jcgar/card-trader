@@ -1,10 +1,10 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { NavigationBar } from "@/components/NavigationBar"
+import { AppLayout } from "@/components/layout/AppLayout"
 import { FeaturedCategories } from "@/components/FeaturedCategories"
 import { FeaturedCollections } from "@/components/collections/FeaturedCollections"
-import { CategorySlider } from "@/components/collections/CategorySlider"
+import { Category } from "@/components/collections/Category"
 import { TradeMarket } from "@/components/dashboard/TradeMarket"
 import { SearchBar } from "@/components/collections/SearchBar"
 import { AdvancedSearch } from "@/components/collections/AdvancedSearch"
@@ -14,86 +14,72 @@ import { t } from "@/use/i18n"
 import { FinalCTA } from "@/components/FinalCTA"
 import { useNavigate } from "react-router-dom"
 import { routes } from "@/use/routes"
-
+import { Card } from "@/components/ui/card"
+import { CategorySlider } from "@/components/collections/CategorySlider"
 
 const PublicCollections = () => {
   const navigate = useNavigate()
-  const { data: collections } = useApi<Collection>("featuredCollections", { useGraphQL: true, page: 1, pageSize: 100, fullQuery: false })
+  const { data: collections } = useApi<Collection>("collections", { page: 1, pageSize: 100, fullQuery: false })
+  const { data: featuredCollections } = useApi<Collection>("collections", { page: 1, pageSize: 100, fullQuery: false })
+  const { data: newestCollections } = useApi<Collection>("collections", { page: 1, pageSize: 100, fullQuery: false })
+
   const [isAdvancedSearchOpen, setIsAdvancedSearchOpen] = useState(false)
 
-  const [categories, setCategories] = useState({ first: null, middle: null, last: null })
 
-  useEffect(() => {
-    const collectionsByCategory = collections.reduce(
-      (acc, collection) => {
-        if (!acc[collection.category]) {
-          acc[collection.category] = []
-        }
-        acc[collection.category].push(collection)
-        return acc
-      },
-      {} as Record<string, Collection[]>,
-    )
-
-    setCategories({
-      first: Object.entries(collectionsByCategory).slice(0, 2),
-      middle: Object.entries(collectionsByCategory).slice(2, 4),
-      last: Object.entries(collectionsByCategory).slice(4),
-    })
-  }, [collections])
-
-  useEffect(() => {
-    const savedScrollPosition = sessionStorage.getItem("publicCollectionsScrollPosition")
-    if (savedScrollPosition) {
-      window.scrollTo(0, Number.parseInt(savedScrollPosition))
-      sessionStorage.removeItem("publicCollectionsScrollPosition")
-    }
-  }, [])
-
-  const handleCollectionClick = () => {
+  const handleCollectionClick = (collectionId: string) => {
     sessionStorage.setItem("publicCollectionsScrollPosition", window.scrollY.toString())
+    navigate(routes.collection.replace(":id", collectionId))
   }
 
-  return (
-    <div className="min-h-screen bg-gradient-to-b from-green-50 via-white to-white pt-16">
-      <NavigationBar />
+  const tabs = [
+    {
+      value: "categories",
+      label: t("collections.categories"),
+      content: (
+        <>
+          <FeaturedCategories />
+          <FeaturedCollections collections={featuredCollections} onCollectionClick={handleCollectionClick} />
+        </>
+      ),
+    },
+    {
+      value: "catalog",
+      label: t("collections.catalog"),
+      content: <Category collections={collections} onClick={handleCollectionClick} />,
+    },
+    {
+      value: "newest",
+      label: t("collections.newest"),
+      content: <Slider category="newest" collections={newestCollections} onClick={handleCollectionClick} />,
+    },
+    {
+      value: "tradeMarket",
+      label: t("collections.tradeMarket"),
+      content: <TradeMarket preview />,
+    },
+  ]
 
-      <div className="container mx-auto px-4 pt-16">
-        <FeaturedCollections collections={collections} onCollectionClick={handleCollectionClick} />
-
-        <h2 className="text-2xl font-bold mb-4 mt-8">{t("collections.catalog")}</h2>
-
-        <SearchBar onAdvancedSearch={() => setIsAdvancedSearchOpen(true)} />
-        <AdvancedSearch isOpen={isAdvancedSearchOpen} onClose={() => setIsAdvancedSearchOpen(false)} />
-
-        <Category categories={categories.first} onClick={handleCollectionClick} />
-        <FeaturedCategories />
-        <Category categories={categories.middle} onClick={handleCollectionClick} />
-        <Category categories={categories.last} onClick={handleCollectionClick} />
-
-        <div className="my-16">
-          <TradeMarket preview />
-        </div>
-
+  const sidebarContent = (
+    <>
+      <SearchBar onAdvancedSearch={() => setIsAdvancedSearchOpen(true)} />
+      <AdvancedSearch isOpen={isAdvancedSearchOpen} onClose={() => setIsAdvancedSearchOpen(false)} />
+      <Card className="m-8">
         <FinalCTA onStartCollecting={() => navigate(routes.dashboard)} />
-      </div>
-    </div>
+      </Card>
+    </>
   )
+
+  return <AppLayout tabs={tabs} sidebarContent={sidebarContent} />
 }
 
 export default PublicCollections
 
-const Category = ({ categories, onClick }) => (
-  <div className="space-y-4">
-    {(categories || []).map(([category, collections]) => (
-      <CategorySlider
-        key={category}
-        itemsPerPage={4}
-        onCollectionClick={onClick}
-        title={category}
-        collections={collections}
-      />
-    ))}
-  </div>
+const Slider = ({ category, onClick, collections }) => (
+  <CategorySlider
+    key={category}
+    itemsPerPage={4}
+    onCollectionClick={onClick}
+    title={t(`categories.${category}`)}
+    collections={collections}
+  />
 )
-

@@ -21,23 +21,25 @@ export const SearchBar: React.FC<SearchBarProps> = ({ onAdvancedSearch }) => {
   }
 
   return (
-    <form onSubmit={handleSearch} className="flex items-center space-x-2">
-      <div className="relative flex-grow">
-        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-        <Input
-          type="text"
-          placeholder="Buscar colecciones..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="pl-10 pr-4 py-2 w-full"
-        />
+    <form onSubmit={handleSearch} className="flex flex-col items-center space-x-2 ">
+      <div className="flex my-4">
+        <div className="relative flex-grow mx-4">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+          <Input
+            type="text"
+            placeholder="Buscar colecciones..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="pl-10 pr-4 py-2 w-full"
+          />
+        </div>
+        <Button type="submit">Buscar</Button>
       </div>
-      <Button type="submit">Buscar</Button>
       <Button type="button" variant="outline" onClick={onAdvancedSearch}>
         <SlidersHorizontal className="w-4 h-4 mr-2" />
         Búsqueda avanzada
       </Button>
-    </form>
+    </form >
   )
 }
 

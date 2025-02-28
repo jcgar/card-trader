@@ -1,6 +1,7 @@
 import { Exchange, TradeMessage } from "@/app/types"
 import { collectors } from "./api/collectors"
 import { categories } from "./api/collections"
+import { faker } from "@faker-js/faker"
 
 // Usuarios
 export const users = Array(50)
@@ -197,4 +198,43 @@ export async function mockFetch<T>(
     totalPages: Math.ceil(dataSource.length / pageSize),
   }
 }
+
+
+
+export const mockUsers = Array.from({ length: 20 }, (_, i) => ({
+  id: i + 1,
+  name: faker.person.fullName(),
+  points: faker.number.int({ min: 100, max: 10000 }),
+  achievements: Array.from({ length: faker.number.int({ min: 1, max: 5 }) }, () => faker.lorem.word()),
+}))
+
+export const mockDebates = Array.from({ length: 50 }, (_, i) => ({
+  id: i + 1,
+  title: faker.lorem.sentence(),
+  category: faker.helpers.arrayElement([
+    "General",
+    "Intercambios",
+    "Retos y Concursos",
+    "Consejos y Guías",
+    "Colecciones Históricas",
+    "Preguntas y Respuestas",
+  ]),
+  author: faker.person.fullName(),
+  author_id: faker.number.int({ min: 1, max: 20 }),
+  content: faker.lorem.paragraphs(),
+  created_at: faker.date.recent(),
+  last_reply_at: faker.date.recent(),
+  replies: faker.number.int({ min: 0, max: 100 }),
+  views: faker.number.int({ min: 10, max: 1000 }),
+  is_hot: faker.datatype.boolean(),
+  posts: Array.from({ length: faker.number.int({ min: 1, max: 20 }) }, (_, j) => ({
+    id: j + 1,
+    content: faker.lorem.paragraph(),
+    author: faker.person.fullName(),
+    created_at: faker.date.recent(),
+    votes_up: faker.number.int({ min: 0, max: 50 }),
+    votes_down: faker.number.int({ min: 0, max: 10 }),
+    is_best_answer: j === 0 ? false : faker.datatype.boolean(),
+  })),
+}))
 

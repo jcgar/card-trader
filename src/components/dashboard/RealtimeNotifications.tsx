@@ -31,8 +31,8 @@ const initialNotifications = [
 
 export const RealtimeNotifications = () => {
   const [activeNotifications, setActiveNotifications] = useState(initialNotifications)
-  const [isVisible, setIsVisible] = useState(true)
-  const [isPanelOpen, setIsPanelOpen] = useState(true)
+  const [isVisible, setIsVisible] = useState(false)
+  const [isPanelOpen, setIsPanelOpen] = useState(false)
 
   const removeNotification = (id: number) => {
     setActiveNotifications((prev) => prev.filter((n) => n.id !== id))

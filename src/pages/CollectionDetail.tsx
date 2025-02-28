@@ -1,6 +1,6 @@
 "use client"
 
-import { NavigationBar } from "@/components/NavigationBar"
+import { AppLayout } from "@/components/layout/AppLayout"
 import { CollectionOverview } from "@/components/collections/CollectionOverview"
 import { StickerGrid } from "@/components/collections/StickerGrid"
 import { CollectionActions } from "@/components/collections/CollectionActions"
@@ -64,31 +64,43 @@ const CollectionDetail = ({ collection }) => {
     navigate(-1)
   }
 
+  const tabs = [
+    {
+      value: "overview",
+      label: t("collection.overview"),
+      content: <CollectionOverview collection={collection} />,
+    },
+    {
+      value: "stickers",
+      label: t("collection.stickers"),
+      content: (
+        <>
+          <CollectionFilters />
+          <StickerGrid stickerGroups={groups} />
+        </>
+      ),
+    },
+    {
+      value: "actions",
+      label: t("collection.actions"),
+      content: <CollectionActions />,
+    },
+  ]
+
+  const sidebarContent = (
+    <>
+      <CollectionStats collection={collection} />
+      <CollectionSocial />
+    </>
+  )
+
   return (
-    <div className="min-h-screen bg-gradient-to-b from-green-50 via-white to-white">
-      <NavigationBar />
-
-      <main className="container mx-auto px-4 py-24">
-        <Button variant="ghost" className="mb-6" onClick={handleBack}>
-          <ArrowLeft className="mr-2 h-4 w-4" />
-          {t("common.back")}
-        </Button>
-
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <div className="lg:col-span-2 space-y-8">
-            <CollectionOverview collection={collection} />
-            <CollectionFilters />
-            <StickerGrid stickerGroups={groups} />
-          </div>
-
-          <div className="space-y-8">
-            <CollectionStats collection={collection} />
-            <CollectionActions />
-            <CollectionSocial />
-          </div>
-        </div>
-      </main>
-    </div>
+    <AppLayout tabs={tabs} sidebarContent={sidebarContent}>
+      <Button variant="ghost" className="mb-6" onClick={handleBack}>
+        <ArrowLeft className="mr-2 h-4 w-4" />
+        {t("common.back")}
+      </Button>
+    </AppLayout>
   )
 }
 

@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { ShoppingCart, MessageCircle, Star } from "lucide-react"
 
-export const ProductDetail = ({ product, onClose }) => {
+export const ProductDetail = ({ product, onClose, onAddToCart }) => {
   const [currentImage, setCurrentImage] = useState(0)
   const images = [product.image, "/placeholder.svg?height=300&width=300", "/placeholder.svg?height=300&width=300"]
 
@@ -49,7 +49,7 @@ export const ProductDetail = ({ product, onClose }) => {
           <p className="text-3xl font-bold mb-4">${product.price.toFixed(2)}</p>
           <p className="mb-4">{product.shipping}</p>
           <div className="space-y-4 mb-6">
-            <Button className="w-full">
+            <Button className="w-full" onClick={() => onAddToCart(product.id)}>
               <ShoppingCart className="w-4 h-4 mr-2" />
               Add to Cart
             </Button>

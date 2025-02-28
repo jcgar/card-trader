@@ -130,30 +130,51 @@ export function ScrollableCards<T>({
 
         {/* Pagination Indicators */}
       </div>
-      <div className="absolute bottom-1 left-1/2 -translate-x-1/2 flex gap-1">
-        {Array.from({ length: totalPages }).map((_, index) => (
-          <button
-            key={index}
-            className={cn(
-              "w-1.5 h-1.5 rounded-full transition-all duration-200",
-              currentPage === index ? "bg-primary w-3" : "bg-primary/50 hover:bg-primary/75",
-            )}
-            onClick={() => scrollToPage(index)}
-          />
-        ))}
-      </div>
+      {totalPages > 1 && (
+        <div className="absolute bottom-1 left-1/2 -translate-x-1/2 flex gap-1">
+          {Array.from({ length: totalPages }).map((_, index) => (
+            <button
+              key={index}
+              className={cn(
+                "w-1.5 h-1.5 rounded-full transition-all duration-200",
+                currentPage === index ? "bg-primary w-3" : "bg-primary/50 hover:bg-primary/75",
+              )}
+              onClick={() => scrollToPage(index)}
+            />
+          ))}
+        </div>
+      )}
     </div>
   )
 }
 
-const ArrowButton = ({ canScroll, onClick, icon: Icon }) => (
-  <Button
-    variant="outline"
-    size="icon"
-    className={cn("transition-opacity duration-200", canScroll ? "opacity-100" : "opacity-0 pointer-events-none")}
-    onClick={onClick}
-  >
-    <Icon className="h-4 w-4" />
-  </Button>
-)
+const ArrowButton = ({ canScroll, onClick, icon: Icon }) => {
 
+  const intervalRef = useRef(null);
+
+  const startAction = () => {
+    intervalRef.current = setInterval(() => {
+      onClick()
+    }, 300);
+  };
+
+  const stopAction = () => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+    }
+  };
+
+  return (
+    <Button
+      variant="outline"
+      size="icon"
+      className={cn("transition-opacity duration-200", canScroll ? "opacity-100" : "opacity-0 pointer-events-none")}
+      onMouseDown={startAction}
+      onMouseUp={stopAction}
+      onMouseLeave={stopAction}
+    >
+      <Icon className="h-4 w-4" />
+    </Button>
+  )
+
+}
