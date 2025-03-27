@@ -1,3 +1,4 @@
+
 import { HeroSection } from "@/components/HeroSection"
 import { PopularCollections } from "@/components/PopularCollections"
 import { UserRanking } from "@/components/UserRanking"
@@ -7,6 +8,7 @@ import { FeaturedCategories } from "@/components/FeaturedCategories"
 import { FeaturedBlog } from "@/components/FeaturedBlog"
 import { FinalCTA } from "@/components/FinalCTA"
 import { NavigationBar } from "@/components/NavigationBar"
+import { TreasureChestSection } from "@/components/games/TreasureChestSection"
 import type { Collection } from "@/app/types"
 import { useApi } from "@/use/api"
 import { useNavigate } from "react-router-dom"
@@ -29,10 +31,10 @@ const Index = () => {
       <LiveExchange />
       <FeaturedCategories />
       <FeaturedBlog />
+      <TreasureChestSection />
       <FinalCTA onStartCollecting={() => navigate(routes.dashboard)} />
     </div>
   )
 }
 
 export default Index
-
