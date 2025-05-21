@@ -1,69 +1,49 @@
-# Welcome to your Lovable project
+# soluna
 
-## Project info
+<div align="center" style="margin: 30px;">
+    <a href="https://refine.dev">
+    <img alt="refine logo" src="https://refine.ams3.cdn.digitaloceanspaces.com/readme/refine-readme-banner.png">
+    </a>
+</div>
+<br/>
 
-**URL**: https://lovable.dev/projects/319173ab-e7a4-42b9-8840-4d46cad967f7
+This [Refine](https://github.com/refinedev/refine) project was generated with [create refine-app](https://github.com/refinedev/refine/tree/master/packages/create-refine-app).
 
-## How can I edit this code?
+## Getting Started
 
-There are several ways of editing your application.
+A React Framework for building internal tools, admin panels, dashboards & B2B apps with unmatched flexibility ✨
 
-**Use Lovable**
+Refine's hooks and components simplifies the development process and eliminates the repetitive tasks by providing industry-standard solutions for crucial aspects of a project, including authentication, access control, routing, networking, state management, and i18n.
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/319173ab-e7a4-42b9-8840-4d46cad967f7) and start prompting.
+## Available Scripts
 
-Changes made via Lovable will be committed automatically to this repo.
+### Running the development server.
 
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+```bash
+    npm run dev
 ```
 
-**Edit a file directly in GitHub**
+### Building for production.
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+```bash
+    npm run build
+```
 
-**Use GitHub Codespaces**
+### Running the production server.
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+```bash
+    npm run start
+```
 
-## What technologies are used for this project?
+## Learn More
 
-This project is built with .
+To learn more about **Refine**, please check out the [Documentation](https://refine.dev/docs)
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+- **GraphQL Data Provider** [Docs](https://refine.dev/docs/core/providers/data-provider/#overview)
+- **Tailwind CSS** [Docs](https://refine.dev/docs/guides-concepts/general-concepts/#headless-concept)
+- **React Router** [Docs](https://refine.dev/docs/core/providers/router-provider/)
+- **Custom Auth Provider** [Docs](https://refine.dev/docs/core/providers/auth-provider/)
 
-## How can I deploy this project?
+## License
 
-Simply open [Lovable](https://lovable.dev/projects/319173ab-e7a4-42b9-8840-4d46cad967f7) and click on Share -> Publish.
-
-## I want to use a custom domain - is that possible?
-
-We don't support custom domains (yet). If you want to deploy your project under your own domain then we recommend using Netlify. Visit our docs for more details: [Custom domains](https://docs.lovable.dev/tips-tricks/custom-domain/)
+MIT
